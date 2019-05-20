@@ -5,17 +5,21 @@ abstract class Monster {
   float hp;
   Monster children;
   int childrenNumber;
+  float damage;
   boolean armored;
   float x;
   Path p;
   float y;
+  int pathNode;
   abstract void spawn();
   abstract void move();
   abstract void display();
   abstract double changeHP(double changeHP);
+  abstract void dealDamage();
 }
 class Slime extends Monster {
   Slime(Path p) {
+    damage = 1;
     this.p = p;
     size = 20;
     speed = 5;
@@ -26,6 +30,7 @@ class Slime extends Monster {
     x = 0;
     y = 0;
     imageFiles = null;
+    pathNode =0;
     spawn();
   }
   void display() {
@@ -39,8 +44,21 @@ class Slime extends Monster {
   }
   void move() {
     display();
-    x+= 1;
-    y+= Math.random();
+    float nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
+    float nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
+    if (distance(x, y, nextNodeX, nextNodeY) < speed && pathNode < speed) {
+      if (pathNode < p.getCoordinates().size() -1) {
+        pathNode++;
+        x = nextNodeX;
+        y = nextNodeY;
+      } else {
+        dealDamage();
+      }
+    } else {
+      float[] movement = normalizeVector(nextNodeX - x, nextNodeY -y);
+      x +=  5 * movement[0];
+      y += 5 * movement[1];
+    }
   }
   double changeHP(double change) {
     hp += change;
