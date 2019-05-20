@@ -34,11 +34,13 @@ class Slime extends Monster {
   }
   void spawn() {
     x = p.getCoordinates().get(0)[0];
-    x = p.getCoordinates().get(0)[1];
+    y = p.getCoordinates().get(0)[1];
     display();
   }
   void move() {
     display();
+    x+= 1;
+    y+= Math.random();
   }
   double changeHP(double change) {
     hp += change;
