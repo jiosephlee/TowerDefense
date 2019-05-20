@@ -8,7 +8,3 @@ class Map {
     image(background, 0, 0);
   }
 }
-
-boolean isWhite(color c) {
-  return hex(c, 6).equals("FFFFFF");
-}

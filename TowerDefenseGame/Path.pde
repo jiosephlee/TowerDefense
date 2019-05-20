@@ -15,6 +15,9 @@ class Path {
   Path() {
     coordinates = Arrays.asList(mapCoords);
   }
+  List<int[]> getCoordinates() {
+    return coordinates;
+  }
   void display() {
     for (int x = 0; x < coordinates.size() -1; x ++) {
       strokeWeight(3);

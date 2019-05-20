@@ -2,6 +2,7 @@ import java.util.*;
 Map m;
 Menu menu; 
 Path p;
+LinkedList<Monster> Monsters;
 PImage background;
 PImage mapZones;
 void setup() {
@@ -10,6 +11,10 @@ void setup() {
   m = new Map();
   menu = new Menu();
   p = new Path();
+  Monsters = new LinkedList<Monster>();
+  for(int x = 0; x < 5; x ++){
+    Monsters.add(new Slime(p));
+  }
 }
 void draw() {
   background(255);
@@ -26,6 +31,9 @@ void draw() {
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
   if (mousePressed) {
     System.out.println(" " + mouseX + "," + mouseY);
+  }
+  for(Monster m: Monsters){
+    m.move();
   }
 }
 
