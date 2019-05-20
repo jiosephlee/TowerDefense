@@ -15,6 +15,9 @@ class Path {
   Path() {
     coordinates = Arrays.asList(mapCoords);
   }
+  List<int[]> getCoordinates() {
+    return coordinates;
+  }
   void display() {
     for (int x = 0; x < coordinates.size() -1; x ++) {
       strokeWeight(3);
@@ -26,4 +29,7 @@ class Path {
       stroke(0);
     }
   }
+}
+float distance(float x1,float y1,float x2,float y2) {
+  return sqrt(sq(x1 - x2) + sq(y1- y2));
 }
