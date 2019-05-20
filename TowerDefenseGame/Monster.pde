@@ -22,7 +22,7 @@ class Slime extends Monster {
     damage = 1;
     this.p = p;
     size = 20;
-    speed = 5;
+    speed = 1;
     hp = 10;
     children = null;
     childrenNumber = 0;
@@ -48,17 +48,18 @@ class Slime extends Monster {
     float nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
     if (distance(x, y, nextNodeX, nextNodeY) < speed && pathNode < speed) {
       if (pathNode < p.getCoordinates().size() -1) {
-        pathNode++;
         x = nextNodeX;
         y = nextNodeY;
+        pathNode++;
       } else {
         dealDamage();
       }
-    } else {
-      float[] movement = normalizeVector(nextNodeX - x, nextNodeY -y);
-      x +=  5 * movement[0];
-      y += 5 * movement[1];
     }
+    float[] movement = normalizeVector(x, y, nextNodeX, nextNodeY);
+    x +=  5 * movement[0];
+    y += 5 * movement[1];
+  }
+  void dealDamage() {
   }
   double changeHP(double change) {
     hp += change;
