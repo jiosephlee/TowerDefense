@@ -25,7 +25,7 @@ class Map {
   //PImage zones;
   Map() {
     background = loadImage("Map1Background.PNG");
-    mapZones = loadImage("MapZones.PNG");
+    mapZones = loadImage("Map1Zones.png");
   }
   void display() {
     image(background, 0, 0);
@@ -43,5 +43,13 @@ class Menu {
     color mapColor = background.get(mouseX,mouseY);
     fill(mapColor);
     rect(1000,100,50,50);
+    color zoneColor = mapZones.get(mouseX,mouseY);
+    fill(zoneColor);
+    rect(1000,200,50,50);
+    fill(0);
+    text("Placeable: " + isWhite(zoneColor) , 1000, 300);
   }
+}
+boolean isWhite(color c){
+  return hex(c,6).equals("FFFFFF");
 }
