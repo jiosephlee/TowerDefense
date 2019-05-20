@@ -1,6 +1,7 @@
 Map m;
 Menu menu; 
 PImage background;
+PImage mapZones;
 void setup() {
   size(1280, 720);
   background(255);
@@ -24,6 +25,7 @@ class Map {
   //PImage zones;
   Map() {
     background = loadImage("Map1Background.PNG");
+    mapZones = loadImage("MapZones.PNG");
   }
   void display() {
     image(background, 0, 0);
