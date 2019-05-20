@@ -1,12 +1,11 @@
 class abstract Towers{
-  float x,y, size, angle, range, firerate, damage;
+  float x,y, size, range, firerate, damage;
   int firstPathLevel, secondPathLevel;
   
-  Towers(float xA, float yA, float sizeA, float angleA, float rangeA, float firerateA, float damageA){
+  Towers(float xA, float yA, float sizeA, float rangeA, float firerateA, float damageA){
     x = xA;
     y = yA;
     size = sizeA;
-    angle = angleA;
     range = rangeA;
     firerate = firerateA;
     damage = damageA;
@@ -19,5 +18,13 @@ class abstract Towers{
 class Tower1 extends Towers{
   
   Tower1(xA,yA){
-    super.Towers(
+    super(xA,yA,30,60,1,5,);
+  }
+  
+  attack(LinkedList<Monster> Monsters){
+    for(Monster i: Monsters){
+      
+  }
+}
+
   
