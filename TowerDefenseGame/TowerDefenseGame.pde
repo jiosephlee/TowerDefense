@@ -1,5 +1,6 @@
 Map m;
 Menu menu; 
+PImage background;
 void setup() {
   size(1280, 720);
   background(255);
@@ -20,7 +21,6 @@ void draw() {
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
 }
 class Map {
-  PImage background;
   //PImage zones;
   Map() {
     background = loadImage("Map1Background.PNG");
@@ -36,6 +36,10 @@ class Menu {
     fill(255, 192, 203);
     rect(940, 0, 340, 720);
     fill(0);
+    textSize(36);
     text("Menu", 1000, 50);
+    color mapColor = background.get(mouseX,mouseY);
+    fill(mapColor);
+    rect(1000,100,50,50);
   }
 }
