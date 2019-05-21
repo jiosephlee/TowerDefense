@@ -5,6 +5,7 @@ class Map {
     mapZones = loadImage("images/Map1Zones.png");
   }
   void display() {
+    imageMode(CORNER);
     image(background, 0, 0);
   }
 }

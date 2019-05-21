@@ -3,6 +3,7 @@ Map m;
 Menu menu; 
 Path p;
 LinkedList<Monster> Monsters;
+LinkedList<Monster> toDestroy;
 PImage background;
 PImage mapZones;
 void setup() {
