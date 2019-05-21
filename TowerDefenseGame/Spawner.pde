@@ -2,17 +2,30 @@ class Spawner{
   int level;
   double levelTime;
   double timeSinceLevel;
-  float[] spawnRate = {1,1.25,1.5,2,2.5,3.5,4,5,6,7};
+  float spawnRate;
+  float maxMonsters;
+  int spawned; 
   
   Spawner(){
-    level = 1;
+    level = 0;
+    newLevel();
   }
   void newLevel(){
+    spawnRate = 0.25 + 0.25 * pow(level,1.0/3);
+    println(spawnRate);
+    maxMonsters = pow(2,0.75) + 5;
+    spawned = 0;
     level++;
     levelTime = System.currentTimeMillis();
   }
   void update(){
-    timeSinceLevel = System.currentTimeMillis() - levelTime;
-    
+    timeSinceLevel = (System.currentTimeMillis() - levelTime)/1000.0;
+    if(timeSinceLevel * spawnRate > spawned && spawned < maxMonsters){
+      Monsters.add(new Slime(p));
+      spawned++;
+    }
+    if(spawned > maxMonsters && Monsters.size() == 0){
+      newLevel();
+    }
   }
 }

@@ -24,7 +24,7 @@ class Slime extends Monster {
     damage = 1;
     this.p = p;
     size = 20;
-    speed = 9;
+    speed = 1;
     hp = 10;
     children = null;
     childrenNumber = 0;

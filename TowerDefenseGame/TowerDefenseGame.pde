@@ -6,6 +6,7 @@ LinkedList<Monster> Monsters;
 ArrayList<Monster> toDestroy;
 PImage background;
 PImage mapZones;
+Spawner s;
 void setup() {
   size(1280, 720);
   background(255);
@@ -14,8 +15,10 @@ void setup() {
   p = new Path();
   Monsters = new LinkedList<Monster>();
   toDestroy = new ArrayList<Monster>();
+  s = new Spawner();
 }
 void draw() {
+  s.update();
   background(255);
   m.display();
   menu.display();
