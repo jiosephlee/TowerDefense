@@ -3,6 +3,7 @@ Map m;
 Menu menu; 
 Path p;
 LinkedList<Monster> Monsters;
+LinkedList<Towers> Towers;
 PImage background;
 PImage mapZones;
 void setup() {
@@ -15,6 +16,8 @@ void setup() {
   for(int x = 0; x < 5; x ++){
     Monsters.add(new Slime(p));
   }
+  Towers = new LinkedList<Towers>();
+  
 }
 void draw() {
   background(255);
@@ -31,9 +34,15 @@ void draw() {
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
   if (mousePressed) {
     System.out.println(" " + mouseX + "," + mouseY);
+    if(isWhite(mapZones.get(mouseX, mouseY))){
+      Towers.add(new Tower1(mouseX,mouseY));
+    }
   }
   for(Monster m: Monsters){
     m.move();
+  }
+  for(Towers m: Towers){
+    m.attack(Monsters);
   }
 }
 
@@ -54,5 +63,9 @@ class Menu {
     rect(1000, 200, 50, 50);
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
+    for(Towers i: Towers){
+      fill(0, 0, 255);
+      ellipse(i.x, i.y, 25.0, 25.0);
+    }
   }
 }

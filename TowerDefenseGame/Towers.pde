@@ -22,6 +22,10 @@ class Tower1 extends Towers {
 
   void attack(LinkedList<Monster> Monsters) {
     for (Monster i : Monsters) {
+      if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= range){
+        i.dealDamage();
+      }
     }
   }
+ 
 }
