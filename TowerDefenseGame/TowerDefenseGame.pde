@@ -3,7 +3,7 @@ Map m;
 Menu menu; 
 Path p;
 LinkedList<Monster> Monsters;
-LinkedList<Monster> toDestroy;
+ArrayList<Monster> toDestroy;
 PImage background;
 PImage mapZones;
 void setup() {
@@ -13,6 +13,7 @@ void setup() {
   menu = new Menu();
   p = new Path();
   Monsters = new LinkedList<Monster>();
+  toDestroy = new ArrayList<Monster>();
   for(int x = 0; x < 5; x ++){
     Monsters.add(new Slime(p));
   }
@@ -36,6 +37,13 @@ void draw() {
   for(Monster m: Monsters){
     m.move();
   }
+  for(Monster m: toDestroy){
+    Monsters.remove(m);
+  }
+  for(Monster m: Monsters){
+    m.display();
+  }
+  toDestroy.clear();
 }
 
 class Menu {
@@ -47,6 +55,7 @@ class Menu {
     fill(0);
     textSize(36);
     text("Menu", 1000, 50);
+    text("HP: " + (int) (m.hp + 0.5), 600, 50); 
     color mapColor = background.get(mouseX, mouseY);
     fill(mapColor);
     rect(1000, 100, 50, 50);

@@ -45,7 +45,7 @@ class Slime extends Monster {
     display();
   }
   void move() {
-    display();
+    //display();
     float nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
     float nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
     if (distance(x, y, nextNodeX, nextNodeY) < speed && !justReachedNode) {
@@ -68,6 +68,7 @@ class Slime extends Monster {
     y += speed * movement[1];
   }
   void dealDamage() {
+    m.changeHP(damage);
     die();
   }
   double changeHP(double change) {
@@ -75,6 +76,6 @@ class Slime extends Monster {
     return hp;
   }
   void die(){
-    Monsters.remove(this);
+    toDestroy.add(this);
   }
 }
