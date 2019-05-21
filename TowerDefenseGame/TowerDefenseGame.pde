@@ -14,9 +14,6 @@ void setup() {
   p = new Path();
   Monsters = new LinkedList<Monster>();
   toDestroy = new ArrayList<Monster>();
-  for(int x = 0; x < 5; x ++){
-    Monsters.add(new Slime(p));
-  }
 }
 void draw() {
   background(255);
