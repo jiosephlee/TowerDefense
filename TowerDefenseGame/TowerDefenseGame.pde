@@ -4,6 +4,7 @@ Menu menu;
 Path p;
 LinkedList<Monster> Monsters;
 ArrayList<Monster> toDestroy;
+LinkedList<Towers> Towers;
 PImage background;
 PImage mapZones;
 Spawner s;
@@ -16,6 +17,7 @@ void setup() {
   Monsters = new LinkedList<Monster>();
   toDestroy = new ArrayList<Monster>();
   s = new Spawner();
+
 }
 void draw() {
   s.update();
@@ -33,6 +35,9 @@ void draw() {
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
   if (mousePressed) {
     System.out.println(" " + mouseX + "," + mouseY);
+    if(isWhite(mapZones.get(mouseX, mouseY))){
+      Towers.add(new Tower1(mouseX,mouseY));
+    }
   }
   for(Monster m: Monsters){
     m.move();
@@ -44,6 +49,9 @@ void draw() {
     m.display();
   }
   toDestroy.clear();
+  for(Towers m: Towers){
+    m.attack(Monsters);
+  }
 }
 
 class Menu {
@@ -65,5 +73,9 @@ class Menu {
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
     text("Level: " + s.level, 1000, 400);
+    for(Towers i: Towers){
+      fill(0, 0, 255);
+      ellipse(i.x, i.y, 25.0, 25.0);
+    }
   }
 }
