@@ -17,6 +17,7 @@ void setup() {
   Monsters = new LinkedList<Monster>();
   toDestroy = new ArrayList<Monster>();
   s = new Spawner();
+  Towers = new LinkedList<Towers>();
 
 }
 void draw() {

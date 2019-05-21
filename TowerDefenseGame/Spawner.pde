@@ -23,7 +23,7 @@ class Spawner{
       Monsters.add(new Slime(p));
       spawned++;
     }
-    println("yuh " + spawned + " " + maxMonsters + " " +Monsters.size());
+    //println("yuh " + spawned + " " + maxMonsters + " " +Monsters.size());
     if(spawned > maxMonsters && Monsters.size() == 0){
       newLevel();
     }
