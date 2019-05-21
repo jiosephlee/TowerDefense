@@ -3,9 +3,11 @@ Map m;
 Menu menu; 
 Path p;
 LinkedList<Monster> Monsters;
+ArrayList<Monster> toDestroy;
 LinkedList<Towers> Towers;
 PImage background;
 PImage mapZones;
+Spawner s;
 void setup() {
   size(1280, 720);
   background(255);
@@ -13,13 +15,12 @@ void setup() {
   menu = new Menu();
   p = new Path();
   Monsters = new LinkedList<Monster>();
-  for(int x = 0; x < 5; x ++){
-    Monsters.add(new Slime(p));
-  }
-  Towers = new LinkedList<Towers>();
-  
+  toDestroy = new ArrayList<Monster>();
+  s = new Spawner();
+
 }
 void draw() {
+  s.update();
   background(255);
   m.display();
   menu.display();
@@ -41,6 +42,13 @@ void draw() {
   for(Monster m: Monsters){
     m.move();
   }
+  for(Monster m: toDestroy){
+    Monsters.remove(m);
+  }
+  for(Monster m: Monsters){
+    m.display();
+  }
+  toDestroy.clear();
   for(Towers m: Towers){
     m.attack(Monsters);
   }
@@ -55,6 +63,7 @@ class Menu {
     fill(0);
     textSize(36);
     text("Menu", 1000, 50);
+    text("HP: " + (int) (m.hp + 0.5), 600, 50); 
     color mapColor = background.get(mouseX, mouseY);
     fill(mapColor);
     rect(1000, 100, 50, 50);
@@ -63,6 +72,7 @@ class Menu {
     rect(1000, 200, 50, 50);
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
+    text("Level: " + s.level, 1000, 400);
     for(Towers i: Towers){
       fill(0, 0, 255);
       ellipse(i.x, i.y, 25.0, 25.0);

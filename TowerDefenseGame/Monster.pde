@@ -1,5 +1,5 @@
 abstract class Monster {
-  String[] imageFiles;
+  PImage imageFile;
   float size;
   float speed;
   float hp;
@@ -24,20 +24,20 @@ class Slime extends Monster {
     damage = 1;
     this.p = p;
     size = 20;
-    speed = 4;
+    speed = 1;
     hp = 10;
     children = null;
     childrenNumber = 0;
     armored = false;
     x = 0;
     y = 0;
-    imageFiles = null;
+    imageFile = loadImage("images/Slimes.png");
     pathNode =0;
     spawn();
   }
   void display() {
-    fill(0, 0, 255);
-    ellipse(x, y, 25.0, 25.0);
+    imageMode(CENTER);
+    image(imageFile,x,y,50,40);
   }
   void spawn() {
     x = p.getCoordinates().get(0)[0];
@@ -45,7 +45,7 @@ class Slime extends Monster {
     display();
   }
   void move() {
-    display();
+    //display();
     float nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
     float nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
     if (distance(x, y, nextNodeX, nextNodeY) < speed && !justReachedNode) {
@@ -68,12 +68,14 @@ class Slime extends Monster {
     y += speed * movement[1];
   }
   void dealDamage() {
+    m.changeHP(damage);
+    die();
   }
   double changeHP(double change) {
     hp += change;
     return hp;
   }
   void die(){
-    
+    toDestroy.add(this);
   }
 }
