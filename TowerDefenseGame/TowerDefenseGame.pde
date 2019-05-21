@@ -64,5 +64,6 @@ class Menu {
     rect(1000, 200, 50, 50);
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
+    text("Level: " + s.level, 1000, 400);
   }
 }
