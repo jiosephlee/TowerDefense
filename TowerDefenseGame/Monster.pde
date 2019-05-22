@@ -37,6 +37,11 @@ class Slime extends Monster {
     spawn();
     lastTime = System.currentTimeMillis();
   }
+  Slime(Path p, float x, float y){
+    this(p);
+    this.x = x;
+    this.y = y;
+  }
   void display() {
     imageMode(CENTER);
     image(imageFile,x,y,50,40);
