@@ -73,6 +73,9 @@ class Slime extends Monster {
   }
   double changeHP(double change) {
     hp += change;
+    if(hp < 0){
+      this.die();
+    }
     return hp;
   }
   void die(){
