@@ -24,7 +24,6 @@ class Tower1 extends Towers {
     for (Monster i : Monsters) {
       if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
         i.changeHP(-1* damage);
-        println("fuck u");
       }
     }
   }
