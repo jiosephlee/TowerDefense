@@ -17,12 +17,12 @@ abstract class Towers {
 class Tower1 extends Towers {
 
   Tower1(float xA, float yA) {
-    super(xA, yA, 30, 60, 1, 5);
+    super(xA, yA, 30, 70, 1, 5);
   }
 
   void attack(LinkedList<Monster> Monsters) {
     for (Monster i : Monsters) {
-      if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= range){
+      if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.power(range,2)){
         i.changeHP(-1* damage);
       }
     }
