@@ -22,7 +22,7 @@ class Tower1 extends Towers {
 
   void attack(LinkedList<Monster> Monsters) {
     for (Monster i : Monsters) {
-      if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.power(range,2)){
+      if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
         i.changeHP(-1* damage);
         println("fuck u");
       }
