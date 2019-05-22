@@ -17,7 +17,7 @@ abstract class Towers {
 class Tower1 extends Towers {
 
   Tower1(float xA, float yA) {
-    super(xA, yA, 30, 10000, 1, 5);
+    super(xA, yA, 30, 10000000, 1, 5);
   }
 
   void attack(LinkedList<Monster> Monsters) {
