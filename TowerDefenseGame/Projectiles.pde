@@ -4,7 +4,7 @@ abstract class Projectiles {
   boolean canAttackArmored, doneShooting;
   
   Projectiles(float xA, float yA, Monster i, float damageA){
-    speed = 2;
+    speed = 4;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA,2) + Math.pow(i.y - yA,2))) * speed;
     vy = ((i.y - yA)/ (float)Math.sqrt(Math.pow(i.x - xA,2) + Math.pow(i.y - yA,2))) * speed;
     level = 1;
@@ -17,7 +17,7 @@ abstract class Projectiles {
     doneShooting = false;
   }
   boolean dealDamage(Monster i){
-    if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(size,2)){
+    if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(size,2)){ //monster is in bullet's range
       i.changeHP(-1 * damage);
       toDestroyA.add(this);
       return true;

@@ -49,6 +49,10 @@ void draw() {
   for(Projectiles i: Projectiles){
     i.move();
     for(Monster m: Monsters){
+       if(i.x < 0 || i.x > 1280 || i.y < 0 || i.y > 720){
+         toDestroyA.add(i);
+         break;
+       }
        if(i.dealDamage(m)){
          break;
        }
@@ -58,7 +62,7 @@ void draw() {
     Monsters.remove(m);
   }
   for(Towers m: Towers){
-    m.attack(Monsters, Projectiles);
+    m.attack();
   }
   for(Projectiles i: toDestroyA){
       Projectiles.remove(i);
@@ -84,12 +88,16 @@ class Menu {
     rect(1000, 200, 50, 50);
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
-    if(isWhite(zoneColor)) tint(255, 128);
-    else tint(#D3D3D3);
+    if(isWhite(zoneColor)) {
+      tint(#000000,128);
+    } else{
+      tint(255, 128);
+    }
     imageMode(CENTER);
     range = loadImage("images/range.png");
-    range.resize(50,0);
+    range.resize(100,0);
     image(range, mouseX,mouseY);
+    tint(255, 255);
     text("Level: " + s.level, 1000, 400);
     text("FPS: " + (int) (frameRate + 0.5), 1000, 500);
     for(Monster m: Monsters){
