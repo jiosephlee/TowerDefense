@@ -19,7 +19,7 @@ abstract class Projectiles {
   boolean dealDamage(Monster i){
     if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(size,2)){
       i.changeHP(-1 * damage);
-      doneShooting = true;
+      toDestroyA.add(this);
       return true;
     } 
     return false;

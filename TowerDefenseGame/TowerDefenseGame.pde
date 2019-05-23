@@ -5,6 +5,7 @@ Path p;
 LinkedList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
+ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
 PImage background;
 PImage mapZones;
@@ -17,6 +18,7 @@ void setup() {
   p = new Path();
   Monsters = new LinkedList<Monster>();
   toDestroy = new ArrayList<Monster>();
+  toDestroy = new ArrayList<Projectiles>();
   s = new Spawner();
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
@@ -48,19 +50,21 @@ void draw() {
   for(Projectiles i: Projectiles){
     i.move();
     for(Monster m: Monsters){
-      System.out.println("yoo");
-      if(i.dealDamage(m)){
-        Projectiles.remove(i);
-      }
+       if(i.dealDamage(m)){
+         break;
+       }
     }
   }
   for(Monster m: toDestroy){
     Monsters.remove(m);
   }
-  toDestroy.clear();
   for(Towers m: Towers){
     m.attack(Monsters, Projectiles);
   }
+  for(Projectiles i: toDestroyA){
+      Projectiles.remove(i);
+   } 
+  toDestroy.clear();
 }
 
 class Menu {
