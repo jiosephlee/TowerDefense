@@ -3,7 +3,9 @@ Map m;
 Menu menu; 
 Path p;
 LinkedList<Monster> Monsters;
+LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
+ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
 PImage background;
 PImage mapZones;
@@ -16,8 +18,10 @@ void setup() {
   p = new Path();
   Monsters = new LinkedList<Monster>();
   toDestroy = new ArrayList<Monster>();
+  toDestroy = new ArrayList<Projectiles>();
   s = new Spawner();
   Towers = new LinkedList<Towers>();
+  Projectiles = new LinkedList<Projectiles>();
 
 }
 void draw() {
@@ -43,16 +47,24 @@ void draw() {
   for(Monster m: Monsters){
     m.move();
   }
+  for(Projectiles i: Projectiles){
+    i.move();
+    for(Monster m: Monsters){
+       if(i.dealDamage(m)){
+         break;
+       }
+    }
+  }
   for(Monster m: toDestroy){
     Monsters.remove(m);
   }
-  for(Monster m: Monsters){
-    m.display();
-  }
-  toDestroy.clear();
   for(Towers m: Towers){
-    m.attack(Monsters);
+    m.attack(Monsters, Projectiles);
   }
+  for(Projectiles i: toDestroyA){
+      Projectiles.remove(i);
+   } 
+  toDestroy.clear();
 }
 
 class Menu {
@@ -75,9 +87,17 @@ class Menu {
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
     text("Level: " + s.level, 1000, 400);
     text("FPS: " + (int) (frameRate + 0.5), 1000, 500);
+    for(Monster m: Monsters){
+      m.display();
+    }
     for(Towers i: Towers){
       fill(0, 0, 255);
       ellipse(i.x, i.y, 25.0, 25.0);
+    }
+    for(Projectiles i: Projectiles){
+      System.out.println("yoo");
+      fill(15, 15, 255);
+      ellipse(i.x, i.y, 15.0, 15.0);
     }
   }
 }
