@@ -1,30 +1,41 @@
 abstract class Towers {
-  float x, y, size, range, firerate, damage;
+  float x, y, size, range, fireRate, damage,shotTime;
   int firstPathLevel, secondPathLevel;
-  
-  Towers(float xA, float yA, float sizeA, float rangeA, float firerateA, float damageA) {
+  boolean resting;
+
+
+  Towers(float xA, float yA, float sizeA, float rangeA, float fireRateA, float damageA) {
     x = xA;
     y = yA;
     size = sizeA;
     range = rangeA;
-    firerate = firerateA;
+    fireRate = fireRateA;
     damage = damageA;
   }
 
-  abstract boolean attack(Monster i);
+  abstract void attack(LinkedList<Monster> Monsters, LinkedList<Projectiles> Projectiles);
 }
 
 class Tower1 extends Towers {
 
   Tower1(float xA, float yA) {
-    super(xA, yA, 30, 10000000, 1, 5);
+    super(xA, yA, 30, 70, 1, 5);
   }
 
-  boolean attack(Monster i) {
-      if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
-        return true;
-      }
-    return false;
+  void attack(LinkedList<Monster> Monsters, LinkedList<Projectiles> Projectiles) {
+    if(resting && (millis() - shotTime)/1000 >= fireRate){     
+        resting = false;
+    }
+    if (!resting){
+        for (Monster i : Monsters) {
+            if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
+                Projectiles.add(new StraightBullet(x,y,i,damage));
+                resting = true;
+                shotTime = millis();
+                return;
+            }
+        }
+    }
   }
- 
+
 }

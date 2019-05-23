@@ -3,9 +3,12 @@ Map m;
 Menu menu; 
 Path p;
 LinkedList<Monster> Monsters;
+LinkedList<Projectiles> Projectiles;
+ArrayList<Monster> toDestroy;
+ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
-PImage background;
-PImage mapZones;
+PImage background,range,mapZones;
+Spawner s;
 void setup() {
   size(1280, 720);
   background(255);
@@ -13,13 +16,15 @@ void setup() {
   menu = new Menu();
   p = new Path();
   Monsters = new LinkedList<Monster>();
-  for (int x = 0; x < 5; x ++) {
-    Monsters.add(new Slime(p));
-  }
+  toDestroy = new ArrayList<Monster>();
+  toDestroyA = new ArrayList<Projectiles>();
+  s = new Spawner();
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
+
 }
 void draw() {
+  s.update();
   background(255);
   m.display();
   menu.display();
@@ -46,31 +51,63 @@ void draw() {
         Projectiles.add(p);
     }
   }
-
-  class Menu {
-    Menu() {
-    }
-    void display() {
-      fill(255, 192, 203);
-      rect(940, 0, 340, 720);
-      fill(0);
-      textSize(36);
-      text("Menu", 1000, 50);
-      color mapColor = background.get(mouseX, mouseY);
-      fill(mapColor);
-      rect(1000, 100, 50, 50);
-      color zoneColor = mapZones.get(mouseX, mouseY);
-      fill(zoneColor);
-      rect(1000, 200, 50, 50);
-      fill(0);
-      text("Placeable: " + isWhite(zoneColor), 1000, 300);
-      for (Towers i : Towers) {
-        fill(0, 0, 255);
-        ellipse(i.x, i.y, 25.0, 25.0);
-      }
-      for (Projectiles i : Projectiles) {
-        fill(0, 0, 255);
-        ellipse(i.x, i.y, i.size*4, 25.0);
-      }
+  for(Projectiles i: Projectiles){
+    i.move();
+    for(Monster m: Monsters){
+       if(i.dealDamage(m)){
+         break;
+       }
     }
   }
+  for(Monster m: toDestroy){
+    Monsters.remove(m);
+  }
+  for(Towers m: Towers){
+    m.attack(Monsters, Projectiles);
+  }
+  for(Projectiles i: toDestroyA){
+      Projectiles.remove(i);
+   } 
+  toDestroy.clear();
+}
+
+class Menu {
+  Menu() {
+  }
+  void display() {
+    fill(255, 192, 203);
+    rect(940, 0, 340, 720);
+    fill(0);
+    textSize(36);
+    text("Menu", 1000, 50);
+    text("HP: " + (int) (m.hp + 0.5), 600, 50); 
+    color mapColor = background.get(mouseX, mouseY);
+    fill(mapColor);
+    rect(1000, 100, 50, 50);
+    color zoneColor = mapZones.get(mouseX, mouseY);
+    fill(zoneColor);
+    rect(1000, 200, 50, 50);
+    fill(0);
+    text("Placeable: " + isWhite(zoneColor), 1000, 300);
+    if(isWhite(zoneColor)) tint(255, 128);
+    else tint(#D3D3D3);
+    imageMode(CENTER);
+    range = loadImage("images/range.png");
+    range.resize(50,0);
+    image(range, mouseX,mouseY);
+    text("Level: " + s.level, 1000, 400);
+    text("FPS: " + (int) (frameRate + 0.5), 1000, 500);
+    for(Monster m: Monsters){
+      m.display();
+    }
+    for(Towers i: Towers){
+      fill(0, 0, 255);
+      ellipse(i.x, i.y, 25.0, 25.0);
+    }
+    for(Projectiles i: Projectiles){
+      System.out.println("yoo");
+      fill(15, 15, 255);
+      ellipse(i.x, i.y, 15.0, 15.0);
+    }
+  }
+}
