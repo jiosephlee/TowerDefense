@@ -45,20 +45,21 @@ void draw() {
   for(Monster m: Monsters){
     m.move();
   }
+  for(Projectiles i: Projectiles){
+    i.move();
+    for(Monster m: Monsters){
+      System.out.println("yoo");
+      if(i.dealDamage(m)){
+        Projectiles.remove(i);
+      }
+    }
+  }
   for(Monster m: toDestroy){
     Monsters.remove(m);
   }
   toDestroy.clear();
   for(Towers m: Towers){
     m.attack(Monsters, Projectiles);
-  }
-  for(Projectiles i: Projectiles){
-    i.move();
-    for(Monster m: Monsters){
-      if(i.dealDamage(m)){
-        Projectiles.remove(i);
-      }
-    }
   }
 }
 
@@ -90,6 +91,7 @@ class Menu {
       ellipse(i.x, i.y, 25.0, 25.0);
     }
     for(Projectiles i: Projectiles){
+      System.out.println("yoo");
       fill(15, 15, 255);
       ellipse(i.x, i.y, 15.0, 15.0);
     }
