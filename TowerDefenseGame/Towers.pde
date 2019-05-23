@@ -24,16 +24,19 @@ class Tower1 extends Towers {
 
   void attack(LinkedList<Monster> Monsters) {
     if(resting && (millis() - shotTime)/1000 >= fireRate){
+        
         resting = false;
     }
     if (!resting){
         for (Monster i : Monsters) {
             if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
-                i.changeHP(-1* damage);
+                System.out.println("yo");
+                i.changeHP(-1 * damage);
                 resting = true;
                 shotTime = millis();
                 return;
             }
         }
     }
+  }
 }
