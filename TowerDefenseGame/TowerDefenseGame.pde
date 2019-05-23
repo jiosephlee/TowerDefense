@@ -54,9 +54,10 @@ void draw() {
   }
   for(Projectiles i: Projectiles){
     i.move();
-    for
-    if(i.dealDamage(i)){
-      Projectiles.remove(i);
+    for(Monster m: Monsters){
+      if(i.dealDamage(m)){
+        Projectiles.remove(i);
+      }
     }
   }
 }
