@@ -39,4 +39,5 @@ class Tower1 extends Towers {
         }
     }
   }
+
 }

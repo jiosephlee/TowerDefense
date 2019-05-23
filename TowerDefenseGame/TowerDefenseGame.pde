@@ -74,6 +74,7 @@ class Menu {
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
     text("Level: " + s.level, 1000, 400);
+    text("FPS: " + (int) (frameRate + 0.5), 1000, 500);
     for(Towers i: Towers){
       fill(0, 0, 255);
       ellipse(i.x, i.y, 25.0, 25.0);
