@@ -88,13 +88,13 @@ class Menu {
     rect(1000, 200, 50, 50);
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
-    if(isWhite(zoneColor)) {
+    if(isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
       tint(#000000,128);
     } else{
-      tint(255, 128);
+      tint(255, 128); //if not keep it red which means invalid
     }
     imageMode(CENTER);
-    range = loadImage("images/range.png");
+    range = loadImage("images/range.png"); //loads the range image
     range.resize(100,0);
     image(range, mouseX,mouseY);
     tint(255, 255);

@@ -1,25 +1,27 @@
 abstract class Projectiles {
   float vx,vy, x,y, damage,speed;
-  int level, size;
+  int penetrationLevel, size;
   boolean canAttackArmored, doneShooting;
   
   Projectiles(float xA, float yA, Monster i, float damageA){
     speed = 4;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA,2) + Math.pow(i.y - yA,2))) * speed;
     vy = ((i.y - yA)/ (float)Math.sqrt(Math.pow(i.x - xA,2) + Math.pow(i.y - yA,2))) * speed;
-    level = 1;
     size = 20;
     canAttackArmored = false;
     x = xA;
     y = yA;
-    level = 1;
+    penetrationLevel = 2;
     damage = damageA;
     doneShooting = false;
   }
   boolean dealDamage(Monster i){
     if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(size,2)){ //monster is in bullet's range
       i.changeHP(-1 * damage);
-      toDestroyA.add(this);
+      penetrationLevel--;
+      if(penetrationLevel <= 0){ //if pentration level dips below 0, kill the bullet
+        toDestroyA.add(this);
+      }
       return true;
     } 
     return false;
