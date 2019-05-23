@@ -1,13 +1,15 @@
 abstract class Towers {
-  float x, y, size, range, firerate, damage;
+  float x, y, size, range, fireRate, damage,shotTime;
   int firstPathLevel, secondPathLevel;
+  boolean resting;
 
-  Towers(float xA, float yA, float sizeA, float rangeA, float firerateA, float damageA) {
+
+  Towers(float xA, float yA, float sizeA, float rangeA, float fireRateA, float damageA) {
     x = xA;
     y = yA;
     size = sizeA;
     range = rangeA;
-    firerate = firerateA;
+    fireRate = fireRateA;
     damage = damageA;
   }
 
@@ -21,12 +23,21 @@ class Tower1 extends Towers {
   }
 
   void attack(LinkedList<Monster> Monsters) {
-    for (Monster i : Monsters) {
-      if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
-        i.changeHP(-1* damage);
-        println("fuck u");
-      }
+    if(resting && (millis() - shotTime)/1000 >= fireRate){
+        
+        resting = false;
+    }
+    if (!resting){
+        for (Monster i : Monsters) {
+            if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
+                System.out.println("yo");
+                i.changeHP(-1 * damage);
+                resting = true;
+                shotTime = millis();
+                return;
+            }
+        }
     }
   }
- 
+
 }
