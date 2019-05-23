@@ -1,7 +1,7 @@
 abstract class Projectiles {
   float vx,vy, x,y, damage,speed;
   int level, size;
-  boolean canAttackArmored, doneShooting;
+  boolean canAttackArmored;
   
   Projectiles(float xA, float yA, Monster i, float damageA){
     speed = 2;
@@ -12,9 +12,8 @@ abstract class Projectiles {
     canAttackArmored = false;
     x = xA;
     y = yA;
-    level = 1;
     damage = damageA;
-    doneShooting = false;
+    level = 1;
   }
   boolean dealDamage(Monster i){
     if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(size,2)){

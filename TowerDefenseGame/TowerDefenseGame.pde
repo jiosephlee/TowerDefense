@@ -39,12 +39,17 @@ void draw() {
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
   if (mousePressed) {
     System.out.println(" " + mouseX + "," + mouseY);
-    if(isWhite(mapZones.get(mouseX, mouseY))){
-      Towers.add(new Tower1(mouseX,mouseY));
+    if (Math.isWhite(mapZones.get(mouseX, mouseY))) {
+      Towers.add(new Tower1(mouseX, mouseY));
     }
   }
-  for(Monster m: Monsters){
+  for (Monster m : Monsters) {
     m.move();
+    for (Towers t : Towers) {
+      if (t.attack(m)) {
+        Projectiles p = new Projectiles(t.x, t.y, m);
+        Projectiles.add(p);
+    }
   }
   for(Projectiles i: Projectiles){
     i.move();
