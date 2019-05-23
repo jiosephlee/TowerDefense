@@ -3,6 +3,7 @@ Map m;
 Menu menu; 
 Path p;
 LinkedList<Monster> Monsters;
+LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 LinkedList<Towers> Towers;
 PImage background;
@@ -18,6 +19,7 @@ void setup() {
   toDestroy = new ArrayList<Monster>();
   s = new Spawner();
   Towers = new LinkedList<Towers>();
+  Projectiles = new LinkedList<Projectiles>();
 
 }
 void draw() {
@@ -51,8 +53,13 @@ void draw() {
   }
   toDestroy.clear();
   for(Towers m: Towers){
-    m.attack(Monsters);
+    m.attack(Monsters, Projectiles);
   }
+  for(Projectiles i: Projectiles){
+    i.move();
+    if(dealDamage(i)){
+      Projectiles.remove(i);
+    }
 }
 
 class Menu {
@@ -78,6 +85,10 @@ class Menu {
     for(Towers i: Towers){
       fill(0, 0, 255);
       ellipse(i.x, i.y, 25.0, 25.0);
+    }
+    for(Projectiles i: Projectiles){
+      fill(15, 15, 255);
+      ellipse(i.x, i.y, 15.0, 15.0);
     }
   }
 }

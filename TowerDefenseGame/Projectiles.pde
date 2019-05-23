@@ -14,10 +14,12 @@ abstract class Projectiles {
     y = yA;
     level = 1;
   }
-  void dealDamage(Monster i){
+  boolean dealDamage(Monster i){
     if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(size,2)){
-      i.dealDamage();
-    }
+      i.changeHP(-1 * damage);
+      return true;
+    } 
+    return false;
   }
   void move(){
     x += vx;
