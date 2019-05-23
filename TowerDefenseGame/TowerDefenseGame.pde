@@ -7,8 +7,7 @@ LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
-PImage background;
-PImage mapZones;
+PImage background,range,mapZones;
 Spawner s;
 void setup() {
   size(1280, 720);
@@ -18,7 +17,7 @@ void setup() {
   p = new Path();
   Monsters = new LinkedList<Monster>();
   toDestroy = new ArrayList<Monster>();
-  toDestroy = new ArrayList<Projectiles>();
+  toDestroyA = new ArrayList<Projectiles>();
   s = new Spawner();
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
@@ -85,6 +84,12 @@ class Menu {
     rect(1000, 200, 50, 50);
     fill(0);
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
+    if(isWhite(zoneColor)) tint(255, 128);
+    else tint(#D3D3D3);
+    imageMode(CENTER);
+    range = loadImage("images/range.png");
+    range.resize(50,0);
+    image(range, mouseX,mouseY);
     text("Level: " + s.level, 1000, 400);
     text("FPS: " + (int) (frameRate + 0.5), 1000, 500);
     for(Monster m: Monsters){
