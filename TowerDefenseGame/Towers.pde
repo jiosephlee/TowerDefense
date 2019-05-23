@@ -13,7 +13,7 @@ abstract class Towers {
     damage = damageA;
   }
 
-  abstract void attack(LinkedList<Monster> Monsters);
+  abstract void attack(LinkedList<Monster> Monsters, LinkedList<Projectiles> Projectiles);
 }
 
 class Tower1 extends Towers {
@@ -29,7 +29,7 @@ class Tower1 extends Towers {
     if (!resting){
         for (Monster i : Monsters) {
             if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(range,2)){
-                Projectiles.add(new Projectiles(x,y,i);
+                Projectiles.add(new StraightBullet(x,y,i,damage));
                 resting = true;
                 shotTime = millis();
                 return;

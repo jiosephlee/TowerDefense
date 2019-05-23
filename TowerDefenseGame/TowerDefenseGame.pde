@@ -48,18 +48,17 @@ void draw() {
   for(Monster m: toDestroy){
     Monsters.remove(m);
   }
-  for(Monster m: Monsters){
-    m.display();
-  }
   toDestroy.clear();
   for(Towers m: Towers){
     m.attack(Monsters, Projectiles);
   }
   for(Projectiles i: Projectiles){
     i.move();
-    if(dealDamage(i)){
+    for
+    if(i.dealDamage(i)){
       Projectiles.remove(i);
     }
+  }
 }
 
 class Menu {
@@ -82,6 +81,9 @@ class Menu {
     text("Placeable: " + isWhite(zoneColor), 1000, 300);
     text("Level: " + s.level, 1000, 400);
     text("FPS: " + (int) (frameRate + 0.5), 1000, 500);
+    for(Monster m: Monsters){
+      m.display();
+    }
     for(Towers i: Towers){
       fill(0, 0, 255);
       ellipse(i.x, i.y, 25.0, 25.0);
