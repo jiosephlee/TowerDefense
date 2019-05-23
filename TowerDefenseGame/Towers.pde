@@ -13,7 +13,7 @@ abstract class Towers {
     damage = damageA;
   }
 
-  abstract void attack(LinkedList<Monster> Monsters, LinkedList<Projectiles> Projectiles);
+  abstract void attack();
 }
 
 class Tower1 extends Towers {
@@ -22,7 +22,7 @@ class Tower1 extends Towers {
     super(xA, yA, 30, 70, 1, 5);
   }
 
-  void attack(LinkedList<Monster> Monsters, LinkedList<Projectiles> Projectiles) {
+  void attack() {
     if(resting && (millis() - shotTime)/1000 >= fireRate){     
         resting = false;
     }
