@@ -15,7 +15,7 @@ abstract class Projectiles {
     penetrationLevel = 2;
 
     damage = damageA;
-    level = 1;
+    //level = 1;
   }
   boolean dealDamage(Monster i){
     if(Math.pow(i.x - x,2) + Math.pow(i.y - y,2) <= Math.pow(size,2)){ //monster is in bullet's range

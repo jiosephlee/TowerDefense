@@ -12,6 +12,8 @@ abstract class Monster {
   float y;
   int pathNode;
   boolean justReachedNode;
+  long lastTime;
+  float nextNodeX, nextNodeY;
   abstract void spawn();
   abstract void move();
   abstract void display();
@@ -34,6 +36,12 @@ class Slime extends Monster {
     imageFile = loadImage("images/Slimes.png");
     pathNode =0;
     spawn();
+    lastTime = System.currentTimeMillis();
+  }
+  Slime(Path p, float x, float y){
+    this(p);
+    this.x = x;
+    this.y = y;
   }
   void display() {
     imageMode(CENTER);
@@ -46,8 +54,8 @@ class Slime extends Monster {
   }
   void move() {
     //display();
-    float nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
-    float nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
+    nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
+    nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
     if (distance(x, y, nextNodeX, nextNodeY) < speed && !justReachedNode) {
       justReachedNode = true;
       if (pathNode < p.getCoordinates().size() -2) {
@@ -56,16 +64,25 @@ class Slime extends Monster {
         pathNode++;
       } else {
         dealDamage();
-        
       }
     } else {
       justReachedNode = false;
     }
+    long deltaTime = System.currentTimeMillis() - lastTime;
+    float[] newPost = calculateNewPosition(deltaTime);
+    x = newPost[0];
+    y = newPost[1];
+    
+  }
+  float[] calculateNewPosition(float deltaTime){
+    float[] ret = new float[2];
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
     nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
     float[] movement = normalizeVector(x, y, nextNodeX, nextNodeY);
-    x +=  speed * movement[0];
-    y += speed * movement[1];
+    ret[0] = x+ deltaTime * speed * movement[0] / 15.0;
+    ret[1] = y + deltaTime * speed * movement[1] / 15.0;
+    lastTime = System.currentTimeMillis();
+    return ret;
   }
   void dealDamage() {
     m.changeHP(damage);
