@@ -11,7 +11,7 @@ class Spawner{
     newLevel();
   }
   void newLevel(){
-    spawnRate = 10.25 + (1.0/3) * pow(level,1.0/3);
+    spawnRate = 1.25 + (1.0/3) * pow(level,1.0/3);
     maxMonsters = 2* pow(level,0.75) + 4;
     spawned = 0;
     level++;
