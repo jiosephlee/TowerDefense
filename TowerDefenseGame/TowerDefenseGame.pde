@@ -37,7 +37,7 @@ void draw() {
   text("y: " + mouseY, 50, 100); 
   textSize(20);
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
-  if (mousePressed) {
+if (mousePressed) {
     System.out.println(" " + mouseX + "," + mouseY);
     if(isWhite(mapZones.get(mouseX, mouseY))){
       Towers.add(new Tower1(mouseX,mouseY));
