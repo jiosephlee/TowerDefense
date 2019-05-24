@@ -9,6 +9,7 @@ ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
 PImage background,range,mapZones;
 Spawner s;
+int gameMode;
 void setup() {
   size(1280, 720);
   background(255);
@@ -22,7 +23,7 @@ void setup() {
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
   range = loadImage("images/range.png");
-
+  gameMode = 0;
 }
 void draw() {
   s.update();
@@ -37,7 +38,8 @@ void draw() {
   text("x: " + mouseX, 50, 50); 
   text("y: " + mouseY, 50, 100); 
   textSize(20);
-if (mousePressed) {
+  if(gameMode == 0){
+    if (mousePressed) {
     if(isWhite(mapZones.get(mouseX, mouseY))){
       Towers.add(new Tower1(mouseX,mouseY));
     }
@@ -67,6 +69,10 @@ if (mousePressed) {
       Projectiles.remove(i);
    } 
   toDestroy.clear();
+  } else if(gameMode == 1){
+    
+  }
+
 }
 
 class Menu {
