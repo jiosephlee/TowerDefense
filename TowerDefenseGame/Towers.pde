@@ -22,6 +22,7 @@ class Tower1 extends Towers {
     super(xA, yA, 30, 100, 1, 5);
   }
 
+
   void attack() {
     if(resting && (millis() - shotTime)/1000 >= fireRate){     //if more than the time that firerate dictates has passed, then it shoots again
         resting = false;
@@ -35,6 +36,7 @@ class Tower1 extends Towers {
                 return;
             }
         }
+
     }
   }
 
