@@ -1,7 +1,7 @@
 abstract class Towers {
   float x, y, size, range, fireRate, damage,shotTime;
   int firstPathLevel, secondPathLevel;
-  boolean resting;
+  boolean resting, placed;
 
 
   Towers(float xA, float yA, float sizeA, float rangeA, float fireRateA, float damageA) {
@@ -18,7 +18,7 @@ abstract class Towers {
 
 class Tower1 extends Towers {
 
-  Tower1(float xA, float yA) {
+  Tower1(float xA, float yA, boolean) {
     super(xA, yA, 30, 100, 1, 5);
   }
 

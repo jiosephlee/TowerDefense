@@ -2,6 +2,7 @@ import java.util.*;
 Map m;
 Menu menu;
 Path p;
+Towers loadedTower;
 LinkedList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
@@ -41,7 +42,7 @@ if (mousePressed) {
     System.out.println(" " + mouseX + "," + mouseY);
     if(isWhite(mapZones.get(mouseX, mouseY))){
       Towers.add(new Tower1(mouseX,mouseY));
-    }
+    } else if()
   }
   for(Monster m: Monsters){
     m.move();
