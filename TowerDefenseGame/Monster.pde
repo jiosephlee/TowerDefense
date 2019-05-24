@@ -27,7 +27,7 @@ class Slime extends Monster {
     this.p = p;
     size = 20;
     speed = 1;
-    hp = 10;
+    hp = 5;
     children = null;
     childrenNumber = 0;
     armored = false;
@@ -97,5 +97,6 @@ class Slime extends Monster {
   }
   void die(){
     toDestroy.add(this);
+    m.changeMoney(1);
   }
 }

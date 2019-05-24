@@ -50,7 +50,10 @@ void draw() {
         //pauses game if button is pressed
       }
       if (isWhite(mapZones.get(mouseX, mouseY))) {
-        Towers.add(new Tower1(mouseX, mouseY));
+        if(m.money >= 10){
+          m.changeMoney(-10); //uses money to place tower
+          Towers.add(new Tower1(mouseX, mouseY));  
+      }
       }
     }
     for (Monster m : Monsters) {
@@ -112,6 +115,7 @@ class Menu {
     range.resize(100, 0);
     image(range, mouseX, mouseY);
     tint(255, 255);
+    text("Money: " + m.money, 1000, height - 225);
     text("Level: " + s.level, 1000, height - 150);
     text("FPS: " + (int) (frameRate + 0.5), 1000, height - 75);
     for (Monster m : Monsters) {
