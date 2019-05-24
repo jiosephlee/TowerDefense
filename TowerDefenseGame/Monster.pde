@@ -70,8 +70,8 @@ class Slime extends Monster {
     }
     long deltaTime = System.currentTimeMillis() - lastTime;
     float[] newPost = calculateNewPosition(deltaTime);
-    x+= newPost[0];
-    y+= newPost[1];
+    x = newPost[0];
+    y = newPost[1];
     
   }
   float[] calculateNewPosition(float deltaTime){
@@ -79,8 +79,8 @@ class Slime extends Monster {
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
     nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
     float[] movement = normalizeVector(x, y, nextNodeX, nextNodeY);
-    ret[0] = deltaTime * speed * movement[0] / 15.0;
-    ret[1] = deltaTime * speed * movement[1] / 15.0;
+    ret[0] = x+ deltaTime * speed * movement[0] / 15.0;
+    ret[1] = y + deltaTime * speed * movement[1] / 15.0;
     lastTime = System.currentTimeMillis();
     return ret;
   }
