@@ -3,7 +3,7 @@ abstract class Projectiles {
   int penetrationLevel, size;
   boolean canAttackArmored, doneShooting;
 
-  
+
   Projectiles(float xA, float yA, Monster i, float damageA){
     speed = 4;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA,2) + Math.pow(i.y - yA,2))) * speed;
@@ -25,10 +25,22 @@ abstract class Projectiles {
         toDestroyA.add(this);
       }
       return true;
-    } 
+    }
     return false;
   }
-  abstract void move();
+  void move(){
+    x += vx;
+    y += vy;
+    for(Monster m: Monsters){
+        if(this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720){
+        toDestroyA.add(i);
+        break;
+        }
+        if(i.dealDamage(m)){
+        break;
+        }
+    }
+  }
 }
 
 class StraightBullet extends Projectiles{
@@ -36,18 +48,29 @@ class StraightBullet extends Projectiles{
     super(xA, yA, i, damage);
   }
   void move(){
-    x += vx;
-    y += vy;
+    super.move();
   }
 }
 
 class followBullet extends Projectiles{
-  followBullet(float xA, float yA, Monster i, float damage, float fireRateA){
+  float turnedTime;
+  Monster monster;
+  boolean resting;
+  followBullet(float xA, float yA, Monster i, float damage){
     super(xA, yA, i, damage);
-    float[] monsterxy = i.calculateNewPosition(fireRateA);
+    monster = i;
+    resting = true;
+    turnedTime =  millis();
   }
   void move(){
-    x += vx;
-    y += vy;
+    super.move();
+    if(resting && (millis() - turnedTime)/20 >= 1){
+        resting = false;
+    }
+    if(!resting){
+        vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x,2) + Math.pow(monster.y - y,2))) * speed;
+        vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x,2) + Math.pow(monster.y - y,2))) * speed;
+        turnedTime = millis();
+    }
   }
 }

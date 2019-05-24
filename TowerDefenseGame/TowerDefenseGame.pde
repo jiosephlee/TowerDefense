@@ -1,6 +1,6 @@
 import java.util.*;
 Map m;
-Menu menu; 
+Menu menu;
 Path p;
 LinkedList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
@@ -33,8 +33,8 @@ void draw() {
   ellipse(mouseX, mouseY, 25, 25);
   fill(0);
   textSize(36);
-  text("x: " + mouseX, 50, 50); 
-  text("y: " + mouseY, 50, 100); 
+  text("x: " + mouseX, 50, 50);
+  text("y: " + mouseY, 50, 100);
   textSize(20);
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
 if (mousePressed) {
@@ -48,15 +48,6 @@ if (mousePressed) {
   }
   for(Projectiles i: Projectiles){
     i.move();
-    for(Monster m: Monsters){
-       if(i.x < 0 || i.x > 1280 || i.y < 0 || i.y > 720){
-         toDestroyA.add(i);
-         break;
-       }
-       if(i.dealDamage(m)){
-         break;
-       }
-    }
   }
   for(Monster m: toDestroy){
     Monsters.remove(m);
@@ -66,7 +57,7 @@ if (mousePressed) {
   }
   for(Projectiles i: toDestroyA){
       Projectiles.remove(i);
-   } 
+   }
   toDestroy.clear();
 }
 
@@ -79,7 +70,7 @@ class Menu {
     fill(0);
     textSize(36);
     text("Menu", 1000, 50);
-    text("HP: " + (int) (m.hp + 0.5), 600, 50); 
+    text("HP: " + (int) (m.hp + 0.5), 600, 50);
     color mapColor = background.get(mouseX, mouseY);
     fill(mapColor);
     rect(1000, 100, 50, 50);
