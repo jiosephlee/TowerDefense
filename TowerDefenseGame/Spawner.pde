@@ -26,6 +26,7 @@ class Spawner{
     //println("yuh " + spawned + " " + maxMonsters + " " +Monsters.size());
     if(spawned > maxMonsters && Monsters.size() == 0){
       newLevel();
+      gameMode = 1;
     }
   }
 }

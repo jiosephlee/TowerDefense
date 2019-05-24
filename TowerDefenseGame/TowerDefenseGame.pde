@@ -10,6 +10,7 @@ LinkedList<Towers> Towers;
 PImage background, range, mapZones, play, pause;
 Spawner s;
 int gameMode;
+boolean lastMousePressed;
 void setup() {
   size(1280, 720);
   background(255);
@@ -26,6 +27,7 @@ void setup() {
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
   gameMode = 0;
+  lastMousePressed = false;
 }
 void draw() {
   s.update();
@@ -33,8 +35,6 @@ void draw() {
   m.display();
   menu.display();
   p.display();
-  fill(255, 0, 0);
-  ellipse(mouseX, mouseY, 25, 25);
   fill(0);
   textSize(36);
   text("x: " + mouseX, 50, 50); 
@@ -42,13 +42,15 @@ void draw() {
   textSize(20);
   if (gameMode == 0) {
     image(pause, 75, height - 75, 75, 75);
-    if (mousePressed) {
-      if (isWhite(mapZones.get(mouseX, mouseY))) {
-        Towers.add(new Tower1(mouseX, mouseY));
-      }
+    fill(255, 0, 0);
+    ellipse(mouseX, mouseY, 25, 25);
+    if (mousePressed && !lastMousePressed) {
       if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
         gameMode = 1;
         //pauses game if button is pressed
+      }
+      if (isWhite(mapZones.get(mouseX, mouseY))) {
+        Towers.add(new Tower1(mouseX, mouseY));
       }
     }
     for (Monster m : Monsters) {
@@ -80,7 +82,7 @@ void draw() {
     //when the game is paused
     image(play, 75, height - 75, 75, 75);
     //displays the play button
-    if (mousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
+    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
       gameMode = 0;
       //changes the gamemode and tells all the monsters to reset their time
       for(Monster m: Monsters){
@@ -88,6 +90,7 @@ void draw() {
       }
     }
   }
+  lastMousePressed = mousePressed;
 }
 
 class Menu {
@@ -119,7 +122,6 @@ class Menu {
       ellipse(i.x, i.y, 25.0, 25.0);
     }
     for (Projectiles i : Projectiles) {
-      System.out.println("yoo");
       fill(15, 15, 255);
       ellipse(i.x, i.y, 15.0, 15.0);
     }
