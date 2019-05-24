@@ -40,3 +40,14 @@ class StraightBullet extends Projectiles{
     y += vy;
   }
 }
+
+class followBullet extends Projectiles{
+  followBullet(float xA, float yA, Monster i, float damage, float fireRateA){
+    super(xA, yA, i, damage);
+    float[] monsterxy = i.calculateNewPosition(fireRateA);
+  }
+  void move(){
+    x += vx;
+    y += vy;
+  }
+}
