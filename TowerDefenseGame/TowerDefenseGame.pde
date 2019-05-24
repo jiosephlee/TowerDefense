@@ -21,6 +21,7 @@ void setup() {
   s = new Spawner();
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
+  range = loadImage("images/range.png");
 
 }
 void draw() {
@@ -36,9 +37,7 @@ void draw() {
   text("x: " + mouseX, 50, 50); 
   text("y: " + mouseY, 50, 100); 
   textSize(20);
-  text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
 if (mousePressed) {
-    System.out.println(" " + mouseX + "," + mouseY);
     if(isWhite(mapZones.get(mouseX, mouseY))){
       Towers.add(new Tower1(mouseX,mouseY));
     }
@@ -78,28 +77,19 @@ class Menu {
     rect(940, 0, 340, 720);
     fill(0);
     textSize(36);
-    text("Menu", 1000, 50);
     text("HP: " + (int) (m.hp + 0.5), 600, 50); 
-    color mapColor = background.get(mouseX, mouseY);
-    fill(mapColor);
-    rect(1000, 100, 50, 50);
     color zoneColor = mapZones.get(mouseX, mouseY);
-    fill(zoneColor);
-    rect(1000, 200, 50, 50);
-    fill(0);
-    text("Placeable: " + isWhite(zoneColor), 1000, 300);
     if(isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
       tint(#000000,128);
     } else{
       tint(255, 128); //if not keep it red which means invalid
     }
     imageMode(CENTER);
-    range = loadImage("images/range.png"); //loads the range image
     range.resize(100,0);
     image(range, mouseX,mouseY);
     tint(255, 255);
-    text("Level: " + s.level, 1000, 400);
-    text("FPS: " + (int) (frameRate + 0.5), 1000, 500);
+    text("Level: " + s.level, 1000, height - 150);
+    text("FPS: " + (int) (frameRate + 0.5), 1000, height - 75);
     for(Monster m: Monsters){
       m.display();
     }
