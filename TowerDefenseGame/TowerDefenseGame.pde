@@ -43,6 +43,7 @@ void fieldSetup() {
 }
 void draw() {
   textAlign(LEFT);
+  textSize(36);
   rectMode(CORNER);
   if (gameMode == 0) {
     fieldSetup();
@@ -102,13 +103,30 @@ void draw() {
         m.lastTime = System.currentTimeMillis();
       }
     }
+  } else if (gameMode == 3) {
+    fieldSetup();
+    //when the game is paused
+    text("Press Play Button to Start New Level", 125, 650);
+    image(play, 75, height - 75, 75, 75);
+    //displays the play button
+    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
+      gameMode = 0;
+      s.resetTime(); //resumes spawner
+    }
+    //changes the gamemode and tells all the monsters to reset their time
+    for (Monster m : Monsters) {
+      m.lastTime = System.currentTimeMillis();
+    }
   } else if (gameMode == 2) {
     fill(255, 178, 102);
     rectMode(CENTER);
-    rect(width/2.0, height/2.0, 150, 65);  //fill in rectangle for play button
+    rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
     textAlign(CENTER);
-    text("PLAY", width/2.0, height/2.0, 15);
-    if (mousePressed && centerMouseInZone(width/2.0, height /2.0, 150, 65)) { 
+
+    fill(0);
+    textSize(72);
+    text("PLAY", width/2.0, height/2.0 + 175);
+    if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
       //if play button is presed change to gameMode 0
       gameMode = 0;
       s.newLevel(); // starts new level when the play button is presed

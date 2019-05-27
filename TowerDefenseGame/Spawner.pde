@@ -5,7 +5,7 @@ class Spawner{
   float spawnRate;
   float maxMonsters;
   int spawned; 
-  float pauseTime;
+  long pauseTime;
   Spawner(){
     level = 0;
   }
@@ -20,11 +20,16 @@ class Spawner{
     pauseTime = System.currentTimeMillis();
   }
   void go(){
-    float time = System.currentTimeMillis();
+    long time = System.currentTimeMillis();
     levelTime += (time - pauseTime);
+  }
+  void resetTime(){
+    levelTime = System.currentTimeMillis();
+    pauseTime  = 0;
   }
   void update(){
     timeSinceLevel = (System.currentTimeMillis() - levelTime)/1000.0;
+    println("timeSinceLevel" + timeSinceLevel);
     if(timeSinceLevel * spawnRate > spawned && spawned <= maxMonsters){
       Monsters.add(new Slime(p));
       spawned++;
@@ -32,7 +37,7 @@ class Spawner{
     //println("yuh " + spawned + " " + maxMonsters + " " +Monsters.size());
     if(spawned > maxMonsters && Monsters.size() == 0){
       newLevel();
-      gameMode = 1;
+      gameMode = 3;
     }
   }
 }

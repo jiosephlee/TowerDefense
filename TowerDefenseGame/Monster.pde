@@ -38,14 +38,14 @@ class Slime extends Monster {
     spawn();
     lastTime = System.currentTimeMillis();
   }
-  Slime(Path p, float x, float y){
+  Slime(Path p, float x, float y) {
     this(p);
     this.x = x;
     this.y = y;
   }
   void display() {
     imageMode(CENTER);
-    image(imageFile,x,y,50,40);
+    image(imageFile, x, y, 50, 40);
   }
   void spawn() {
     x = p.getCoordinates().get(0)[0];
@@ -72,9 +72,8 @@ class Slime extends Monster {
     float[] newPost = calculateNewPosition(deltaTime);
     x = newPost[0];
     y = newPost[1];
-    
   }
-  float[] calculateNewPosition(float deltaTime){
+  float[] calculateNewPosition(float deltaTime) {
     float[] ret = new float[2];
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
     nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
@@ -90,13 +89,13 @@ class Slime extends Monster {
   }
   double changeHP(double change) {
     hp += change;
-    if(hp < 0){
+    if (hp < 0) {
       this.die();
+      m.changeMoney(1);
     }
     return hp;
   }
-  void die(){
+  void die() {
     toDestroy.add(this);
-    m.changeMoney(1);
   }
 }
