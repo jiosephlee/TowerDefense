@@ -11,6 +11,7 @@ LinkedList<Towers> Towers;
 PImage background, range, mapZones;
 Button[] Buttons;
 Spawner s;
+Button selectedButton;
 boolean loaded;
 void setup() {
   size(1280, 720);
@@ -49,14 +50,17 @@ void draw() {
     if (loaded && isWhite(mapZones.get(mouseX, mouseY))) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
       loadedTower.setxy(mouseX, mouseY);
       Towers.add(loadedTower);
-      Button1.newTower(new Tower2(-1, -1));
+      selectedButton.newTower(new Tower2(-1, -1));
       loaded = false;
     } else{// they press the button tell map that it's been clicked and load the selected tower
         for( Button b : Buttons){
-          if(
+          if(get(mouseX,mouseY) == b.Color){
+            selectedButton = b;
+            loaded = true;
+            loadedTower = b.load;
+            break;
+          }
         }
-      loaded = true;
-      loadedTower = Button1.load;
     }
   }
   for (Monster m : Monsters) {
@@ -67,6 +71,7 @@ void draw() {
   }
   for (Monster m : toDestroy) {
     Monsters.remove(m);
+    m = null;
   }
   for (Towers m : Towers) {
     m.attack();
@@ -76,6 +81,7 @@ void draw() {
     i = null;
   }
   toDestroy.clear();
+  toDestroyA.clear();
 }
 
 class Menu {
