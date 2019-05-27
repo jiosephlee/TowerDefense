@@ -26,10 +26,11 @@ void setup() {
   range = loadImage("images/range.png");
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
-  gameMode = 0;
+  gameMode = 2;
   lastMousePressed = false;
 }
-void draw() {
+void fieldSetup(){
+  //sets up the tower defense field when not in the main menu
   s.update();
   background(255);
   m.display();
@@ -40,7 +41,10 @@ void draw() {
   text("x: " + mouseX, 50, 50); 
   text("y: " + mouseY, 50, 100); 
   textSize(20);
+}
+void draw() {
   if (gameMode == 0) {
+    fieldSetup();
     image(pause, 75, height - 75, 75, 75);
     fill(255, 0, 0);
     ellipse(mouseX, mouseY, 25, 25);
@@ -49,7 +53,7 @@ void draw() {
         gameMode = 1;
         //pauses game if button is pressed
       }
-      if (isWhite(mapZones.get(mouseX, mouseY))) {
+      if (isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) {
         if(m.money >= 10){
           m.changeMoney(-10); //uses money to place tower
           Towers.add(new Tower1(mouseX, mouseY));  
@@ -82,6 +86,7 @@ void draw() {
     } 
     toDestroy.clear();
   } else if (gameMode == 1) {
+    fieldSetup();
     //when the game is paused
     image(play, 75, height - 75, 75, 75);
     //displays the play button
@@ -92,6 +97,13 @@ void draw() {
         m.lastTime = System.currentTimeMillis();
       }
     }
+  }
+  else if(gameMode == 2){
+    fill(255,178,102);
+    rectMode(CENTER);
+    rect(width/2.0,height/2.0,150,65);
+    textAlign(CENTER);
+    text("PLAY",width/2.0,height/2.0,15);
   }
   lastMousePressed = mousePressed;
 }
