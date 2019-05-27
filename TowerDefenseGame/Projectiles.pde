@@ -55,22 +55,27 @@ class StraightBullet extends Projectiles {
 class followBullet extends Projectiles {
   float turnedTime;
   Monster monster;
-  boolean resting;
+  boolean resting, gostraight;
   followBullet(float xA, float yA, Monster i, float damage) {
     super(xA, yA, i, damage);
     monster = i;
     resting = true;
     turnedTime =  millis();
+    gostraight=false;
   }
   void move() {
-    super.move(); //move foward
-    if (monster == null) { //if monster died, reset its target
-      monster = Monsters.get(0);
+    if(monster == null){
+      if (Monsters.size() > 0) {
+          monster = Monsters.get(0);
+        } else{
+          gostraight = true;
+        }
     }
+    super.move(); //move foward
     if (resting && (millis() - turnedTime)/70 >= 1) { //if it's resting and .07 seconds passed since it was redirected, say it's not resting
       resting = false;
     }
-    if (!resting) { //if it's not resting, redirect the bullet towards the monster and then set the time it was turned
+    if (!resting && !gostraight) { //if it's not resting, redirect the bullet towards the monster and then set the time it was turned
       vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
       vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
       turnedTime = millis();
@@ -80,12 +85,17 @@ class followBullet extends Projectiles {
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
-        monster = null;
+        Monsters.remove(monster);
+        if (Monsters.size() > 0) {
+          monster = Monsters.get(0);
+        } else{
+          gostraight = true;
+        }
         penetrationLevel--;
         if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
           toDestroyA.add(this);
         }
-      } else{ //if bullet wasn't able to the monster completely, kill the bullet
+      } else { //if bullet wasn't able to the monster completely, kill the bullet
         toDestroyA.add(this);
       }
       return true;

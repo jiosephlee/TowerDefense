@@ -25,7 +25,7 @@ void setup() {
   s = new Spawner();
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
-  Buttons = new Button[]{new Button(1000, 600, new Tower1(-1, -1),color(103,207,45)), new Button(1200, 600, new Tower2(-1, -1),color(173,107,245))};
+  Buttons = new Button[]{new Button(1020, 200, new Tower1(-1, -1),color(103,207,45)), new Button(1200, 200, new Tower2(-1, -1),color(173,107,245))};
   loaded =  false;
 }
 void draw() {
@@ -82,6 +82,7 @@ void draw() {
   }
   toDestroy.clear();
   toDestroyA.clear();
+  System.out.println(Projectiles.size());
 }
 
 class Menu {
@@ -124,7 +125,6 @@ class Menu {
       ellipse(i.x, i.y, 25.0, 25.0);
     }
     for (Projectiles i : Projectiles) {
-      System.out.println("yoo");
       fill(15, 15, 255);
       ellipse(i.x, i.y, 15.0, 15.0);
     }
