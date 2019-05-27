@@ -1,99 +1,140 @@
 abstract class Monster {
+  //characterististics of a monster
   PImage imageFile;
   float size;
   float speed;
   float hp;
-  Monster children;
-  int childrenNumber;
-  float damage;
-  boolean armored;
-  float x;
-  Path p;
-  float y;
-  int pathNode;
-  boolean justReachedNode;
-  long lastTime;
-  float nextNodeX, nextNodeY;
-  abstract void spawn();
+  int childrenNumber; //children spawned if it is killed
+  float damage; //damage done when it reaches end of map
+  boolean armored; //resistance to certain attacks
+  float x; //x coordinate
+  Path p; //path it is following
+  float y; //y coord
+  int pathNode; //what node of the path it has reached
+  boolean justReachedNode; //has it just reached the node in the last frame
+  long lastTime; //monster's time at last frame
+  float nextNodeX, nextNodeY; //node of path that monster is trying to reach
+  abstract void spawn(); 
   abstract void move();
   abstract void display();
   abstract double changeHP(double changeHP);
-  abstract void dealDamage();
+  abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
   abstract float[] calculateNewPosition(float deltaTime);
 }
 class Slime extends Monster {
   Slime(Path p) {
+    //basic slime stats
+    //constructor for basic spawning by spawner
     damage = 1;
     this.p = p;
-    size = 20;
-    speed = 2;
-    hp = 10;
-    children = null;
+    size = 10;
+    speed = 1;
+    hp = 5;
     childrenNumber = 0;
     armored = false;
     x = 0;
     y = 0;
-    imageFile = loadImage("images/Slimes.png");
+    imageFile = loadImage("images/Slimes.png"); //load image
     pathNode =0;
     spawn();
     lastTime = System.currentTimeMillis();
   }
-  Slime(Path p, float x, float y){
+  Slime(Path p, float x, float y, int pathNode) {
+    //alternate constructor that is useful for creating a basic slime when a higher level slime dies
     this(p);
+    this.pathNode = pathNode;
     this.x = x;
     this.y = y;
   }
-  void display() {
+  void display() { //displays slime
     imageMode(CENTER);
-    image(imageFile,x,y,50,40);
+    image(imageFile, x, y, 5 * size, 4 * size);
   }
-  void spawn() {
+  void spawn() { //spawns slime at the start of the path
     x = p.getCoordinates().get(0)[0];
     y = p.getCoordinates().get(0)[1];
-    display();
   }
   void move() {
     //display();
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
     nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
+    //gets the coordinates of where the slime is trying to reach
     if (distance(x, y, nextNodeX, nextNodeY) < speed && !justReachedNode) {
       justReachedNode = true;
+      //if it has reached a node, set its goal node to the next one
       if (pathNode < p.getCoordinates().size() -2) {
         x = nextNodeX;
         y = nextNodeY;
         pathNode++;
       } else {
+        //if it has reached the end, deal damage
         dealDamage();
       }
     } else {
       justReachedNode = false;
     }
+    //sets time since last frame, used to peg the slime's movement to time
     long deltaTime = System.currentTimeMillis() - lastTime;
     float[] newPost = calculateNewPosition(deltaTime);
+    //uses change in time to calculate new position and moves slime there
     x = newPost[0];
     y = newPost[1];
-    
   }
-  float[] calculateNewPosition(float deltaTime){
+  float[] calculateNewPosition(float deltaTime) {
+    //takes that that has elapsed to calculte a new positoin for the slime
     float[] ret = new float[2];
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
     nextNodeY = p.getCoordinates().get(pathNode + 1)[1];
     float[] movement = normalizeVector(x, y, nextNodeX, nextNodeY);
+    //uses normalize vector to get direction it is moving and mutiply by speed and time elapsed
     ret[0] = x+ deltaTime * speed * movement[0] / 15.0;
     ret[1] = y + deltaTime * speed * movement[1] / 15.0;
     lastTime = System.currentTimeMillis();
     return ret;
   }
   void dealDamage() {
+    //deals damage to the map itself
     m.changeHP(damage);
     die();
   }
   double changeHP(double change) {
+    //changes hp, is used when a projectile attacks slime
+    //gives the user money if its hp is below 0 and dies
     hp += change;
+    if (hp <= 0) {
+      this.die();
+      m.changeMoney(1);
+    }
     return hp;
   }
-  void die(){
+  void die() {
     toDestroy.add(this);
+  }
+}
+class RedSlime extends Slime{
+  //a stronger slime
+  RedSlime(Path p){
+    //better stats, spawns chldren when it dies
+    super(p);
+    size = 15;
+    speed = 1.5;
+    hp = 15;
+    childrenNumber = 2;
+    damage = 5;
+  }
+  void dealDamage(){
+    //deals damage to the map
+    m.changeHP(damage);
+    toDestroy.add(this);
+  }
+  void die(){
+    //dies but also spawns two new slimes at position
+    toDestroy.add(this);
+    m.changeMoney(2);
+    for(int i = 0; i < childrenNumber; i++){
+      float[] newPos = calculateNewPosition(i);
+      Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
+    }
   }
 }
