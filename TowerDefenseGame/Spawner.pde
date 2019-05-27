@@ -5,10 +5,9 @@ class Spawner{
   float spawnRate;
   float maxMonsters;
   int spawned; 
-  
+  float pauseTime;
   Spawner(){
     level = 0;
-    newLevel();
   }
   void newLevel(){
     spawnRate = 1.25 + (1.0/3) * pow(level,1.0/3);
@@ -16,6 +15,13 @@ class Spawner{
     spawned = 0;
     level++;
     levelTime = System.currentTimeMillis();
+  }
+  void pause(){
+    pauseTime = System.currentTimeMillis();
+  }
+  void go(){
+    float time = System.currentTimeMillis();
+    levelTime += (time - pauseTime);
   }
   void update(){
     timeSinceLevel = (System.currentTimeMillis() - levelTime)/1000.0;

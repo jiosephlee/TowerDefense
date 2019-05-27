@@ -29,9 +29,8 @@ void setup() {
   gameMode = 2;
   lastMousePressed = false;
 }
-void fieldSetup(){
+void fieldSetup() {
   //sets up the tower defense field when not in the main menu
-  s.update();
   background(255);
   m.display();
   menu.display();
@@ -43,22 +42,25 @@ void fieldSetup(){
   textSize(20);
 }
 void draw() {
+  textAlign(LEFT);
   rectMode(CORNER);
   if (gameMode == 0) {
     fieldSetup();
+    s.update();
     image(pause, 75, height - 75, 75, 75);
     fill(255, 0, 0);
     ellipse(mouseX, mouseY, 25, 25);
     if (mousePressed && !lastMousePressed) {
       if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
-        gameMode = 1;
         //pauses game if button is pressed
+        gameMode = 1;
+        s.pause(); // pauses spawner
       }
       if (isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) {
-        if(m.money >= 10){
+        if (m.money >= 10) {
           m.changeMoney(-10); //uses money to place tower
-          Towers.add(new Tower1(mouseX, mouseY));  
-      }
+          Towers.add(new Tower1(mouseX, mouseY));
+        }
       }
     }
     for (Monster m : Monsters) {
@@ -89,26 +91,28 @@ void draw() {
   } else if (gameMode == 1) {
     fieldSetup();
     //when the game is paused
+    text("Press Play Button to Resume", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
     if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
       gameMode = 0;
+      s.go(); //resumes spawner
       //changes the gamemode and tells all the monsters to reset their time
-      for(Monster m: Monsters){
+      for (Monster m : Monsters) {
         m.lastTime = System.currentTimeMillis();
       }
     }
-  }
-  else if(gameMode == 2){
-    fill(255,178,102);
+  } else if (gameMode == 2) {
+    fill(255, 178, 102);
     rectMode(CENTER);
-    rect(width/2.0,height/2.0,150,65);
+    rect(width/2.0, height/2.0, 150, 65);  //fill in rectangle for play button
     textAlign(CENTER);
-    text("PLAY",width/2.0,height/2.0,15);
-    if(mousePressed && mouseInZone(width/2.0 - 75, height/2.0 - 42.5, width/2.0 + 75,  height/2.0 + 42.5)){
+    text("PLAY", width/2.0, height/2.0, 15);
+    if (mousePressed && centerMouseInZone(width/2.0, height /2.0, 150, 65)) { 
+      //if play button is presed change to gameMode 0
       gameMode = 0;
-      println("yote");
-    } 
+      s.newLevel(); // starts new level when the play button is presed
+    }
   }
   lastMousePressed = mousePressed;
 }

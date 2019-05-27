@@ -19,3 +19,7 @@ boolean mouseInZone(float minX, float minY, float maxX, float maxY) {
   //uses inZone and mouse position to check if the mouse is in a rectangular zone;
   return inZone(mouseX, mouseY, minX, minY, maxX, maxY);
 }
+boolean centerMouseInZone(float x, float y, float rectWidth, float rectHeight) {
+  //another way of checking if the mouse is in a zone, except it uses a rectangle with a center and height/width
+  return mouseInZone(x - rectWidth /2.0, y - rectHeight/2.0, x + rectWidth /2.0, y+ rectHeight/2.0);
+}
