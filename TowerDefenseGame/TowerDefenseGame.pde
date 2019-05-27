@@ -9,7 +9,7 @@ ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
 PImage background, range, mapZones;
-Button Button1;
+Button[] Buttons;
 Spawner s;
 boolean loaded;
 void setup() {
@@ -24,7 +24,7 @@ void setup() {
   s = new Spawner();
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
-  Button1 = new Button(1000, 600, new Tower2(-1, -1)); 
+  Buttons = new Button[]{new Button(1000, 600, new Tower1(-1, -1),color(103,207,45)), new Button(1200, 600, new Tower2(-1, -1),color(173,107,245))};
   loaded =  false;
 }
 void draw() {
@@ -41,7 +41,9 @@ void draw() {
   text("y: " + mouseY, 50, 100);
   textSize(20);
   text("© Boseph Bee and Biong Bhou Buang 2019", 50, 650);
-  Button1.display();
+  for (Button i : Buttons) {
+    i.display();
+  }
   if (mousePressed) {
     System.out.println(" " + mouseX + "," + mouseY);
     if (loaded && isWhite(mapZones.get(mouseX, mouseY))) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
@@ -49,7 +51,10 @@ void draw() {
       Towers.add(loadedTower);
       Button1.newTower(new Tower2(-1, -1));
       loaded = false;
-    } else if (get(mouseX, mouseY) == color(103, 192, 203)) { // if they press the button tell map that it's been clicked and load the selected tower
+    } else{// they press the button tell map that it's been clicked and load the selected tower
+        for( Button b : Buttons){
+          if(
+        }
       loaded = true;
       loadedTower = Button1.load;
     }

@@ -21,10 +21,10 @@ class Map {
 
 class Button{
   float x,y;
-  color a;
+  color Color;
   Towers load;
-  Button(float xA,float yA, Towers loaded){
-    a = color(103, 192, 203);
+  Button(float xA,float yA, Towers loaded, color a){
+    Color = a;
     x = xA;
     y = yA;
     load = loaded;
@@ -33,7 +33,7 @@ class Button{
     load = newLoad;
   }
   void display(){
-    fill(a);
+    fill(Color);
     rect(x, y, 40, 40);
   }
 }
