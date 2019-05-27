@@ -1,11 +1,6 @@
 class Menu {
   int towerNumber;
   Menu() {
-    towerNumber = 1;
-  }
-  int selectedTower(){
-    //returns which tower is being selected
-    return towerNumber;
   }
   void display() {
     //creates pink region on the right side of the screen for a menu
