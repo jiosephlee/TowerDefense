@@ -6,7 +6,7 @@ class Map {
     background = loadImage("images/Map1Background.PNG");
     mapZones = loadImage("images/Map1Zones.png");
     hp = 100;
-    money = 20;
+    money = 50;
   }
   void display() {
     imageMode(CORNER);

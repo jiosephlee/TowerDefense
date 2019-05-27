@@ -36,8 +36,9 @@ class Slime extends Monster {
     spawn();
     lastTime = System.currentTimeMillis();
   }
-  Slime(Path p, float x, float y) {
+  Slime(Path p, float x, float y, int pathNode) {
     this(p);
+    this.pathNode = pathNode;
     this.x = x;
     this.y = y;
   }
@@ -101,7 +102,7 @@ class RedSlime extends Slime{
     super(p);
     size = 15;
     speed = 1.5;
-    hp = 10;
+    hp = 15;
     childrenNumber = 2;
     damage = 5;
   }
@@ -110,9 +111,11 @@ class RedSlime extends Slime{
     toDestroy.add(this);
   }
   void die(){
+    toDestroy.add(this);
+    m.changeMoney(2);
     for(int i = 0; i < childrenNumber; i++){
       float[] newPos = calculateNewPosition(i);
-      Monsters.add(new Slime(p,newPos[0],newPos[1]));
+      Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
     }
   }
 }
