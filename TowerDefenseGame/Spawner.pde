@@ -29,7 +29,6 @@ class Spawner{
   }
   void update(){
     timeSinceLevel = (System.currentTimeMillis() - levelTime)/1000.0;
-    println("timeSinceLevel" + timeSinceLevel);
     if(timeSinceLevel * spawnRate > spawned && spawned <= maxMonsters){
       Monsters.add(new Slime(p));
       spawned++;
