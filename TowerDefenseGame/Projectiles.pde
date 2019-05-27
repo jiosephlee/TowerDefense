@@ -55,30 +55,44 @@ class StraightBullet extends Projectiles {
 class followBullet extends Projectiles {
   float turnedTime;
   Monster monster;
-  boolean resting, gostraight;
+  boolean resting, gostraight, dead;
   followBullet(float xA, float yA, Monster i, float damage) {
     super(xA, yA, i, damage);
     monster = i;
     resting = true;
     turnedTime =  millis();
     gostraight=false;
+    dead = false;
   }
   void move() {
-    if(monster == null){
+    if (true) {
       if (Monsters.size() > 0) {
-          monster = Monsters.get(0);
-        } else{
-          gostraight = true;
-        }
+        monster = Monsters.get(0);
+      } else {
+        gostraight = true;
+      }
     }
-    super.move(); //move foward
-    if (resting && (millis() - turnedTime)/70 >= 1) { //if it's resting and .07 seconds passed since it was redirected, say it's not resting
-      resting = false;
+    x += vx;
+    y += vy;
+    for (Monster m : Monsters) {
+      if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
+        toDestroyA.add(this);
+        dead = true;
+        break;
+      }
+      if (this.dealDamage(m)) {
+        break;
+      }
     }
-    if (!resting && !gostraight) { //if it's not resting, redirect the bullet towards the monster and then set the time it was turned
-      vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
-      vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
-      turnedTime = millis();
+    if (!dead) {
+      if (resting && (millis() - turnedTime)/70 >= 1) { //if it's resting and .07 seconds passed since it was redirected, say it's not resting
+        resting = false;
+      }
+      if (!resting && !gostraight) { //if it's not resting, redirect the bullet towards the monster and then set the time it was turned
+        vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
+        vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
+        turnedTime = millis();
+      }
     }
   }
 
@@ -88,15 +102,17 @@ class followBullet extends Projectiles {
         Monsters.remove(monster);
         if (Monsters.size() > 0) {
           monster = Monsters.get(0);
-        } else{
+        } else {
           gostraight = true;
         }
         penetrationLevel--;
         if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
           toDestroyA.add(this);
+          dead = true;
         }
       } else { //if bullet wasn't able to the monster completely, kill the bullet
         toDestroyA.add(this);
+        dead = true;
       }
       return true;
     }
