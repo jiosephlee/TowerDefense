@@ -20,6 +20,7 @@ abstract class Monster {
   abstract double changeHP(double changeHP);
   abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
+  abstract float[] calculateNewPosition(float deltaTime);
 }
 class Slime extends Monster {
   Slime(Path p) {

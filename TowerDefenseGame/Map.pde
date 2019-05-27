@@ -27,3 +27,25 @@ class Map {
     money += a;
   }
 }
+
+class Button{
+  float x,y;
+  color Color;
+  Towers load;
+  Button(float xA,float yA, Towers loaded, color a){
+    Color = a;
+    x = xA;
+    y = yA;
+    load = loaded;
+  }
+  void newTower(Towers newLoad){
+    load = newLoad;
+  }
+  void display(){
+    fill(Color);
+    rect(x, y, 40, 40);
+    fill(0);
+    textSize(12);
+    text((load.getClass().getName() + "").substring(17,23), x - 50, y + 20);
+  }
+}

@@ -1,17 +1,27 @@
 import java.util.*;
 //global variables for running the game
 Map m;
-Menu menu; 
+Menu menu;
 Path p;
+Towers loadedTower;
 LinkedList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
+PImage background, range, mapZones;
+Button[] Buttons;
+Spawner s;
+Button selectedButton;
+boolean loaded;
 PImage background, range, mapZones, play, pause;
 Spawner s;
 int gameMode;
 boolean lastMousePressed;
+Button[] Buttons;
+Spawner s;
+Button selectedButton;
+boolean loaded;
 void setup() {
   //setup screen size and initial Map, Menu, and Path
   size(1280, 720);
@@ -19,12 +29,15 @@ void setup() {
   m = new Map();
   menu = new Menu();
   p = new Path();
+
   Monsters = new LinkedList<Monster>(); //list of Monsters
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
+  Buttons = new Button[]{new Button(1020, 200, new Tower1(-1, -1),color(103,207,45)), new Button(1200, 200, new Tower2(-1, -1),color(173,107,245))};
+  loaded =  false;
   //load graphics of game
   range = loadImage("images/range.png"); 
   play = loadImage("images/play.png");
@@ -49,8 +62,8 @@ void fieldSetup() {
   p.display();
   fill(0);
   textSize(36);
-  text("x: " + mouseX, 50, 50); 
-  text("y: " + mouseY, 50, 100); 
+  text("x: " + mouseX, 50, 50);
+  text("y: " + mouseY, 50, 100);
   textSize(20);
 }
 void updateAll(){
@@ -62,6 +75,9 @@ void updateAll(){
     fill(255, 0, 0);
     //display circle at mouse pointer
     ellipse(mouseX, mouseY, 25, 25);
+      for (Button i : Buttons) {
+      i.display();
+    }
     if (mousePressed && !lastMousePressed) {
       if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
         //pauses game if button is pressed
@@ -69,44 +85,43 @@ void updateAll(){
         s.pause(); // pauses spawner
       }
       //uses background image to check if the area where the mouse is at is suitable for placing a tower
-      if (isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) {
+      if (loaded && isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
         if (m.money >= 10 && menu.selectedTower() == 1) {
           m.changeMoney(-10); //uses money to place tower
-          Towers.add(new Tower1(mouseX, mouseY));
+          loadedTower.setxy(mouseX, mouseY);
+          Towers.add(loadedTower);
+          selectedButton.newTower(new Tower2(-1, -1));
+          loaded = false;
+       } else{// they press the button tell map that it's been clicked and load the selected tower
+        for( Button b : Buttons){
+          if(get(mouseX,mouseY) == b.Color){
+            selectedButton = b;
+            loaded = true;
+            loadedTower = b.load;
+            break;
+          }
         }
-      }
+       }
     }
     for (Monster m : Monsters) {
-      m.move(); //ask all monsters to move
+      m.move();
     }
-    for (Projectiles i : Projectiles) {
-      i.move(); //ask all projectiles to move
-      for (Monster m : Monsters) {
-        //adds projectiles that leave the screen to destruction queue
-        if (i.x < 0 || i.x > 1280 || i.y < 0 || i.y > 720) {
-          toDestroyA.add(i);
-          break;
-        }
-        if (i.dealDamage(m)) {
-          break;
-        }
-      }
+   for (Projectiles i : Projectiles) {
+     i.move();
     }
-    for (Monster m : toDestroy) {
-      Monsters.remove(m);
-      //removes monsters from linkedlist after they die
-    }
-    for (Towers m : Towers) {
-      //ask all towers to attack
-      m.attack();
-      
-    }
-    for (Projectiles i : toDestroyA) {
-      //remove all projectiles awaiting removal
-      Projectiles.remove(i);
-      
-    } 
-    toDestroy.clear();
+  for (Monster m : toDestroy) {
+    Monsters.remove(m); //removes monsters from linkedlist after they die
+    m = null;
+  }
+  for (Towers m : Towers) {
+    m.attack(); //ask all towers to attack
+  }
+  for (Projectiles i : toDestroyA) {
+    Projectiles.remove(i); //remove all projectiles awaiting removal
+    i = null;
+  }
+  toDestroy.clear();
+  toDestroyA.clear();
     //clears destruction queue
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
