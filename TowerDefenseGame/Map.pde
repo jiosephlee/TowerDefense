@@ -35,5 +35,8 @@ class Button{
   void display(){
     fill(Color);
     rect(x, y, 40, 40);
+    fill(0);
+    textSize(12);
+    text((load.getClass().getName() + "").substring(17,23), x - 50, y + 20);
   }
 }
