@@ -5,7 +5,7 @@ abstract class Projectiles {
 
 
   Projectiles(float xA, float yA, Monster i, float damageA) {
-    speed = 4;
+    speed = 5;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
     vy = ((i.y - yA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
     size = 20;
@@ -63,11 +63,10 @@ class followBullet extends Projectiles {
     turnedTime =  millis();
   }
   void move() {
-    if (monster == null) {
-      System.out.println("heyyy");
+    super.move(); //move foward
+    if (monster == null) { //if monster died, reset its target
       monster = Monsters.get(0);
     }
-    super.move(); //move foward
     if (resting && (millis() - turnedTime)/70 >= 1) { //if it's resting and .07 seconds passed since it was redirected, say it's not resting
       resting = false;
     }
