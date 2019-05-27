@@ -26,6 +26,6 @@ The Best Processing Tower Defense Game of all time. jk but it's pretty good
 -caused a play and pause for the game and implemented a money system (Qiong)
 
 5/25-5/27
--Created a main menu for the game and tweaked money system(Qiong)
--wrote methods to compensate for time elapsed when the game is paused, since spawning is based on time elapsed (Qiong)
--Wrote Red Slimes class to spawn stronger slimes at higher levels, spawns weaker slimes at death (Qiong)
+- Created a main menu for the game and tweaked money system(Qiong)
+- wrote methods to compensate for time elapsed when the game is paused, since spawning is based on time elapsed (Qiong)
+- Wrote Red Slimes class to spawn stronger slimes at higher levels, spawns weaker slimes at death (Qiong)
