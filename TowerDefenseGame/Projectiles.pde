@@ -63,11 +63,11 @@ class followBullet extends Projectiles{
     turnedTime =  millis();
   }
   void move(){
-    super.move();
-    if(resting && (millis() - turnedTime)/20 >= 1){
+    super.move(); //move foward
+    if(resting && (millis() - turnedTime)/70 >= 1){ //if it's resting and .07 seconds passed since it was redirected, say it's not resting
         resting = false;
     }
-    if(!resting){
+    if(!resting){ //if it's not resting, redirect the bullet towards the monster and then set the time it was turned
         vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x,2) + Math.pow(monster.y - y,2))) * speed;
         vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x,2) + Math.pow(monster.y - y,2))) * speed;
         turnedTime = millis();

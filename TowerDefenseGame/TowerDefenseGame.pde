@@ -24,7 +24,7 @@ void setup() {
   s = new Spawner();
   Towers = new LinkedList<Towers>();
   Projectiles = new LinkedList<Projectiles>();
-  Button1 = new Button(1000, 600, new Tower1(-1, -1)); 
+  Button1 = new Button(1000, 600, new Tower2(-1, -1)); 
   loaded =  false;
 }
 void draw() {
@@ -47,7 +47,7 @@ void draw() {
     if (loaded && isWhite(mapZones.get(mouseX, mouseY))) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
       loadedTower.setxy(mouseX, mouseY);
       Towers.add(loadedTower);
-      Button1.newTower(new Tower1(-1, -1));
+      Button1.newTower(new Tower2(-1, -1));
       loaded = false;
     } else if (get(mouseX, mouseY) == color(103, 192, 203)) { // if they press the button tell map that it's been clicked and load the selected tower
       loaded = true;
