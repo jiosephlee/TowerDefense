@@ -43,6 +43,7 @@ void fieldSetup(){
   textSize(20);
 }
 void draw() {
+  rectMode(CORNER);
   if (gameMode == 0) {
     fieldSetup();
     image(pause, 75, height - 75, 75, 75);
@@ -104,6 +105,10 @@ void draw() {
     rect(width/2.0,height/2.0,150,65);
     textAlign(CENTER);
     text("PLAY",width/2.0,height/2.0,15);
+    if(mousePressed && mouseInZone(width/2.0 - 75, height/2.0 - 42.5, width/2.0 + 75,  height/2.0 + 42.5)){
+      gameMode = 0;
+      println("yote");
+    } 
   }
   lastMousePressed = mousePressed;
 }
