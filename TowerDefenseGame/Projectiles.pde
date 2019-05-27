@@ -33,10 +33,10 @@ abstract class Projectiles {
     y += vy;
     for(Monster m: Monsters){
         if(this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720){
-        toDestroyA.add(i);
+        toDestroyA.add(this);
         break;
         }
-        if(i.dealDamage(m)){
+        if(this.dealDamage(m)){
         break;
         }
     }

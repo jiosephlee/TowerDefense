@@ -11,16 +11,23 @@ abstract class Towers {
     range = rangeA;
     fireRate = fireRateA;
     damage = damageA;
+    placed = false;
   }
 
   abstract void attack();
+  
+  void setxy(float xA, float yA){
+    x = xA; 
+    y = yA;
+  }
 }
 
 class Tower1 extends Towers {
 
-  Tower1(float xA, float yA, boolean) {
+  Tower1(float xA, float yA) {
     super(xA, yA, 30, 100, 1, 5);
   }
+  
 
 
   void attack() {
@@ -39,5 +46,4 @@ class Tower1 extends Towers {
 
     }
   }
-
 }

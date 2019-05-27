@@ -18,3 +18,22 @@ class Map {
     }
   }
 }
+
+class Button{
+  float x,y;
+  color a;
+  Towers load;
+  Button(float xA,float yA, Towers loaded){
+    a = color(103, 192, 203);
+    x = xA;
+    y = yA;
+    load = loaded;
+  }
+  void newTower(Towers newLoad){
+    load = newLoad;
+  }
+  void display(){
+    fill(a);
+    rect(x, y, 40, 40);
+  }
+}
