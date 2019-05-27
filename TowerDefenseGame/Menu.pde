@@ -1,5 +1,10 @@
 class Menu {
+  int towerNumber;
   Menu() {
+    towerNumber = 1;
+  }
+  int selectedTower(){
+    return towerNumber;
   }
   void display() {
     fill(255, 192, 203);

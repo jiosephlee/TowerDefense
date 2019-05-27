@@ -3,7 +3,6 @@ abstract class Monster {
   float size;
   float speed;
   float hp;
-  Monster children;
   int childrenNumber;
   float damage;
   boolean armored;
@@ -25,10 +24,9 @@ class Slime extends Monster {
   Slime(Path p) {
     damage = 1;
     this.p = p;
-    size = 20;
+    size = 10;
     speed = 1;
     hp = 5;
-    children = null;
     childrenNumber = 0;
     armored = false;
     x = 0;
@@ -45,12 +43,11 @@ class Slime extends Monster {
   }
   void display() {
     imageMode(CENTER);
-    image(imageFile, x, y, 50, 40);
+    image(imageFile, x, y, 5 * size, 4 * size);
   }
   void spawn() {
     x = p.getCoordinates().get(0)[0];
     y = p.getCoordinates().get(0)[1];
-    display();
   }
   void move() {
     //display();
@@ -97,5 +94,25 @@ class Slime extends Monster {
   }
   void die() {
     toDestroy.add(this);
+  }
+}
+class RedSlime extends Slime{
+  RedSlime(Path p){
+    super(p);
+    size = 15;
+    speed = 1.5;
+    hp = 10;
+    childrenNumber = 2;
+    damage = 5;
+  }
+  void dealDamage(){
+    m.changeHP(damage);
+    toDestroy.add(this);
+  }
+  void die(){
+    for(int i = 0; i < childrenNumber; i++){
+      float[] newPos = calculateNewPosition(i);
+      Monsters.add(new Slime(p,newPos[0],newPos[1]));
+    }
   }
 }

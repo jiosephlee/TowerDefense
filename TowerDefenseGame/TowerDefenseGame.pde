@@ -61,7 +61,7 @@ void updateAll(){
         s.pause(); // pauses spawner
       }
       if (isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) {
-        if (m.money >= 10) {
+        if (m.money >= 10 && menu.selectedTower() == 1) {
           m.changeMoney(-10); //uses money to place tower
           Towers.add(new Tower1(mouseX, mouseY));
         }
@@ -87,9 +87,11 @@ void updateAll(){
     }
     for (Towers m : Towers) {
       m.attack();
+      
     }
     for (Projectiles i : toDestroyA) {
       Projectiles.remove(i);
+      
     } 
     toDestroy.clear();
   } else if (gameMode == 1) {
