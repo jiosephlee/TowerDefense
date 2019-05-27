@@ -68,6 +68,7 @@ void draw() {
   }
   for (Projectiles i : toDestroyA) {
     Projectiles.remove(i);
+    i = null;
   }
   toDestroy.clear();
 }
