@@ -84,7 +84,7 @@ void updateAll() {
           m.changeMoney(-10); //uses money to place tower
           loadedTower.setxy(mouseX, mouseY);
           Towers.add(loadedTower);
-          selectedButton.newTower(new Tower2(-1, -1));
+          selectedButton.newTower();
           loaded = false;
         }
       } else {// they press the button tell map that it's been clicked and load the selected tower

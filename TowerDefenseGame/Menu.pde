@@ -10,16 +10,18 @@ class Menu {
     textSize(36);
     text("HP: " + (int) (m.hp + 0.5), 600, 50);  // displays hp
     color zoneColor = mapZones.get(mouseX, mouseY);
-    if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
-      tint(#000000, 128);
-    } else {
-      tint(255, 128); //if not keep it red which means invalid
+    if (loaded) {
+      if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
+        tint(#000000, 128);
+      } else {
+        tint(255, 128); //if not keep it red which means invalid
+      }
+      imageMode(CENTER);
+      //sets tint of circle around mouse pointer if tower cannot be placed at mouse location
+      range.resize(100, 0);
+      image(range, mouseX, mouseY);
+      tint(255, 255);
     }
-    imageMode(CENTER);
-    //sets tint of circle around mouse pointer if tower cannot be placed at mouse location
-    range.resize(100, 0);
-    image(range, mouseX, mouseY);
-    tint(255, 255);
     //display money, level and fps
     text("Money: " + m.money, 1000, height - 225);
     text("Level: " + s.level, 1000, height - 150);
