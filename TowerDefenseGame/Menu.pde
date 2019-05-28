@@ -18,7 +18,7 @@ class Menu {
       }
       imageMode(CENTER);
       //sets tint of circle around mouse pointer if tower cannot be placed at mouse location
-      range.resize(100, 0);
+      range.resize(loadedTower.range*2, 0);
       image(range, mouseX, mouseY);
       tint(255, 255);
     }

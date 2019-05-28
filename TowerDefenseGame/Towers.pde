@@ -1,17 +1,16 @@
 abstract class Towers {
-  float x, y, size, range, fireRate, damage,shotTime;
-  int firstPathLevel, secondPathLevel;
-  boolean resting, placed;
+  float x, y, size,fireRate, damage,shotTime;
+  int firstPathLevel, secondPathLevel, range;
+  boolean resting;
 
 
-  Towers(float xA, float yA, float sizeA, float rangeA, float fireRateA, float damageA) {
+  Towers(float xA, float yA, float sizeA, int rangeA, float fireRateA, float damageA) {
     x = xA;
     y = yA;
     size = sizeA;
     range = rangeA;
     fireRate = fireRateA;
     damage = damageA;
-    placed = false;
   }
 
   abstract void attack();
