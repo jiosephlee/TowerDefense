@@ -28,7 +28,7 @@ class Map {
   }
 }
 
-class Button{
+abstract class Button{
   float x,y;
   color Color;
   Towers load;
@@ -38,9 +38,7 @@ class Button{
     y = yA;
     load = loaded;
   }
-  void newTower(Towers newLoad){
-    load = newLoad;
-  }
+  abstract void newTower();
   void display(){
     fill(Color);
     rect(x, y, 40, 40);
@@ -64,6 +62,6 @@ class Button2 extends Button{
     super(1200, 200, new Tower2(-1, -1), color(173, 107, 245));
   }
   void newTower(){
-    load = new Tower1(-1,-1);
+    load = new Tower2(-1,-1);
   }
 }
