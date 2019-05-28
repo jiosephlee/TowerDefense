@@ -1,6 +1,6 @@
 abstract class Towers {
   float x, y, size,fireRate, damage,shotTime;
-  int firstPathLevel, secondPathLevel, range;
+  int firstPathLevel, secondPathLevel, range, price;
   boolean resting;
 
 
@@ -25,6 +25,7 @@ class Tower1 extends Towers {
 
   Tower1(float xA, float yA) {
     super(xA, yA, 30, 100, 1, 5);
+    price = 10;
   }
   
 
@@ -50,6 +51,7 @@ class Tower1 extends Towers {
 class Tower2 extends Towers{
   Tower2(float xA, float yA) {
     super(xA, yA, 30, 100, 1, 5);
+    price = 20;
   }
   
   void attack(){

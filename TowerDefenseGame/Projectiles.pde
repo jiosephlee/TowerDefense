@@ -1,7 +1,7 @@
 abstract class Projectiles {
   float vx, vy, x, y, damage, speed;
   int penetrationLevel, size;
-  boolean canAttackArmored, doneShooting;
+  boolean canAttackArmored, doneShooting, dead;
 
 
   Projectiles(float xA, float yA, Monster i, float damageA) {
@@ -13,34 +13,27 @@ abstract class Projectiles {
     x = xA;
     y = yA;
     penetrationLevel = 2;
-
+    dead = false;
     damage = damageA;
     //level = 1;
   }
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
-      i.changeHP(-1 * damage);
-      penetrationLevel--;
-      if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
+      if (i.changeHP(-1 * damage) <=0) {
+        penetrationLevel--;
+        if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
+          dead = true;
+          toDestroyA.add(this);
+        }
+      } else { //if bullet wasn't able to the monster completely, kill the bullet
         toDestroyA.add(this);
+        dead = true;
       }
       return true;
     }
     return false;
   }
-  void move() {
-    x += vx;
-    y += vy;
-    for (Monster m : Monsters) {
-      if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
-        toDestroyA.add(this);
-        break;
-      }
-      if (this.dealDamage(m)) {
-        break;
-      }
-    }
-  }
+  abstract void move();
 }
 
 class StraightBullet extends Projectiles {
@@ -48,14 +41,27 @@ class StraightBullet extends Projectiles {
     super(xA, yA, i, damage);
   }
   void move() {
-    super.move();
+    if (!dead) {
+      x += vx;
+      y += vy;
+      for (Monster m : Monsters) {
+        if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
+          dead = true;
+          toDestroyA.add(this);
+          break;
+        }
+        if (this.dealDamage(m)) {
+          break;
+        }
+      }
+    }
   }
 }
 
 class followBullet extends Projectiles {
   float turnedTime;
   Monster monster;
-  boolean resting, gostraight, dead;
+  boolean resting, gostraight;
   followBullet(float xA, float yA, Monster i, float damage) {
     super(xA, yA, i, damage);
     monster = i;
@@ -65,26 +71,19 @@ class followBullet extends Projectiles {
     dead = false;
   }
   void move() {
-    if (true) {
-      if (Monsters.size() > 0) {
-        monster = Monsters.get(0);
-      } else {
-        gostraight = true;
-      }
-    }
-    x += vx;
-    y += vy;
-    for (Monster m : Monsters) {
-      if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
-        toDestroyA.add(this);
-        dead = true;
-        break;
-      }
-      if (this.dealDamage(m)) {
-        break;
-      }
-    }
     if (!dead) {
+      x += vx;
+      y += vy;
+      for (Monster m : Monsters) {
+        if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) { //if its beyond the borders, kill it
+          toDestroyA.add(this);
+          dead = true;
+          break;
+        }
+        if (this.dealDamage(m)) { //if it dealed damange, stop looping through monsters
+          break;
+        }
+      }
       if (resting && (millis() - turnedTime)/70 >= 1) { //if it's resting and .07 seconds passed since it was redirected, say it's not resting
         resting = false;
       }
@@ -97,12 +96,17 @@ class followBullet extends Projectiles {
   }
 
   boolean dealDamage(Monster i) {
-    if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
-      if (i.changeHP(-1 * damage) <=0) {
-        //Monsters.remove(monster);
-        if (Monsters.size() > 0) {
-          monster = Monsters.get(0);
-        } else {
+    if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //if monster is in bullet's range
+      if (i.changeHP(-1 * damage) <=0) { // if monster died
+        Monsters.remove(monster); //remove dead monster so it doesnt target it again
+        if (Monsters.size() > 0) { //if their are monsters on the map, get a new monster
+          int a = this.nearestMonster(Monsters);
+          if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
+            monster = Monsters.get(a);
+          } else { //a is negative when the nearest monster is really far. in that case its too far so lets continue going straight instead
+            this.gostraight=true;
+          }
+        } else { //if there's no monsters on the map, just go straight
           gostraight = true;
         }
         penetrationLevel--;
@@ -117,5 +121,22 @@ class followBullet extends Projectiles {
       return true;
     }
     return false;
+  }
+
+  int nearestMonster(LinkedList<Monster> Monsters) {
+    float smallest = distance(this.x, this.y, Monsters.get(0).x, Monsters.get(0).y);
+    int smallind = 0;
+    int count = 0;
+    for (Monster i : Monsters) { //go through every monster and find the nearest one
+      if (distance(this.x, this.y, i.x, i.y) < smallest) {
+        smallest = distance(this.x, this.y, i.x, i.y);
+        smallind = count;
+      }
+      count++;
+    }
+    if (smallest > 200) { //if the nearest monster is further than 200 pixels, then just go straight instead. 
+      return -1;
+    }
+    return smallind;
   }
 }
