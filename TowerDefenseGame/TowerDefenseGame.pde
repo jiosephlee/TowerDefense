@@ -60,43 +60,48 @@ void fieldSetup() {
   text("y: " + mouseY, 50, 100);
   textSize(20);
 }
+void loadButtons() {
+  ellipse(mouseX, mouseY, 25, 25);
+  for (Button i : Buttons) { //display the buttons
+    i.display();
+  }
+  if (mousePressed && !lastMousePressed) {
+
+    //uses background image to check if the area where the mouse is at is suitable for placing a tower
+    if (loaded && isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
+      if (m.money >= 10) {
+        m.changeMoney(-10); //uses money to place tower
+        loadedTower.setxy(mouseX, mouseY);
+        Towers.add(loadedTower);
+        selectedButton.newTower();
+        loaded = false;
+      }
+    } else {// if they press the button tell map that it's been clicked and load the selected tower
+      for ( Button b : Buttons) {
+        if (get(mouseX, mouseY) == b.Color) {
+          selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
+          loaded = true; 
+          loadedTower = b.load; //take the tower from the button and load it to map
+          break;
+        }
+      }
+    }
+  }
+}
 void updateAll() { //updates and displays game variables
   if (gameMode == 0) {
+
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
     image(pause, 75, height - 75, 75, 75);
     fill(255, 0, 0);
     //display circle at mouse pointer
-    ellipse(mouseX, mouseY, 5, 5);
-    for (Button i : Buttons) { //display the buttons
-      i.display();
-    }
-    if (mousePressed && !lastMousePressed) {
-      if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
-        //pauses game if button is pressed
-        gameMode = 1;
-        s.pause(); // pauses spawner
-      }
-      //uses background image to check if the area where the mouse is at is suitable for placing a tower
-      if (loaded && isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
-        if (m.money >= 10) {
-          m.changeMoney(-10); //uses money to place tower
-          loadedTower.setxy(mouseX, mouseY);
-          Towers.add(loadedTower);
-          selectedButton.newTower();
-          loaded = false;
-        }
-      } else {// if they press the button tell map that it's been clicked and load the selected tower
-        for ( Button b : Buttons) {
-          if (get(mouseX, mouseY) == b.Color) {
-            selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
-            loaded = true; 
-            loadedTower = b.load; //take the tower from the button and load it to map
-            break;
-          }
-        }
-      }
+    loadButtons();
+    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height - 75) < 37.5) {
+      //pauses game if button is pressed
+      gameMode = 1;
+      s.pause(); // pauses spawner
     }
     for (Monster m : Monsters) {
       m.move();
@@ -135,7 +140,9 @@ void updateAll() { //updates and displays game variables
     }
   } else if (gameMode == 3) { //pause due to awaiting level to start
     fieldSetup();
+    loadButtons();
     //when the game is paused
+    imageMode(CENTER);
     text("Press Play Button to Start New Level", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
