@@ -39,6 +39,7 @@ abstract class Projectiles {
       y += vy;
       for (Monster m : Monsters) {
         if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
+          dead = true;
           toDestroyA.add(this);
           break;
         }
