@@ -30,7 +30,7 @@ void setup() {
   s = new Spawner(); //spawner class
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
-  Buttons = new Button[]{new Button(1020, 200, new Tower1(-1, -1), color(103, 207, 45)), new Button(1200, 200, new Tower2(-1, -1), color(173, 107, 245))};
+  Buttons = new Button[]{new Button1(), new Button2());
   loaded =  false;
   //load graphics of game
   range = loadImage("images/range.png"); 
