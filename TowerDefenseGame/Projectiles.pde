@@ -33,6 +33,13 @@ abstract class Projectiles {
     }
     return false;
   }
+  abstract void move();
+}
+
+class StraightBullet extends Projectiles {
+  StraightBullet(float xA, float yA, Monster i, float damage) {
+    super(xA, yA, i, damage);
+  }
   void move() {
     if (!dead) {
       x += vx;
@@ -48,15 +55,6 @@ abstract class Projectiles {
         }
       }
     }
-  }
-}
-
-class StraightBullet extends Projectiles {
-  StraightBullet(float xA, float yA, Monster i, float damage) {
-    super(xA, yA, i, damage);
-  }
-  void move() {
-    super.move();
   }
 }
 
@@ -129,14 +127,14 @@ class followBullet extends Projectiles {
     float smallest = distance(this.x, this.y, Monsters.get(0).x, Monsters.get(0).y);
     int smallind = 0;
     int count = 0;
-    for (Monster i : Monsters) {
+    for (Monster i : Monsters) { //go through every monster and find the nearest one
       if (distance(this.x, this.y, i.x, i.y) < smallest) {
         smallest = distance(this.x, this.y, i.x, i.y);
         smallind = count;
       }
       count++;
     }
-    if (smallest > 200) {
+    if (smallest > 200) { //if the nearest monster is further than 200 pixels, then just go straight instead. 
       return -1;
     }
     return smallind;
