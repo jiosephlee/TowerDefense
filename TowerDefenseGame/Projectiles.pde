@@ -101,7 +101,8 @@ class followBullet extends Projectiles {
       if (i.changeHP(-1 * damage) <=0) {
         //Monsters.remove(monster);
         if (Monsters.size() > 0) {
-          monster = Monsters.get(0);
+          i = this.nearestMonster(Monsters);
+          monster = Monsters.get(i)
         } else {
           gostraight = true;
         }
@@ -117,5 +118,16 @@ class followBullet extends Projectiles {
       return true;
     }
     return false;
+  }
+
+  int nearestMonster(LinkedList<Monster> Monsters){
+    float smallest = 10000000000;
+    int count = 0;
+    for(Monster i: Monsters){
+        distances[count] = distance(this.x,this.y,i.x,i.y);
+        count++;
+    }
+    }
+  }
   }
 }
