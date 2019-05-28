@@ -60,16 +60,16 @@ void fieldSetup() {
   text("y: " + mouseY, 50, 100);
   textSize(20);
 }
-void updateAll() {
+void updateAll() { //updates and displays game variables
   if (gameMode == 0) {
-    fieldSetup();
+    fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
     image(pause, 75, height - 75, 75, 75);
     fill(255, 0, 0);
     //display circle at mouse pointer
-    ellipse(mouseX, mouseY, 25, 25);
-    for (Button i : Buttons) {
+    ellipse(mouseX, mouseY, 5, 5);
+    for (Button i : Buttons) { //display the buttons
       i.display();
     }
     if (mousePressed && !lastMousePressed) {
@@ -87,12 +87,12 @@ void updateAll() {
           selectedButton.newTower();
           loaded = false;
         }
-      } else {// they press the button tell map that it's been clicked and load the selected tower
+      } else {// if they press the button tell map that it's been clicked and load the selected tower
         for ( Button b : Buttons) {
           if (get(mouseX, mouseY) == b.Color) {
-            selectedButton = b;
-            loaded = true;
-            loadedTower = b.load;
+            selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
+            loaded = true; 
+            loadedTower = b.load; //take the tower from the button and load it to map
             break;
           }
         }
