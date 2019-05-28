@@ -1,7 +1,7 @@
 abstract class Projectiles {
   float vx, vy, x, y, damage, speed;
   int penetrationLevel, size;
-  boolean canAttackArmored, doneShooting;
+  boolean canAttackArmored, doneShooting, dead;
 
 
   Projectiles(float xA, float yA, Monster i, float damageA) {
@@ -13,31 +13,38 @@ abstract class Projectiles {
     x = xA;
     y = yA;
     penetrationLevel = 2;
-
+    dead = false;
     damage = damageA;
     //level = 1;
   }
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
-      i.changeHP(-1 * damage);
-      penetrationLevel--;
-      if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
+      if (i.changeHP(-1 * damage) <=0) {
+        penetrationLevel--;
+        if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
+          dead = true;
+          toDestroyA.add(this);
+        }
+      } else { //if bullet wasn't able to the monster completely, kill the bullet
         toDestroyA.add(this);
+        dead = true;
       }
       return true;
     }
     return false;
   }
   void move() {
-    x += vx;
-    y += vy;
-    for (Monster m : Monsters) {
-      if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
-        toDestroyA.add(this);
-        break;
-      }
-      if (this.dealDamage(m)) {
-        break;
+    if (!dead) {
+      x += vx;
+      y += vy;
+      for (Monster m : Monsters) {
+        if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
+          toDestroyA.add(this);
+          break;
+        }
+        if (this.dealDamage(m)) {
+          break;
+        }
       }
     }
   }
@@ -55,7 +62,7 @@ class StraightBullet extends Projectiles {
 class followBullet extends Projectiles {
   float turnedTime;
   Monster monster;
-  boolean resting, gostraight, dead;
+  boolean resting, gostraight;
   followBullet(float xA, float yA, Monster i, float damage) {
     super(xA, yA, i, damage);
     monster = i;
@@ -65,26 +72,19 @@ class followBullet extends Projectiles {
     dead = false;
   }
   void move() {
-    if (true) {
-      if (Monsters.size() > 0) {
-        monster = Monsters.get(0);
-      } else {
-        gostraight = true;
-      }
-    }
-    x += vx;
-    y += vy;
-    for (Monster m : Monsters) {
-      if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
-        toDestroyA.add(this);
-        dead = true;
-        break;
-      }
-      if (this.dealDamage(m)) {
-        break;
-      }
-    }
     if (!dead) {
+      x += vx;
+      y += vy;
+      for (Monster m : Monsters) {
+        if (this.x < 0 || this.x > 1280 || this.y < 0 || this.y > 720) {
+          toDestroyA.add(this);
+          dead = true;
+          break;
+        }
+        if (this.dealDamage(m)) {
+          break;
+        }
+      }
       if (resting && (millis() - turnedTime)/70 >= 1) { //if it's resting and .07 seconds passed since it was redirected, say it's not resting
         resting = false;
       }
@@ -104,7 +104,7 @@ class followBullet extends Projectiles {
           int a = this.nearestMonster(Monsters);
           if ( a > -1) {
             monster = Monsters.get(a);
-          } else{
+          } else {
             this.gostraight=true;
           }
         } else {
