@@ -99,7 +99,7 @@ class followBullet extends Projectiles {
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
-        Monsters.remove(monster);
+        //Monsters.remove(monster);
         if (Monsters.size() > 0) {
           monster = Monsters.get(0);
         } else {

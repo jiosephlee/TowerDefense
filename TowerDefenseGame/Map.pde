@@ -13,6 +13,7 @@ class Map {
     //display background
     imageMode(CORNER);
     image(background, 0, 0);
+    imageMode(CENTER);
   }
   void changeHP(float x){
     //if hp negative, display game over
