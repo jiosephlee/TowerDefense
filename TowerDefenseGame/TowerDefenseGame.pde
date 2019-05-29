@@ -72,26 +72,7 @@ void updateAll() { //updates and displays game variables
     fill(255, 0, 0);
     //display circle at mouse pointer
     loadButtons();
-    for (Monster m : Monsters) {
-      m.move();
-    }
-    for (Projectiles i : Projectiles) {
-      i.move();
-    }
-    for (Monster m : toDestroy) {
-      Monsters.remove(m); //removes monsters from linkedlist after they die
-      m = null;
-    }
-    for (Towers m : Towers) {
-      m.attack(); //ask all towers to attack
-    }
-    for (Projectiles i : toDestroyA) {
-      Projectiles.remove(i); //remove all projectiles awaiting removal
-      i = null;
-    }
-    toDestroy.clear();
-    toDestroyA.clear();
-    //clears destruction queue
+    gameMove();
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
     //when the game is paused
@@ -153,4 +134,27 @@ void mouseClicked() {
       s.newLevel(); // starts new level when the play button is presed
     }
   }
+}
+
+void gameMove(){
+for (Monster m : Monsters) {
+  m.move();
+}
+for (Projectiles i : Projectiles) {
+  i.move();
+}
+for (Monster m : toDestroy) {
+  Monsters.remove(m); //removes monsters from linkedlist after they die
+  m = null;
+}
+for (Towers m : Towers) {
+  m.attack(); //ask all towers to attack
+}
+for (Projectiles i : toDestroyA) {
+  Projectiles.remove(i); //remove all projectiles awaiting removal
+  i = null;
+}
+toDestroy.clear();
+toDestroyA.clear();
+//clears destruction queue
 }
