@@ -1,8 +1,9 @@
 import java.util.*;
 //global variables for running the game
 Map m;
-Menu menu; 
+Menu menu;
 Path p;
+Towers loadedTower;
 LinkedList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
@@ -12,6 +13,9 @@ PImage background, range, mapZones, play, pause;
 Spawner s;
 int gameMode;
 boolean lastMousePressed;
+Button[] Buttons;
+Button selectedButton;
+boolean loaded;
 void setup() {
   //setup screen size and initial Map, Menu, and Path
   size(1280, 720);
@@ -19,12 +23,15 @@ void setup() {
   m = new Map();
   menu = new Menu();
   p = new Path();
+
   Monsters = new LinkedList<Monster>(); //list of Monsters
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
+  Buttons = new Button[]{new Button1(), new Button2()};
+  loaded =  false;
   //load graphics of game
   range = loadImage("images/range.png"); 
   play = loadImage("images/play.png");
@@ -49,64 +56,72 @@ void fieldSetup() {
   p.display();
   fill(0);
   textSize(36);
-  text("x: " + mouseX, 50, 50); 
-  text("y: " + mouseY, 50, 100); 
+  text("x: " + mouseX, 50, 50);
+  text("y: " + mouseY, 50, 100);
   textSize(20);
 }
-void updateAll(){
+void loadButtons() {
+  ellipse(mouseX, mouseY, 25, 25);
+  for (Button i : Buttons) { //display the buttons
+    i.display();
+  }
+  if (mousePressed && !lastMousePressed) {
+
+    //uses background image to check if the area where the mouse is at is suitable for placing a tower
+    if (loaded && isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
+      if (m.money >= loadedTower.price) {
+        m.changeMoney(-1 * loadedTower.price); //uses money to place tower
+        loadedTower.setxy(mouseX, mouseY);
+        Towers.add(loadedTower);
+        selectedButton.newTower();
+        loaded = false;
+      }
+    } else {// if they press the button tell map that it's been clicked and load the selected tower
+      for ( Button b : Buttons) {
+        if (get(mouseX, mouseY) == b.Color) {
+          selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
+          loaded = true; 
+          loadedTower = b.load; //take the tower from the button and load it to map
+          break;
+        }
+      }
+    }
+  }
+}
+void updateAll() { //updates and displays game variables
   if (gameMode == 0) {
-    fieldSetup();
+
+    fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
     image(pause, 75, height - 75, 75, 75);
     fill(255, 0, 0);
     //display circle at mouse pointer
-    ellipse(mouseX, mouseY, 25, 25);
-    if (mousePressed && !lastMousePressed) {
-      if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
-        //pauses game if button is pressed
-        gameMode = 1;
-        s.pause(); // pauses spawner
-      }
-      //uses background image to check if the area where the mouse is at is suitable for placing a tower
-      if (isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) {
-        if (m.money >= 10 && menu.selectedTower() == 1) {
-          m.changeMoney(-10); //uses money to place tower
-          Towers.add(new Tower1(mouseX, mouseY));
-        }
-      }
+    loadButtons();
+    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height - 75) < 37.5) {
+      //pauses game if button is pressed
+      gameMode = 1;
+      s.pause(); // pauses spawner
     }
     for (Monster m : Monsters) {
-      m.move(); //ask all monsters to move
+      m.move();
     }
     for (Projectiles i : Projectiles) {
-      i.move(); //ask all projectiles to move
-      for (Monster m : Monsters) {
-        //adds projectiles that leave the screen to destruction queue
-        if (i.x < 0 || i.x > 1280 || i.y < 0 || i.y > 720) {
-          toDestroyA.add(i);
-          break;
-        }
-        if (i.dealDamage(m)) {
-          break;
-        }
-      }
+      i.move();
     }
     for (Monster m : toDestroy) {
-      Monsters.remove(m);
-      //removes monsters from linkedlist after they die
+      Monsters.remove(m); //removes monsters from linkedlist after they die
+      m = null;
     }
     for (Towers m : Towers) {
-      //ask all towers to attack
-      m.attack();
-      
+      m.attack(); //ask all towers to attack
     }
     for (Projectiles i : toDestroyA) {
-      //remove all projectiles awaiting removal
-      Projectiles.remove(i);
-      
-    } 
+      Projectiles.remove(i); //remove all projectiles awaiting removal
+      i = null;
+    }
     toDestroy.clear();
+    toDestroyA.clear();
     //clears destruction queue
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
@@ -125,7 +140,9 @@ void updateAll(){
     }
   } else if (gameMode == 3) { //pause due to awaiting level to start
     fieldSetup();
+    loadButtons();
     //when the game is paused
+    imageMode(CENTER);
     text("Press Play Button to Start New Level", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
@@ -136,7 +153,7 @@ void updateAll(){
     //changes the gamemode and tells all the monsters to reset their time
     for (Monster m : Monsters) {
       m.lastTime = System.currentTimeMillis();
-       //ask all monsters to reset time
+      //ask all monsters to reset time
     }
   } else if (gameMode == 2) { //main menu mode
     fill(255, 178, 102);
