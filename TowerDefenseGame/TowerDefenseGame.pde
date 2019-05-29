@@ -33,7 +33,7 @@ void setup() {
   Buttons = new Button[]{new Button1(), new Button2()};
   loaded =  false;
   //load graphics of game
-  range = loadImage("images/range.png"); 
+  range = loadImage("images/range.png");
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
   //set gameMode to be in main menu (2);
@@ -72,11 +72,11 @@ void updateAll() { //updates and displays game variables
     fill(255, 0, 0);
     //display circle at mouse pointer
     loadButtons();
-    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height - 75) < 37.5) {
+    /*if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height - 75) < 37.5) {
       //pauses game if button is pressed
       gameMode = 1;
       s.pause(); // pauses spawner
-    }
+    }*/
     for (Monster m : Monsters) {
       m.move();
     }
@@ -103,15 +103,15 @@ void updateAll() { //updates and displays game variables
     text("Press Play Button to Resume", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
-    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
+    /*if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
       gameMode = 0;
       s.go(); //resumes spawner
       //changes the gamemode and tells all the monsters to reset their time
       for (Monster m : Monsters) {
-        m.lastTime = System.currentTimeMillis(); 
+        m.lastTime = System.currentTimeMillis();
         //ask all monsters to reset time
       }
-    }
+    } */
   } else if (gameMode == 3) { //pause due to awaiting level to start
     fieldSetup();
     loadButtons();
@@ -120,10 +120,10 @@ void updateAll() { //updates and displays game variables
     text("Press Play Button to Start New Level", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
-    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
+    /*if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
       gameMode = 0;
       s.resetTime(); //resets the time of level
-    }
+    }*/
     //changes the gamemode and tells all the monsters to reset their time
     for (Monster m : Monsters) {
       m.lastTime = System.currentTimeMillis();
@@ -138,11 +138,43 @@ void updateAll() { //updates and displays game variables
     fill(0);
     textSize(72);
     text("PLAY", width/2.0, height/2.0 + 175);
-    if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
+    /*if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) {
+      //if play button is presed change to gameMode 0
+      gameMode = 0;
+      s.newLevel(); // starts new level when the play button is presed
+    }*/
+  }
+  lastMousePressed = mousePressed; //debounce
+}
+
+void mouseClicked(){
+    if(gamemode == 0){
+        if(distance(mouseX, mouseY, 75, height - 75) < 37.5) {
+        //pauses game if button is pressed
+        gameMode = 1;
+        s.pause(); // pauses spawner
+        }
+    } else if (gamemode == 1){
+        if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
+      gameMode = 0;
+      s.go(); //resumes spawner
+      //changes the gamemode and tells all the monsters to reset their time
+      for (Monster m : Monsters) {
+        m.lastTime = System.currentTimeMillis();
+        //ask all monsters to reset time
+      }
+    }
+    } else if (gamemode == 3){
+        if(distance(mouseX, mouseY, 75, height -75) < 37.5) {
+      gameMode = 0;
+      s.resetTime(); //resets the time of level
+    }
+    } else if (gamemode == 2){
+        if(centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) {
       //if play button is presed change to gameMode 0
       gameMode = 0;
       s.newLevel(); // starts new level when the play button is presed
     }
+    }
   }
-  lastMousePressed = mousePressed; //debounce
 }
