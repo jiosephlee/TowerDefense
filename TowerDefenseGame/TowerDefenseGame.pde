@@ -72,11 +72,6 @@ void updateAll() { //updates and displays game variables
     fill(255, 0, 0);
     //display circle at mouse pointer
     loadButtons();
-    /*if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height - 75) < 37.5) {
-     //pauses game if button is pressed
-     gameMode = 1;
-     s.pause(); // pauses spawner
-     }*/
     for (Monster m : Monsters) {
       m.move();
     }
