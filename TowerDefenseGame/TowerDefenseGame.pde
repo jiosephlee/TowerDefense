@@ -37,7 +37,7 @@ void setup() {
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
   //set gameMode to be in main menu (2);
-  gameMode = 2;
+  gameMode = 99;
   //use lastMousePressed to debounce the mouse button
   lastMousePressed = false;
 }
@@ -129,20 +129,8 @@ void updateAll() { //updates and displays game variables
       m.lastTime = System.currentTimeMillis();
       //ask all monsters to reset time
     }
-  } else if (gameMode == 2) { //main menu mode
-    fill(255, 178, 102);
-    rectMode(CENTER);
-    rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
-    textAlign(CENTER);
-
-    fill(0);
-    textSize(72);
-    text("PLAY", width/2.0, height/2.0 + 175);
-    if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
-      //if play button is presed change to gameMode 0
-      gameMode = 0;
-      s.newLevel(); // starts new level when the play button is presed
-    }
+  } else if (gameMode == 99) { //main menu mode
+    loadMainMenu();
   }
   lastMousePressed = mousePressed; //debounce
 }

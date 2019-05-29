@@ -138,3 +138,15 @@ class RedSlime extends Slime{
     }
   }
 }
+class Mushroom extends Slime{
+  //a fast and weak monster
+  Mushroom(Path p){
+    //better stats, spawns chldren when it dies
+    super(p);
+    size = 10;
+    speed = 2.25;
+    hp = 5;
+    damage = 5;
+    imageFile = loadImage("images/Mushroom.png");
+  }
+}

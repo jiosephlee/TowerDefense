@@ -109,3 +109,19 @@ class Button2 extends Button{
     load = new Tower2(-1,-1);
   }
 }
+
+void loadMainMenu(){
+  fill(255, 178, 102);
+    rectMode(CENTER);
+    rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
+    textAlign(CENTER);
+
+    fill(0);
+    textSize(72);
+    text("PLAY", width/2.0, height/2.0 + 175);
+    if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
+      //if play button is presed change to gameMode 0
+      gameMode = 0;
+      s.newLevel(); // starts new level when the play button is presed
+    }
+}
