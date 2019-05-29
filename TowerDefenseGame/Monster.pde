@@ -20,7 +20,7 @@ abstract class Monster {
   abstract double changeHP(double changeHP);
   abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
-  abstract float[] calculateNewPosition(float deltaTime);
+  abstract float[] calculateNewPosition(long deltaTime);
 }
 class Slime extends Monster {
   Slime(Path p) {
@@ -30,7 +30,7 @@ class Slime extends Monster {
     this.p = p;
     size = 10;
     speed = 1;
-    hp = 5;
+    hp = 10;
     childrenNumber = 0;
     armored = false;
     x = 0;
@@ -81,7 +81,7 @@ class Slime extends Monster {
     x = newPost[0];
     y = newPost[1];
   }
-  float[] calculateNewPosition(float deltaTime) {
+  float[] calculateNewPosition(long deltaTime) {
     //takes that that has elapsed to calculte a new positoin for the slime
     float[] ret = new float[2];
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
@@ -133,7 +133,7 @@ class RedSlime extends Slime{
     toDestroy.add(this);
     m.changeMoney(2);
     for(int i = 0; i < childrenNumber; i++){
-      float[] newPos = calculateNewPosition(i);
+      float[] newPos = calculateNewPosition(i * 1000);
       Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
     }
   }
@@ -143,7 +143,7 @@ class Mushroom extends Slime{
   Mushroom(Path p){
     //better stats, spawns chldren when it dies
     super(p);
-    size = 10;
+    size = 8;
     speed = 2.25;
     hp = 5;
     damage = 5;

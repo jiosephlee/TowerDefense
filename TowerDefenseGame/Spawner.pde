@@ -42,6 +42,9 @@ class Spawner {
       if (level > 3 && Math.random() < 0.25) {
         Monsters.add(new RedSlime(p));
         spawned += 3;
+      } else if (level > 1 && Math.random() < 0.25) {
+        Monsters.add(new Mushroom(p));
+        spawned++;
       } else {
         //otherwise just spawn a normal slime
         Monsters.add(new Slime(p));
