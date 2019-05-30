@@ -33,5 +33,9 @@ The Best Processing Tower Defense Game of all time. jk but it's pretty good
 - Should have committed more often for the buttons in the beginning.. but created button objects that store towers and when clicked, they load their respective tower into the game and onto the mouse and places when the mouse presses onto the map (Jo)
 - Wrote followBullet projectile which locks onto a monster and follows it. Figuring out what to do when the monster it locked onto died, and when it died unexpectedly (for ex, another tower kills it first) in a clean and efficient way took some time but I got it eventually (Jo)
 
+5/28
+- followBullet now goes after the nearest bullet, and put a limit to it's following (Jo)
+- Cleaned, reorganized Projectiles class/mechanics and updated money feature so it depends on the tower (Jo)
+
 5/29
 - Cleaned, reorganized methods in the main game file (Jo)
