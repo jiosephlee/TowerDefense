@@ -119,6 +119,7 @@ class Slime extends Monster {
   }
 }
 class RedSlime extends Slime{
+  float maxHp;
   //a stronger slime
   RedSlime(Path p){
     //better stats, spawns chldren when it dies
@@ -128,7 +129,7 @@ class RedSlime extends Slime{
     hp = 15;
     childrenNumber = 2;
     damage = 5;
-    maxHP = hp;
+    maxHp = hp;
   }
   void dealDamage(){
     //deals damage to the map
