@@ -111,7 +111,21 @@ class Button2 extends Button{
 }
 
 class upgradeButton{
-  
+  Towers me;
+  boolean display;
+  upgradeButton(Towers hi){
+    me = hi;
+  }
+  void checkClicked(){
+    if(distance(mouseX,mouseY,me.x-10,me.y-10) <= Math.pow(25,2)){
+      
+    }
+  }
+  void display(){
+    fill(0, 0, 255);
+    ellipse(me.x - 10, me.y + 10, 25.0, 25.0);
+    ellipse(me.x + 10, me.y + 10, 25.0, 25.0);
+  }
 }
 
 void loadMainMenu(){
