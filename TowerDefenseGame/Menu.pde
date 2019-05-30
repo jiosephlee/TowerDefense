@@ -38,7 +38,7 @@ class Menu {
     //ask projectiles to display
     for (Projectiles i : Projectiles) {
       fill(15, 15, 255);
-      ellipse(i.x, i.y, 15.0, 15.0);
+      ellipse(i.x, i.y, i.size, i.size);
     }
   }
 }
@@ -108,6 +108,10 @@ class Button2 extends Button{
   void newTower(){
     load = new Tower2(-1,-1);
   }
+}
+
+class upgradeButton{
+  
 }
 
 void loadMainMenu(){
