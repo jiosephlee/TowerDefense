@@ -33,7 +33,7 @@ class Menu {
     //ask towers to display
     for (Towers i : Towers) {
       fill(0, 0, 255);
-      ellipse(i.x, i.y, 25.0, 25.0);
+      ellipse(i.x, i.y, i.size, i.size);
     }
     //ask projectiles to display
     for (Projectiles i : Projectiles) {
@@ -113,18 +113,32 @@ class Button2 extends Button{
 class upgradeButton{
   Towers me;
   boolean display;
+  int size;
   upgradeButton(Towers hi){
     me = hi;
+    size = 20;
+    display = false;
   }
-  void checkClicked(){
-    if(distance(mouseX,mouseY,me.x-10,me.y-10) <= Math.pow(25,2)){
+  void checkInitiated(){
+    if(distance(mouseX,mouseY,me.x,me.y) <= Math.pow(me.size,2)){
       
     }
   }
+  void checkClicked(){
+    if(distance(mouseX,mouseY,me.x-50,me.y-30) <= Math.pow(size,2)){
+      me.upgradeFirst();
+      display = false;
+    } else if(distance(mouseX,mouseY,me.x+50,me.y-30) <= Math.pow(size,2)){
+      me.upgradeSecond();
+      display = false;
+    }
+  }
   void display(){
-    fill(0, 0, 255);
-    ellipse(me.x - 10, me.y + 10, 25.0, 25.0);
-    ellipse(me.x + 10, me.y + 10, 25.0, 25.0);
+    if (display){
+    fill(115, 87, 103);
+    ellipse(me.x+50,me.y-30, 25.0, 25.0);
+    ellipse(me.x-50,me.y-30, 25.0, 25.0);
+    }
   }
 }
 
