@@ -36,6 +36,12 @@ The Best Processing Tower Defense Game of all time. jk but it's pretty good
 5/28
 - followBullet now goes after the nearest bullet, and put a limit to it's following (Jo)
 - Cleaned, reorganized Projectiles class/mechanics and updated money feature so it depends on the tower (Jo)
+- Fixed bug with play button and changed to use mouseClicked method (Qiong)
 
 5/29
 - Cleaned, reorganized methods in the main game file (Jo)
+- Wrote a mushroom class which is a weaker but faster version of the slime (Qiong)
+- Made it so that when a redSlime dies, the slimes that it spawns don't spawn on top of each other, but are still on the path (Qiong)
+
+5/30
+- Used Collections.sort to sort the Monsters based on how far they are along the path. 
