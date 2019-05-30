@@ -11,7 +11,7 @@ abstract class Monster {
   Path p; //path it is following
   float y; //y coord
   int pathNode; //what node of the path it has reached
-  boolean justReachedNode; //has it just reached the node in the last frame
+  boolean justReachedNode, bad; //has it just reached the node in the last frame
   long lastTime; //monster's time at last frame
   float nextNodeX, nextNodeY; //node of path that monster is trying to reach
   float distanceTraveled;
@@ -23,6 +23,9 @@ abstract class Monster {
   abstract void die();
   abstract float[] calculateNewPosition(long deltaTime);
   abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
+  void setBad(){
+    bad = true;
+  }
 }
 class Slime extends Monster {
   Slime(Path p) {
@@ -37,6 +40,7 @@ class Slime extends Monster {
     armored = false;
     x = 0;
     y = 0;
+    bad = false;
     imageFile = loadImage("images/Slimes.png"); //load image
     pathNode =0;
     spawn();

@@ -87,7 +87,20 @@ class followBullet extends Projectiles {
       if (resting && (millis() - turnedTime)/70 >= 1) { //if it's resting and .07 seconds passed since it was redirected, say it's not resting
         resting = false;
       }
-      if (!resting && !gostraight) { //if it's not resting, redirect the bullet towards the monster and then set the time it was turned
+      if (!resting && !gostraight && !dead) { //if it's not resting, redirect the bullet towards the monster and then set the time it was turned
+        if (monster.bad) {
+          if (Monsters.size() > 0) { //if their are monsters on the map, get a new monster
+            int a = this.nearestMonster(Monsters);
+            if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
+              monster = Monsters.get(a);
+              print(a);
+            } else { //a is negative when the nearest monster is really far. in that case its too far so lets continue going straight instead
+              gostraight=true;
+            }
+          } else { //if there's no monsters on the map, just go straight
+            gostraight = true;
+          }
+        }
         vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
         vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
         turnedTime = millis();
@@ -98,13 +111,15 @@ class followBullet extends Projectiles {
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //if monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) { // if monster died
-        Monsters.remove(monster); //remove dead monster so it doesnt target it again
+        monster.setBad();
+        Monsters.remove(monster);// remove dead monster so you dont target it again
         if (Monsters.size() > 0) { //if their are monsters on the map, get a new monster
           int a = this.nearestMonster(Monsters);
           if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
             monster = Monsters.get(a);
+            print(a);
           } else { //a is negative when the nearest monster is really far. in that case its too far so lets continue going straight instead
-            this.gostraight=true;
+            gostraight=true;
           }
         } else { //if there's no monsters on the map, just go straight
           gostraight = true;

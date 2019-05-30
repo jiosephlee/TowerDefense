@@ -33,7 +33,7 @@ void setup() {
   Buttons = new Button[]{new Button1(), new Button2()};
   loaded =  false;
   //load graphics of game
-  range = loadImage("images/range.png"); 
+  range = loadImage("images/range.png");
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
   //set gameMode to be in main menu (2);
@@ -81,46 +81,13 @@ void updateAll() { //updates and displays game variables
     fill(255, 0, 0);
     //display circle at mouse pointer
     loadButtons();
-    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height - 75) < 37.5) {
-      //pauses game if button is pressed
-      gameMode = 1;
-      s.pause(); // pauses spawner
-    }
-    for (Monster m : Monsters) {
-      m.move();
-    }
-    for (Projectiles i : Projectiles) {
-      i.move();
-    }
-    for (Monster m : toDestroy) {
-      Monsters.remove(m); //removes monsters from linkedlist after they die
-      m = null;
-    }
-    for (Towers m : Towers) {
-      m.attack(); //ask all towers to attack
-    }
-    for (Projectiles i : toDestroyA) {
-      Projectiles.remove(i); //remove all projectiles awaiting removal
-      i = null;
-    }
-    toDestroy.clear();
-    toDestroyA.clear();
-    //clears destruction queue
+    gameMove();
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
     //when the game is paused
     text("Press Play Button to Resume", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
-    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
-      gameMode = 0;
-      s.go(); //resumes spawner
-      //changes the gamemode and tells all the monsters to reset their time
-      for (Monster m : Monsters) {
-        m.lastTime = System.currentTimeMillis(); 
-        //ask all monsters to reset time
-      }
-    }
   } else if (gameMode == 3) { //pause due to awaiting level to start
     fieldSetup();
     loadButtons();
@@ -129,10 +96,6 @@ void updateAll() { //updates and displays game variables
     text("Press Play Button to Start New Level", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
-    if (mousePressed && !lastMousePressed && distance(mouseX, mouseY, 75, height -75) < 37.5) {
-      gameMode = 0;
-      s.resetTime(); //resets the time of level
-    }
     //changes the gamemode and tells all the monsters to reset their time
     for (Monster m : Monsters) {
       m.lastTime = System.currentTimeMillis();
@@ -140,6 +103,28 @@ void updateAll() { //updates and displays game variables
     }
   } else if (gameMode == 99) { //main menu mode
     loadMainMenu();
+
   }
-  lastMousePressed = mousePressed; //debounce
+}
+
+void gameMove(){
+for (Monster m : Monsters) {
+  m.move();
+}
+for (Projectiles i : Projectiles) {
+  i.move();
+}
+for (Monster m : toDestroy) {
+  Monsters.remove(m); //removes monsters from linkedlist after they die
+}
+for (Towers m : Towers) {
+  m.attack(); //ask all towers to attack
+}
+for (Projectiles i : toDestroyA) {
+  Projectiles.remove(i); //remove all projectiles awaiting removal
+  i = null;
+}
+toDestroy.clear();
+toDestroyA.clear();
+//clears destruction queue
 }
