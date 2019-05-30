@@ -121,26 +121,28 @@ class upgradeButton {
   int size;
   upgradeButton(Towers hi) {
     me = hi;
-    size = 20;
+    size = me.size/3 * 2;
   }
   void checkInitiated() {
-    if (distance(mouseX, mouseY, me.x, me.y) <= Math.pow(me.size, 2)) {
+    if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
       upgrading = true;
     }
   }
   void checkClicked() {
-    if (distance(mouseX, mouseY, me.x-50, me.y-30) <= Math.pow(size, 2)) {
+    if (distance(mouseX, mouseY, me.x-50, me.y-30) <= size) {
       me.upgradeFirst();
       upgrading = false;
-    } else if (distance(mouseX, mouseY, me.x+50, me.y-30) <= Math.pow(size, 2)) {
+    } else if (distance(mouseX, mouseY, me.x+50, me.y-30) <= size) {
       me.upgradeSecond();
+      upgrading = false;
+    } else if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
       upgrading = false;
     }
   }
   void display() {
     fill(115, 87, 103);
-    ellipse(me.x+50, me.y-30, 25.0, 25.0);
-    ellipse(me.x-50, me.y-30, 25.0, 25.0);
+    ellipse(me.x+50, me.y-30, size, size);
+    ellipse(me.x-50, me.y-30, size, size);
   }
 }
 

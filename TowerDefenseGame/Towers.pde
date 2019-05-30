@@ -44,7 +44,7 @@ class Tower1 extends Towers {
     }
     if (!resting) {
       for (Monster i : Monsters) {
-        if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(range, 2)) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
+        if (distance(i.x,i.y,x,y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
           Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange));
           resting = true;
           shotTime = millis();
@@ -105,7 +105,7 @@ class Tower2 extends Towers {
     }
     if (!resting) {
       for (Monster i : Monsters) {
-        if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(range, 2)) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
+        if (distance(i.x,i.y,x,y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
           Projectiles.add(new followBullet(x, y, i, damage, size, penetrationLvl, speedChange));
           resting = true;
           shotTime = millis();
@@ -128,20 +128,19 @@ class Tower2 extends Towers {
       firstPathLevel++;
     }
   }
-}
 
-void upgradeSecond() {
-  if (secondPathLevel < 3) {
-    if (m.changeMoney(-(1 + secondPathLevel) * 5)) {
-      if (secondPathLevel == 0) {
-        fireRate = fireRate/2;
-        speedChange++;
-      } else if (secondPathLevel == 1) {
-        speedChange++;
-        bulletBeat = 2;
+  void upgradeSecond() {
+    if (secondPathLevel < 3) {
+      if (m.changeMoney(-(1 + secondPathLevel) * 5)) {
+        if (secondPathLevel == 0) {
+          fireRate = fireRate/2;
+          speedChange++;
+        } else if (secondPathLevel == 1) {
+          speedChange++;
+          bulletBeat = 2;
+        }
+        secondPathLevel++;
       }
-      secondPathLevel++;
     }
   }
-}
 }
