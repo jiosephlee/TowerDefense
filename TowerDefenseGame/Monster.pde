@@ -22,6 +22,7 @@ abstract class Monster {
   abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
   abstract float[] calculateNewPosition(long deltaTime);
+  abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
 }
 class Slime extends Monster {
   Slime(Path p) {
@@ -56,6 +57,9 @@ class Slime extends Monster {
     x = p.getCoordinates().get(0)[0];
     y = p.getCoordinates().get(0)[1];
   }
+  float distanceTraveled(){
+    return distanceTraveled;
+  }
   void move() {
     //display();
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
@@ -81,6 +85,7 @@ class Slime extends Monster {
     //uses change in time to calculate new position and moves slime there
     x = newPost[0];
     y = newPost[1];
+    distanceTraveled += (speed * deltaTime);
   }
   float[] calculateNewPosition(long deltaTime) {
     //takes that that has elapsed to calculte a new positoin for the slime

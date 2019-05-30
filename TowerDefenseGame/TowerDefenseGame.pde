@@ -4,7 +4,7 @@ Map m;
 Menu menu;
 Path p;
 Towers loadedTower;
-LinkedList<Monster> Monsters;
+ArrayList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
@@ -24,7 +24,7 @@ void setup() {
   menu = new Menu();
   p = new Path();
 
-  Monsters = new LinkedList<Monster>(); //list of Monsters
+  Monsters = new ArrayList<Monster>(); //list of Monsters
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
@@ -60,11 +60,20 @@ void fieldSetup() {
   text("y: " + mouseY, 50, 100);
   textSize(20);
 }
+class compareMonsters implements Comparator<Monster> {
+  public int compare(Monster m1, Monster m2) {
+    if(m1.distanceTraveled() > m2.distanceTraveled()){
+      return -1;
+    }
+    return 1;
+  }
+}
 
 void updateAll() { //updates and displays game variables
   textSize(36);
   if (gameMode == 0) {
 
+    Collections.sort(Monsters, new compareMonsters());
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
