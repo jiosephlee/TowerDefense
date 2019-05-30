@@ -14,6 +14,7 @@ abstract class Monster {
   boolean justReachedNode; //has it just reached the node in the last frame
   long lastTime; //monster's time at last frame
   float nextNodeX, nextNodeY; //node of path that monster is trying to reach
+  float distanceTraveled;
   abstract void spawn(); 
   abstract void move();
   abstract void display();
@@ -133,7 +134,7 @@ class RedSlime extends Slime{
     toDestroy.add(this);
     m.changeMoney(2);
     for(int i = 0; i < childrenNumber; i++){
-      float[] newPos = calculateNewPosition(i * 1000);
+      float[] newPos = calculateNewPosition(-50+ i * 100);
       Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
     }
   }
