@@ -156,3 +156,17 @@ class Mushroom extends Slime{
     imageFile = loadImage("images/Mushroom.png");
   }
 }
+class Tank extends RedSlime{
+  Tank(Path p){
+    super(p);
+    size = 20;
+    speed = 0.5;
+    hp = 40;
+    childrenNumber = 6;
+    damage = 10;
+    imageFile = loadImage("images/Tank.png");
+  }
+  void display() { //displays slime
+    image(imageFile, x, y, 4 * size, 5 * size);
+  }
+}

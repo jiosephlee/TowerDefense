@@ -14,7 +14,7 @@ class Spawner {
     Projectiles.clear();
     //uses equations to calculate its spawnRate and maximum number of monsters
     spawnRate = 1.25 + (1.0/3) * pow(level, 1.0/3);
-    maxMonsters = 2* pow(level, 0.75) + 4;
+    maxMonsters = pow(2 * level, 1.25) + 4;
     spawned = 0;
     level++;
     //recorsd when the level has started
@@ -39,6 +39,10 @@ class Spawner {
     timeSinceLevel = (System.currentTimeMillis() - levelTime)/1000.0;
     if (timeSinceLevel * spawnRate > spawned && spawned <= maxMonsters) {
       //25% chance of spawning a red slime after level 3
+      if(level > 4 && Math.random() < 0.125){
+        Monsters.add(new Tank(p));
+        spawned += 6;
+      }
       if (level > 3 && Math.random() < 0.25) {
         Monsters.add(new RedSlime(p));
         spawned += 3;
