@@ -14,13 +14,15 @@ abstract class Monster {
   boolean justReachedNode, bad; //has it just reached the node in the last frame
   long lastTime; //monster's time at last frame
   float nextNodeX, nextNodeY; //node of path that monster is trying to reach
+  float distanceTraveled;
   abstract void spawn(); 
   abstract void move();
   abstract void display();
   abstract double changeHP(double changeHP);
   abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
-  abstract float[] calculateNewPosition(float deltaTime);
+  abstract float[] calculateNewPosition(long deltaTime);
+  abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
   void setBad(){
     bad = true;
   }
@@ -33,7 +35,7 @@ class Slime extends Monster {
     this.p = p;
     size = 10;
     speed = 1;
-    hp = 5;
+    hp = 10;
     childrenNumber = 0;
     armored = false;
     x = 0;
@@ -58,6 +60,9 @@ class Slime extends Monster {
   void spawn() { //spawns slime at the start of the path
     x = p.getCoordinates().get(0)[0];
     y = p.getCoordinates().get(0)[1];
+  }
+  float distanceTraveled(){
+    return distanceTraveled;
   }
   void move() {
     //display();
@@ -84,8 +89,9 @@ class Slime extends Monster {
     //uses change in time to calculate new position and moves slime there
     x = newPost[0];
     y = newPost[1];
+    distanceTraveled += (speed * deltaTime);
   }
-  float[] calculateNewPosition(float deltaTime) {
+  float[] calculateNewPosition(long deltaTime) {
     //takes that that has elapsed to calculte a new positoin for the slime
     float[] ret = new float[2];
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
@@ -137,8 +143,34 @@ class RedSlime extends Slime{
     toDestroy.add(this);
     m.changeMoney(2);
     for(int i = 0; i < childrenNumber; i++){
-      float[] newPos = calculateNewPosition(i);
+      float[] newPos = calculateNewPosition(-50+ i * 100);
       Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
     }
+  }
+}
+class Mushroom extends Slime{
+  //a fast and weak monster
+  Mushroom(Path p){
+    //better stats, spawns chldren when it dies
+    super(p);
+    size = 8;
+    speed = 2.25;
+    hp = 5;
+    damage = 5;
+    imageFile = loadImage("images/Mushroom.png");
+  }
+}
+class Tank extends RedSlime{
+  Tank(Path p){
+    super(p);
+    size = 20;
+    speed = 0.5;
+    hp = 40;
+    childrenNumber = 6;
+    damage = 10;
+    imageFile = loadImage("images/Tank.png");
+  }
+  void display() { //displays slime
+    image(imageFile, x, y, 4 * size, 5 * size);
   }
 }

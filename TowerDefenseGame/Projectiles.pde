@@ -138,7 +138,7 @@ class followBullet extends Projectiles {
     return false;
   }
 
-  int nearestMonster(LinkedList<Monster> Monsters) {
+  int nearestMonster(List<Monster> Monsters) {
     float smallest = distance(this.x, this.y, Monsters.get(0).x, Monsters.get(0).y);
     int smallind = 0;
     int count = 0;
