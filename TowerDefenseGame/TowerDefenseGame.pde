@@ -4,7 +4,7 @@ Map m;
 Menu menu;
 Path p;
 Towers loadedTower;
-ArrayList<Monster> Monsters;
+LinkedList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
@@ -24,7 +24,7 @@ void setup() {
   menu = new Menu();
   p = new Path();
 
-  Monsters = new ArrayList<Monster>(); //list of Monsters
+  Monsters = new LinkedList<Monster>(); //list of Monsters
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
@@ -37,7 +37,7 @@ void setup() {
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
   //set gameMode to be in main menu (2);
-  gameMode = 99;
+  gameMode = 2;
   //use lastMousePressed to debounce the mouse button
   lastMousePressed = false;
 }
@@ -60,20 +60,11 @@ void fieldSetup() {
   text("y: " + mouseY, 50, 100);
   textSize(20);
 }
-class compareMonsters implements Comparator<Monster> {
-  public int compare(Monster m1, Monster m2) {
-    if(m1.distanceTraveled() > m2.distanceTraveled()){
-      return -1;
-    }
-    return 1;
-  }
-}
 
 void updateAll() { //updates and displays game variables
   textSize(36);
   if (gameMode == 0) {
 
-    Collections.sort(Monsters, new compareMonsters());
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
@@ -101,9 +92,47 @@ void updateAll() { //updates and displays game variables
       m.lastTime = System.currentTimeMillis();
       //ask all monsters to reset time
     }
-  } else if (gameMode == 99) { //main menu mode
-    loadMainMenu();
+  } else if (gameMode == 2) { //main menu mode
+    fill(255, 178, 102);
+    rectMode(CENTER);
+    rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
+    textAlign(CENTER);
 
+    fill(0);
+    textSize(72);
+    text("PLAY", width/2.0, height/2.0 + 175);
+  }
+  lastMousePressed = mousePressed; //debounce
+}
+
+void mouseClicked() {
+  if (gameMode == 0) {
+    if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
+      //pauses game if button is pressed
+      gameMode = 1;
+      s.pause(); // pauses spawner
+    }
+  } else if (gameMode == 1) {
+    if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
+      gameMode = 0;
+      s.go(); //resumes spawner
+      //changes the gamemode and tells all the monsters to reset their time
+      for (Monster m : Monsters) {
+        m.lastTime = System.currentTimeMillis();
+        //ask all monsters to reset time
+      }
+    }
+  } else if (gameMode == 3) {
+    if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
+      gameMode = 0;
+      s.resetTime(); //resets the time of level
+    }
+  } else if (gameMode == 2) {
+    if (centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) {
+      //if play button is presed change to gameMode 0
+      gameMode = 0;
+      s.newLevel(); // starts new level when the play button is presed
+    }
   }
 }
 
