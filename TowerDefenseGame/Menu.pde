@@ -121,7 +121,7 @@ class upgradeButton{
   }
   void checkInitiated(){
     if(distance(mouseX,mouseY,me.x,me.y) <= Math.pow(me.size,2)){
-      
+      display = true;
     }
   }
   void checkClicked(){
