@@ -128,6 +128,7 @@ class RedSlime extends Slime{
     hp = 15;
     childrenNumber = 2;
     damage = 5;
+    maxHP = hp;
   }
   void dealDamage(){
     //deals damage to the map
@@ -142,6 +143,9 @@ class RedSlime extends Slime{
       float[] newPos = calculateNewPosition(-50+ i * 100);
       Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
     }
+  }
+  void displayHealth(){
+    
   }
 }
 class Mushroom extends Slime{
