@@ -44,4 +44,5 @@ The Best Processing Tower Defense Game of all time. jk but it's pretty good
 - Made it so that when a redSlime dies, the slimes that it spawns don't spawn on top of each other, but are still on the path (Qiong)
 
 5/30
-- Used Collections.sort to sort the Monsters based on how far they are along the path. 
+- Used Collections.sort to sort the Monsters based on how far they are along the path. (Qiong)
+- Wrote Tank Monster Class (Qiong)
