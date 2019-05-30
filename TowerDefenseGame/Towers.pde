@@ -14,6 +14,7 @@ abstract class Towers {
     firstPathLevel = 0;
     secondPathLevel = 0;
     penetrationLvl = 1;
+    speedChange = 0;
   }
 
   abstract void attack();
@@ -44,7 +45,7 @@ int bulletSpread;
     if (!resting) {
       for (Monster i : Monsters) {
         if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(range, 2)) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
-          Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl));
+          Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange));
           resting = true;
           shotTime = millis();
           return;
@@ -60,7 +61,7 @@ int bulletSpread;
     } else if(firstPathLevel == 1){
       damage+=10;
     } else{
-      speed
+      speedChange--;
       penetrationLvl++;
       damage+=5;
     }
@@ -69,6 +70,9 @@ int bulletSpread;
   void upgradeSecond() {
     if (secondPathLevel == 0) {
       fireRate = fireRate/2;
+    } else if (secondPathLevel ==1){
+      speedChange++;
+      damage+=5;
     } else {
       bulletSpread = 3;
     }
@@ -90,7 +94,7 @@ int bulletBeat;
     if (!resting) {
       for (Monster i : Monsters) {
         if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(range, 2)) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
-          Projectiles.add(new followBullet(x, y, i, damage, size, penetrationLvl));
+          Projectiles.add(new followBullet(x, y, i, damage, size, penetrationLvl, speedChange));
           resting = true;
           shotTime = millis();
           return;
