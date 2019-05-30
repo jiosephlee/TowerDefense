@@ -33,12 +33,12 @@ class Menu {
     //ask towers to display
     for (Towers i : Towers) {
       fill(0, 0, 255);
-      ellipse(i.x, i.y, 25.0, 25.0);
+      ellipse(i.x, i.y, i.size, i.size);
     }
     //ask projectiles to display
     for (Projectiles i : Projectiles) {
       fill(15, 15, 255);
-      ellipse(i.x, i.y, 15.0, 15.0);
+      ellipse(i.x, i.y, i.size, i.size);
     }
   }
 }
@@ -109,3 +109,52 @@ class Button2 extends Button{
     load = new Tower2(-1,-1);
   }
 }
+
+class upgradeButton{
+  Towers me;
+  boolean display;
+  int size;
+  upgradeButton(Towers hi){
+    me = hi;
+    size = 20;
+    display = false;
+  }
+  void checkInitiated(){
+    if(distance(mouseX,mouseY,me.x,me.y) <= Math.pow(me.size,2)){
+      display = true;
+    }
+  }
+  void checkClicked(){
+    if(distance(mouseX,mouseY,me.x-50,me.y-30) <= Math.pow(size,2)){
+      me.upgradeFirst();
+      display = false;
+    } else if(distance(mouseX,mouseY,me.x+50,me.y-30) <= Math.pow(size,2)){
+      me.upgradeSecond();
+      display = false;
+    }
+  }
+  void display(){
+    if (display){
+    fill(115, 87, 103);
+    ellipse(me.x+50,me.y-30, 25.0, 25.0);
+    ellipse(me.x-50,me.y-30, 25.0, 25.0);
+    }
+  }
+}
+
+void loadMainMenu(){
+  fill(255, 178, 102);
+    rectMode(CENTER);
+    rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
+    textAlign(CENTER);
+
+    fill(0);
+    textSize(72);
+    text("PLAY", width/2.0, height/2.0 + 175);
+    if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
+      //if play button is presed change to gameMode 0
+      gameMode = 0;
+      s.newLevel(); // starts new level when the play button is presed
+    }
+}
+

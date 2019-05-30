@@ -4,15 +4,15 @@ abstract class Projectiles {
   boolean canAttackArmored, doneShooting, dead;
 
 
-  Projectiles(float xA, float yA, Monster i, float damageA) {
-    speed = 5;
+  Projectiles(float xA, float yA, Monster i, float damageA, int sizeA, int penetrationLvl, int speedChange) {
+    speed = 5 + speedChange;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
     vy = ((i.y - yA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
-    size = 20;
+    size = sizeA;
     canAttackArmored = false;
     x = xA;
     y = yA;
-    penetrationLevel = 2;
+    penetrationLevel = penetrationLvl;
     dead = false;
     damage = damageA;
     //level = 1;
@@ -37,8 +37,8 @@ abstract class Projectiles {
 }
 
 class StraightBullet extends Projectiles {
-  StraightBullet(float xA, float yA, Monster i, float damage) {
-    super(xA, yA, i, damage);
+  StraightBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange) {
+    super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange);
   }
   void move() {
     if (!dead) {
@@ -62,8 +62,8 @@ class followBullet extends Projectiles {
   float turnedTime;
   Monster monster;
   boolean resting, gostraight;
-  followBullet(float xA, float yA, Monster i, float damage) {
-    super(xA, yA, i, damage);
+  followBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange) {
+    super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange);
     monster = i;
     resting = true;
     turnedTime =  millis();

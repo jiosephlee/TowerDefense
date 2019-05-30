@@ -1,3 +1,6 @@
+
+
+
 import java.util.*;
 //global variables for running the game
 Map m;
