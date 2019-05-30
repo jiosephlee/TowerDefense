@@ -58,23 +58,29 @@ int bulletSpread;
     if (firstPathLevel == 0) {
       size+=10;
       penetrationLvl++;
+      m.changeMoney(-1 * 5);
     } else if(firstPathLevel == 1){
       damage+=10;
+      m.changeMoney(-1 * 5);
     } else{
       speedChange--;
       penetrationLvl++;
       damage+=5;
+      m.changeMoney(-1 * 10);
     }
   }
 
   void upgradeSecond() {
     if (secondPathLevel == 0) {
       fireRate = fireRate/2;
+      m.changeMoney(-1 * 5);
     } else if (secondPathLevel ==1){
       speedChange++;
       damage+=5;
+      m.changeMoney(-1 * 5);
     } else {
       bulletSpread = 3;
+      m.changeMoney(-1 * 10);
     }
   }
 }
@@ -105,16 +111,26 @@ int bulletBeat;
   void upgradeFirst() {
     if (firstPathLevel == 0) {
       size+=10;
+      speedChange--;
+      penetrationLvl++;
+      m.changeMoney(-1 * 5);
     } else {
       damage+=20;
+      penetrationLvl++;
+      speedChange--;
+      m.changeMoney(-1 * 10);
     }
   }
 
   void upgradeSecond() {
     if (secondPathLevel == 0) {
       fireRate = fireRate/2;
+      speedChange++;
+      m.changeMoney(-1 * 5);
     } else {
+      speedChange++;
       bulletBeat = 2;
+      m.changeMoney(-1 * 10);
     }
   }
 }
