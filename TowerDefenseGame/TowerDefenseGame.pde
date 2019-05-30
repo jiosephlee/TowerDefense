@@ -145,7 +145,6 @@ for (Projectiles i : Projectiles) {
 }
 for (Monster m : toDestroy) {
   Monsters.remove(m); //removes monsters from linkedlist after they die
-  m = null;
 }
 for (Towers m : Towers) {
   m.attack(); //ask all towers to attack
