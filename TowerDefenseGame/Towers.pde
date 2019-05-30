@@ -20,7 +20,7 @@ abstract class Towers {
   abstract void attack();
   abstract void upgradeFirst();
   abstract void upgradeSecond();
-  
+
   void setxy(float xA, float yA) {
     x = xA; 
     y = yA;
@@ -28,8 +28,8 @@ abstract class Towers {
 }
 
 class Tower1 extends Towers {
-  
-int bulletSpread;
+
+  int bulletSpread;
   Tower1(float xA, float yA) {
     super(xA, yA, 20, 100, 1, 5);
     price = 10;
@@ -59,14 +59,17 @@ int bulletSpread;
       size+=10;
       penetrationLvl++;
       m.changeMoney(-1 * 5);
-    } else if(firstPathLevel == 1){
+      firstPathLevel++;
+    } else if (firstPathLevel == 1) {
       damage+=10;
       m.changeMoney(-1 * 5);
-    } else{
+      firstPathLevel++;
+    } else if (firstPathLevel == 2) {
       speedChange--;
       penetrationLvl++;
       damage+=5;
       m.changeMoney(-1 * 10);
+      firstPathLevel++;
     }
   }
 
@@ -74,19 +77,22 @@ int bulletSpread;
     if (secondPathLevel == 0) {
       fireRate = fireRate/2;
       m.changeMoney(-1 * 5);
-    } else if (secondPathLevel ==1){
+      secondPathLevel++;
+    } else if (secondPathLevel ==1) {
       speedChange++;
       damage+=5;
       m.changeMoney(-1 * 5);
-    } else {
+      secondPathLevel++;
+    } else if (secondPathLevel == 2) {
       bulletSpread = 3;
       m.changeMoney(-1 * 10);
+      secondPathLevel++;
     }
   }
 }
 
 class Tower2 extends Towers {
-int bulletBeat;
+  int bulletBeat;
   Tower2(float xA, float yA) {
     super(xA, yA, 20, 100, 1, 5);
     price = 20;
@@ -109,28 +115,33 @@ int bulletBeat;
     }
   }
   void upgradeFirst() {
-    if (firstPathLevel == 0) {
-      size+=10;
-      speedChange--;
-      penetrationLvl++;
-      m.changeMoney(-1 * 5);
-    } else {
-      damage+=20;
-      penetrationLvl++;
-      speedChange--;
-      m.changeMoney(-1 * 10);
+    if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
+      if (firstPathLevel == 0) {
+        size+=10;
+        speedChange--;
+        penetrationLvl++;
+      } else if (firstPathLevel == 1) {
+        damage+=20;
+        penetrationLvl++;
+        speedChange--;
+      }
+      firstPathLevel++;
     }
   }
+}
 
-  void upgradeSecond() {
-    if (secondPathLevel == 0) {
-      fireRate = fireRate/2;
-      speedChange++;
-      m.changeMoney(-1 * 5);
-    } else {
-      speedChange++;
-      bulletBeat = 2;
-      m.changeMoney(-1 * 10);
+void upgradeSecond() {
+  if (secondPathLevel < 3) {
+    if (m.changeMoney(-(1 + secondPathLevel) * 5)) {
+      if (secondPathLevel == 0) {
+        fireRate = fireRate/2;
+        speedChange++;
+      } else if (secondPathLevel == 1) {
+        speedChange++;
+        bulletBeat = 2;
+      }
+      secondPathLevel++;
     }
   }
+}
 }

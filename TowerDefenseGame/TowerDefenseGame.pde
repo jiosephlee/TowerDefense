@@ -11,14 +11,14 @@ LinkedList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
+ArrayList<upgradeButton> upgrades;
 LinkedList<Towers> Towers;
 PImage background, range, mapZones, play, pause;
 Spawner s;
 int gameMode;
-boolean lastMousePressed;
+boolean lastMousePressed, loaded, upgrading;
 Button[] Buttons;
 Button selectedButton;
-boolean loaded;
 void setup() {
   //setup screen size and initial Map, Menu, and Path
   size(1280, 720);
@@ -26,7 +26,7 @@ void setup() {
   m = new Map();
   menu = new Menu();
   p = new Path();
-
+  upgrading = false;
   Monsters = new LinkedList<Monster>(); //list of Monsters
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
@@ -34,6 +34,7 @@ void setup() {
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
   Buttons = new Button[]{new Button1(), new Button2()};
+  upgrades = new ArrayList<upgradeButton>();
   loaded =  false;
   //load graphics of game
   range = loadImage("images/range.png");
@@ -115,6 +116,7 @@ void mouseClicked() {
       gameMode = 1;
       s.pause(); // pauses spawner
     }
+    checkUpgrades();
   } else if (gameMode == 1) {
     if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
       gameMode = 0;
@@ -130,6 +132,7 @@ void mouseClicked() {
       gameMode = 0;
       s.resetTime(); //resets the time of level
     }
+    checkUpgrades();
   } else if (gameMode == 2) {
     if (centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) {
       //if play button is presed change to gameMode 0

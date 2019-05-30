@@ -22,6 +22,11 @@ class Menu {
       image(range, mouseX, mouseY);
       tint(255, 255);
     }
+    if (upgrading) {
+      for (upgradeButton i : upgrades) {
+        i.display();
+      }
+    }
     //display money, level and fps
     text("Money: " + m.money, 1000, height - 225);
     text("Level: " + s.level, 1000, height - 150);
@@ -57,6 +62,7 @@ void loadButtons() {
         Towers.add(loadedTower);
         selectedButton.newTower();
         loaded = false;
+        upgrades.add(new upgradeButton(loadedTower));
       }
     } else {// if they press the button tell map that it's been clicked and load the selected tower
       for ( Button b : Buttons) {
@@ -71,90 +77,96 @@ void loadButtons() {
   }
 }
 
-abstract class Button{
-  float x,y;
+abstract class Button {
+  float x, y;
   color Color;
   Towers load;
-  Button(float xA,float yA, Towers loaded, color a){
+  Button(float xA, float yA, Towers loaded, color a) {
     Color = a;
     x = xA;
     y = yA;
     load = loaded;
   }
   abstract void newTower();
-  void display(){
+  void display() {
     fill(Color);
     rect(x, y, 40, 40);
     fill(0);
     textSize(12);
-    text((load.getClass().getName() + "").substring(17,23), x - 50, y + 20);
+    text((load.getClass().getName() + "").substring(17, 23), x - 50, y + 20);
   }
 }
 
 
-class Button1 extends Button{
-  Button1(){
+class Button1 extends Button {
+  Button1() {
     super(1020, 200, new Tower1(-1, -1), color(103, 207, 45));
   }
-  void newTower(){
-    load = new Tower1(-1,-1);
+  void newTower() {
+    load = new Tower1(-1, -1);
   }
 }
 
-class Button2 extends Button{
-  Button2(){
+class Button2 extends Button {
+  Button2() {
     super(1200, 200, new Tower2(-1, -1), color(173, 107, 245));
   }
-  void newTower(){
-    load = new Tower2(-1,-1);
+  void newTower() {
+    load = new Tower2(-1, -1);
   }
 }
 
-class upgradeButton{
+class upgradeButton {
   Towers me;
-  boolean display;
   int size;
-  upgradeButton(Towers hi){
+  upgradeButton(Towers hi) {
     me = hi;
     size = 20;
-    display = false;
   }
-  void checkInitiated(){
-    if(distance(mouseX,mouseY,me.x,me.y) <= Math.pow(me.size,2)){
-      display = true;
+  void checkInitiated() {
+    if (distance(mouseX, mouseY, me.x, me.y) <= Math.pow(me.size, 2)) {
+      upgrading = true;
     }
   }
-  void checkClicked(){
-    if(distance(mouseX,mouseY,me.x-50,me.y-30) <= Math.pow(size,2)){
+  void checkClicked() {
+    if (distance(mouseX, mouseY, me.x-50, me.y-30) <= Math.pow(size, 2)) {
       me.upgradeFirst();
-      display = false;
-    } else if(distance(mouseX,mouseY,me.x+50,me.y-30) <= Math.pow(size,2)){
+      upgrading = false;
+    } else if (distance(mouseX, mouseY, me.x+50, me.y-30) <= Math.pow(size, 2)) {
       me.upgradeSecond();
-      display = false;
+      upgrading = false;
     }
   }
-  void display(){
-    if (display){
+  void display() {
     fill(115, 87, 103);
-    ellipse(me.x+50,me.y-30, 25.0, 25.0);
-    ellipse(me.x-50,me.y-30, 25.0, 25.0);
-    }
+    ellipse(me.x+50, me.y-30, 25.0, 25.0);
+    ellipse(me.x-50, me.y-30, 25.0, 25.0);
   }
 }
 
-void loadMainMenu(){
-  fill(255, 178, 102);
-    rectMode(CENTER);
-    rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
-    textAlign(CENTER);
-
-    fill(0);
-    textSize(72);
-    text("PLAY", width/2.0, height/2.0 + 175);
-    if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
-      //if play button is presed change to gameMode 0
-      gameMode = 0;
-      s.newLevel(); // starts new level when the play button is presed
+void checkUpgrades(){
+  if(upgrading){
+    for(upgradeButton i : upgrades){
+    i.checkClicked();
     }
+  } else{
+    for(upgradeButton i : upgrades){
+    i.checkInitiated();
+    }
+  }
 }
+void loadMainMenu() {
+  fill(255, 178, 102);
+  rectMode(CENTER);
+  rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
+  textAlign(CENTER);
 
+  fill(0);
+  textSize(72);
+  text("PLAY", width/2.0, height/2.0 + 175);
+  if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
+    //if play button is presed change to gameMode 0
+    gameMode = 0;
+    s.newLevel(); // starts new level when the play button is presed
+  }
+}

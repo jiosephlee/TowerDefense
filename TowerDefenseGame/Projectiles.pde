@@ -8,7 +8,7 @@ abstract class Projectiles {
     speed = 5 + speedChange;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
     vy = ((i.y - yA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
-    size = sizeA;
+    size = sizeA/2;
     canAttackArmored = false;
     x = xA;
     y = yA;
