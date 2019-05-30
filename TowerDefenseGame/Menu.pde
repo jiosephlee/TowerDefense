@@ -157,3 +157,4 @@ void loadMainMenu(){
       s.newLevel(); // starts new level when the play button is presed
     }
 }
+
