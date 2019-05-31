@@ -1,13 +1,10 @@
-
-
-
 import java.util.*;
 //global variables for running the game
 Map m;
 Menu menu;
 Path p;
 Towers loadedTower;
-LinkedList<Monster> Monsters;
+ArrayList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
@@ -16,7 +13,7 @@ LinkedList<Towers> Towers;
 PImage background, range, mapZones, play, pause;
 Spawner s;
 int gameMode;
-boolean lastMousePressed, loaded, upgrading;
+boolean lastMousePressed, loaded, upgrading, paused;
 Button[] Buttons;
 Button selectedButton;
 void setup() {
@@ -28,6 +25,7 @@ void setup() {
   p = new Path();
   upgrading = false;
   Monsters = new LinkedList<Monster>(); //list of Monsters
+
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
@@ -68,7 +66,6 @@ void fieldSetup() {
 void updateAll() { //updates and displays game variables
   textSize(36);
   if (gameMode == 0) {
-
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
@@ -147,6 +144,12 @@ void gameMove() {
   for (Monster m : Monsters) {
     m.move();
   }
+
+void gameMove() {
+  for (Monster m : Monsters) {
+    m.move();
+  }
+
   for (Projectiles i : Projectiles) {
     i.move();
   }
