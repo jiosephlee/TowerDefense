@@ -142,20 +142,34 @@ class followBullet extends Projectiles {
 }
 //projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
-  double cx, cy,angSpeed, startingAngle,angle,blastRadius;
+  float cx, cy,angSpeed, startingAngle,angle,blastRadius,pathRadius;
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
-  long lastTimeStamp; //holds timestamp of last frame
+  long lastTimeStamp, timeElapsed; //holds timestamp of last frame
   MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
     super(xA, yA, i, damage); //calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
     long airTime = (long) sqrt(distance(xA,yA,i.getX(),i.getY())) * 4; //calculates airTime in ms using distance
-    angSpeed = Math.PI / airTime; //calculates angular velocity in radians per ms
+    angSpeed = (float) Math.PI / airTime; //calculates angular velocity in radians per ms
     float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
     cx = (target[0] + x) / 2.0; //sets center of the arc
     cy = (target[1] + y) / 2.0; 
-    startingAngle = Math.atan((cy-y)/(cx-x)); //calculates starting angle from center
+    
+    pathRadius = distance(target[0],target[1],cx,cy);
+    startingAngle = (float)Math.atan((cy-y)/(cx-x)); //calculates starting angle from center
+    if(x < cx){ //set direction of trajectory and account for range of arctan
+      angSpeed *= -1;
+      startingAngle += Math.PI;
+    }
+    lastTimeStamp = System.currentTimeMillis();
+  }
+  void clearTime(){
+    lastTimeStamp =  System.currentTimeMillis();
   }
   void move(){
+    long timeChange = System.currentTimeMillis() - lastTimeStamp;
+    timeElapsed += timeChange;
+    x = cx + pathRadius * (startingAngle + angSpeed * timeElapsed); 
+    lastTimeStamp = System.currentTimeMillis();
   }
 }

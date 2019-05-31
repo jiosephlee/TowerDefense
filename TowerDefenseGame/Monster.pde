@@ -18,15 +18,15 @@ abstract class Monster {
   abstract void spawn(); 
   abstract void move();
   abstract void display();
-  abstract double changeHP(double changeHP);
+  abstract float changeHP(float changeHP);
   abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
   abstract float[] calculateNewPosition(long deltaTime);
   abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
-  int getX(){
+  float getX(){
     return x;
   }
-  int getY(){
+  float getY(){
     return y;
   }
   void displayHealth(){
@@ -113,7 +113,7 @@ class Slime extends Monster {
     m.changeHP(damage);
     die();
   }
-  double changeHP(double change) {
+  float changeHP(float change) {
     //changes hp, is used when a projectile attacks slime
     //gives the user money if its hp is below 0 and dies
     hp += change;
