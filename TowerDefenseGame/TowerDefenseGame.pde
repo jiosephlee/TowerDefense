@@ -24,7 +24,6 @@ void setup() {
   m = new Map();
   menu = new Menu();
   p = new Path();
-
   Monsters = new ArrayList<Monster>(); //list of Monsters
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
@@ -65,7 +64,6 @@ void fieldSetup() {
 void updateAll() { //updates and displays game variables
   textSize(36);
   if (gameMode == 0) {
-
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
@@ -137,24 +135,24 @@ void mouseClicked() {
   }
 }
 
-void gameMove(){
-for (Monster m : Monsters) {
-  m.move();
-}
-for (Projectiles i : Projectiles) {
-  i.move();
-}
-for (Monster m : toDestroy) {
-  Monsters.remove(m); //removes monsters from linkedlist after they die
-}
-for (Towers m : Towers) {
-  m.attack(); //ask all towers to attack
-}
-for (Projectiles i : toDestroyA) {
-  Projectiles.remove(i); //remove all projectiles awaiting removal
-  i = null;
-}
-toDestroy.clear();
-toDestroyA.clear();
-//clears destruction queue
+void gameMove() {
+  for (Monster m : Monsters) {
+    m.move();
+  }
+  for (Projectiles i : Projectiles) {
+    i.move();
+  }
+  for (Monster m : toDestroy) {
+    Monsters.remove(m); //removes monsters from linkedlist after they die
+  }
+  for (Towers m : Towers) {
+    m.attack(); //ask all towers to attack
+  }
+  for (Projectiles i : toDestroyA) {
+    Projectiles.remove(i); //remove all projectiles awaiting removal
+    i = null;
+  }
+  toDestroy.clear();
+  toDestroyA.clear();
+  //clears destruction queue
 }
