@@ -47,3 +47,6 @@ The Best Processing Tower Defense Game of all time. jk but it's pretty good
 - Used Collections.sort to sort the Monsters based on how far they are along the path. (Qiong)
 - Wrote Tank Monster Class (Qiong)
 - Began to work on and plan out Mortar Shell projectile (Qiong)
+
+5/31
+- Created cancel building tower feature (Jo)
