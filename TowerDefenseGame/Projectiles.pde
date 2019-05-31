@@ -8,7 +8,7 @@ abstract class Projectiles {
     speed = 5 + speedChange;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
     vy = ((i.y - yA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
-    size = sizeA;
+    size = sizeA/2;
     canAttackArmored = false;
     x = xA;
     y = yA;
@@ -20,6 +20,8 @@ abstract class Projectiles {
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
+        i.setBad();
+        Monsters.remove(i);
         penetrationLevel--;
         if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
           dead = true;
@@ -93,7 +95,7 @@ class followBullet extends Projectiles {
             int a = this.nearestMonster(Monsters);
             if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
               monster = Monsters.get(a);
-              print(a);
+              //print(a);
             } else { //a is negative when the nearest monster is really far. in that case its too far so lets continue going straight instead
               gostraight=true;
             }
@@ -109,7 +111,7 @@ class followBullet extends Projectiles {
   }
 
   boolean dealDamage(Monster i) {
-    if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //if monster is in bullet's range
+    if (distance(i.x, i.y, x, y) <= size) { //if monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) { // if monster died
         monster.setBad();
         Monsters.remove(monster);// remove dead monster so you dont target it again

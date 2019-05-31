@@ -23,8 +23,12 @@ class Map {
       text("GAME OVER", height/2, width/2);
     }
   }
-  void changeMoney(int a){
+  boolean changeMoney(int a){
     //modify the user's money
-    money += a;
+    if(money + a >= 0){
+      money += a;
+      return true;
+    }
+    return false;
   }
 }
