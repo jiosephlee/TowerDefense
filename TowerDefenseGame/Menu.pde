@@ -9,7 +9,20 @@ class Menu {
     fill(0);
     textSize(36);
     text("HP: " + (int) (m.hp + 0.5), 600, 50);  // displays hp
-    color zoneColor = mapZones.get(mouseX, mouseY);
+    //display money, level and fps
+    text("Money: " + m.money, 1000, height - 225);
+    text("Level: " + s.level, 1000, height - 150);
+    text("FPS: " + (int) (frameRate + 0.5), 1000, height - 75);
+  }
+}
+void loadButtons() {
+  fill(255, 0, 0);
+  //display circle at mouse pointer
+  ellipse(mouseX, mouseY, 20, 20);
+  for (Button i : Buttons) { //display the buttons
+    i.display();
+  }
+  color zoneColor = mapZones.get(mouseX, mouseY);
     if (loaded) {
       if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
         tint(#000000, 128);
@@ -27,19 +40,6 @@ class Menu {
         i.display();
       }
     }
-    //display money, level and fps
-    text("Money: " + m.money, 1000, height - 225);
-    text("Level: " + s.level, 1000, height - 150);
-    text("FPS: " + (int) (frameRate + 0.5), 1000, height - 75);
-  }
-}
-void loadButtons() {
-  fill(255, 0, 0);
-  //display circle at mouse pointer
-  ellipse(mouseX, mouseY, 20, 20);
-  for (Button i : Buttons) { //display the buttons
-    i.display();
-  }
   if (loaded) {
     image(pause, 75, height - 75, 75, 75); // trash can to throw away loadedtower
   }
