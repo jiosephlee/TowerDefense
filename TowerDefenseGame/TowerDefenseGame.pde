@@ -77,12 +77,32 @@ void updateAll() { //updates and displays game variables
     //display circle at mouse pointer
     loadButtons();
     gameMove();
+    if (mousePressed && !lastMousePressed) {
+      if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
+        //pauses game if button is pressed
+        gameMode = 1;
+        s.pause(); // pauses spawner
+      }
+      checkUpgrades();
+      checkButton();
+    }
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
     //when the game is paused
     text("Press Play Button to Resume", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
+    if (mousePressed && !lastMousePressed) {
+      if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
+        gameMode = 0;
+        s.go(); //resumes spawner
+        //changes the gamemode and tells all the monsters to reset their time
+        for (Monster m : Monsters) {
+          m.lastTime = System.currentTimeMillis();
+          //ask all monsters to reset time
+        }
+      }
+    }
   } else if (gameMode == 3) { //pause due to awaiting level to start
     fieldSetup();
     loadButtons();
@@ -96,12 +116,26 @@ void updateAll() { //updates and displays game variables
       m.lastTime = System.currentTimeMillis();
       //ask all monsters to reset time
     }
+    if (mousePressed && !lastMousePressed) {
+      if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
+        gameMode = 0;
+        s.resetTime(); //resets the time of level
+      }
+      checkUpgrades();
+      checkButton();
+    }
   } else if (gameMode == 2) { //main menu mode
     fill(255, 178, 102);
     rectMode(CENTER);
     rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
     textAlign(CENTER);
-
+    if (mousePressed && !lastMousePressed) {
+      if (centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) {
+        //if play button is presed change to gameMode 0
+        gameMode = 0;
+        s.newLevel(); // starts new level when the play button is presed
+      }
+    }
     fill(0);
     textSize(72);
     text("PLAY", width/2.0, height/2.0 + 175);
@@ -109,57 +143,24 @@ void updateAll() { //updates and displays game variables
   lastMousePressed = mousePressed; //debounce
 }
 
-void mouseClicked() {
-  if (gameMode == 0) {
-    if (distance(mouseX, mouseY, 75, height - 75) < 37.5) {
-      //pauses game if button is pressed
-      gameMode = 1;
-      s.pause(); // pauses spawner
-    }
-    checkUpgrades();
-  } else if (gameMode == 1) {
-    if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
-      gameMode = 0;
-      s.go(); //resumes spawner
-      //changes the gamemode and tells all the monsters to reset their time
-      for (Monster m : Monsters) {
-        m.lastTime = System.currentTimeMillis();
-        //ask all monsters to reset time
-      }
-    }
-  } else if (gameMode == 3) {
-    if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
-      gameMode = 0;
-      s.resetTime(); //resets the time of level
-    }
-    checkUpgrades();
-  } else if (gameMode == 2) {
-    if (centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) {
-      //if play button is presed change to gameMode 0
-      gameMode = 0;
-      s.newLevel(); // starts new level when the play button is presed
-    }
+void gameMove() {
+  for (Monster m : Monsters) {
+    m.move();
   }
-}
-
-void gameMove(){
-for (Monster m : Monsters) {
-  m.move();
-}
-for (Projectiles i : Projectiles) {
-  i.move();
-}
-for (Monster m : toDestroy) {
-  Monsters.remove(m); //removes monsters from linkedlist after they die
-}
-for (Towers m : Towers) {
-  m.attack(); //ask all towers to attack
-}
-for (Projectiles i : toDestroyA) {
-  Projectiles.remove(i); //remove all projectiles awaiting removal
-  i = null;
-}
-toDestroy.clear();
-toDestroyA.clear();
-//clears destruction queue
+  for (Projectiles i : Projectiles) {
+    i.move();
+  }
+  for (Monster m : toDestroy) {
+    Monsters.remove(m); //removes monsters from linkedlist after they die
+  }
+  for (Towers m : Towers) {
+    m.attack(); //ask all towers to attack
+  }
+  for (Projectiles i : toDestroyA) {
+    Projectiles.remove(i); //remove all projectiles awaiting removal
+    i = null;
+  }
+  toDestroy.clear();
+  toDestroyA.clear();
+  //clears destruction queue
 }

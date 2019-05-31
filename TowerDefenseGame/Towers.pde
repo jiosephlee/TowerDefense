@@ -1,7 +1,7 @@
 abstract class Towers {
   float x, y, fireRate, damage, shotTime;
   int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange;
-  boolean resting;
+  boolean resting, onemaxed, twomaxed;
 
 
   Towers(float xA, float yA, int sizeA, int rangeA, float fireRateA, float damageA) {
@@ -15,6 +15,8 @@ abstract class Towers {
     secondPathLevel = 0;
     penetrationLvl = 1;
     speedChange = 0;
+    onemaxed = false;
+    twomaxed = false;
   }
 
   abstract void attack();
@@ -31,7 +33,7 @@ class Tower1 extends Towers {
 
   int bulletSpread;
   Tower1(float xA, float yA) {
-    super(xA, yA, 20, 100, 1, 5);
+    super(xA, yA, 40, 100, 1, 5);
     price = 10;
     bulletSpread = 1;
   }
@@ -44,7 +46,7 @@ class Tower1 extends Towers {
     }
     if (!resting) {
       for (Monster i : Monsters) {
-        if (distance(i.x,i.y,x,y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
+        if (distance(i.x, i.y, x, y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
           Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange));
           resting = true;
           shotTime = millis();
@@ -55,20 +57,19 @@ class Tower1 extends Towers {
   }
 
   void upgradeFirst() {
-    if (firstPathLevel == 0) {
-      size+=10;
-      penetrationLvl++;
-      m.changeMoney(-1 * 5);
-      firstPathLevel++;
-    } else if (firstPathLevel == 1) {
-      damage+=10;
-      m.changeMoney(-1 * 5);
-      firstPathLevel++;
-    } else if (firstPathLevel == 2) {
-      speedChange--;
-      penetrationLvl++;
-      damage+=5;
-      m.changeMoney(-1 * 10);
+    if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
+      if (firstPathLevel == 0) {
+        size+=10;
+        penetrationLvl++;
+      } else if (firstPathLevel == 1) {
+        damage+=10;
+        twomaxed = true;
+      } else if (firstPathLevel == 2) {
+        speedChange--;
+        penetrationLvl++;
+        damage+=5;
+        onemaxed = true;
+      }
       firstPathLevel++;
     }
   }
@@ -83,10 +84,12 @@ class Tower1 extends Towers {
       damage+=5;
       m.changeMoney(-1 * 5);
       secondPathLevel++;
+      onemaxed = true;
     } else if (secondPathLevel == 2) {
       bulletSpread = 3;
       m.changeMoney(-1 * 10);
       secondPathLevel++;
+      twomaxed = true;
     }
   }
 }
@@ -94,7 +97,7 @@ class Tower1 extends Towers {
 class Tower2 extends Towers {
   int bulletBeat;
   Tower2(float xA, float yA) {
-    super(xA, yA, 20, 100, 1, 5);
+    super(xA, yA, 40, 100, 1, 5);
     price = 20;
     bulletBeat=1;
   }
@@ -105,7 +108,7 @@ class Tower2 extends Towers {
     }
     if (!resting) {
       for (Monster i : Monsters) {
-        if (distance(i.x,i.y,x,y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
+        if (distance(i.x, i.y, x, y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
           Projectiles.add(new followBullet(x, y, i, damage, size, penetrationLvl, speedChange));
           resting = true;
           shotTime = millis();
@@ -124,6 +127,7 @@ class Tower2 extends Towers {
         damage+=20;
         penetrationLvl++;
         speedChange--;
+        maxed = true;
       }
       firstPathLevel++;
     }
@@ -138,6 +142,7 @@ class Tower2 extends Towers {
         } else if (secondPathLevel == 1) {
           speedChange++;
           bulletBeat = 2;
+          maxed = true;
         }
         secondPathLevel++;
       }
