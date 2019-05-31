@@ -140,12 +140,21 @@ class followBullet extends Projectiles {
     return smallind;
   }
 }
+//projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
-  float cx, cy,angSpeed, startingAngle,angle;
+  double cx, cy,angSpeed, startingAngle,angle,blastRadius;
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
-  MortarShell(float xA, float yA, Monster i, float damage) {
-    super(xA, yA, i, damage);
+  long lastTimeStamp; //holds timestamp of last frame
+  MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
+    super(xA, yA, i, damage); //calls superconstructor
+    this.blastRadius = blastRadius; //sets blast radius
+    long airTime = (long) sqrt(distance(xA,yA,i.getX(),i.getY())) * 4; //calculates airTime in ms using distance
+    angSpeed = Math.PI / airTime; //calculates angular velocity in radians per ms
+    float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
+    cx = (target[0] + x) / 2.0; //sets center of the arc
+    cy = (target[1] + y) / 2.0; 
+    startingAngle = Math.atan((cy-y)/(cx-x)); //calculates starting angle from center
   }
   void move(){
   }

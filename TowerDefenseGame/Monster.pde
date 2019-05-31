@@ -23,6 +23,12 @@ abstract class Monster {
   abstract void die();
   abstract float[] calculateNewPosition(long deltaTime);
   abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
+  int getX(){
+    return x;
+  }
+  int getY(){
+    return y;
+  }
   void displayHealth(){
     //doesn't exist for weaker monsters
   }
