@@ -23,6 +23,9 @@ abstract class Monster {
   abstract void die();
   abstract float[] calculateNewPosition(long deltaTime);
   abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
+  void displayHealth(){
+    //doesn't exist for weaker monsters
+  }
 }
 class Slime extends Monster {
   Slime(Path p) {
@@ -119,6 +122,7 @@ class Slime extends Monster {
   }
 }
 class RedSlime extends Slime{
+  float maxHp;
   //a stronger slime
   RedSlime(Path p){
     //better stats, spawns chldren when it dies
@@ -128,7 +132,7 @@ class RedSlime extends Slime{
     hp = 15;
     childrenNumber = 2;
     damage = 5;
-    maxHP = hp;
+    maxHp = hp;
   }
   void dealDamage(){
     //deals damage to the map
@@ -145,7 +149,16 @@ class RedSlime extends Slime{
     }
   }
   void displayHealth(){
-    
+    rectMode(CENTER);
+    fill(255,0,0);
+    rect(x-10,y -30,60,12);
+    rectMode(CORNER);
+    fill(0,255,0);
+    rect(x-40,y-36,60.0 * hp / maxHp, 12);
+  }
+  void display(){
+    super.display();
+    displayHealth();
   }
 }
 class Mushroom extends Slime{
@@ -169,8 +182,10 @@ class Tank extends RedSlime{
     childrenNumber = 6;
     damage = 10;
     imageFile = loadImage("images/Tank.png");
+    maxHp = hp;
   }
   void display() { //displays slime
     image(imageFile, x, y, 4 * size, 5 * size);
+    displayHealth();
   }
 }
