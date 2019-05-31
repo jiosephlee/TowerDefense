@@ -120,39 +120,47 @@ class Button2 extends Button {
 class upgradeButton {
   Towers me;
   int size;
+  boolean display;
   upgradeButton(Towers hi) {
     me = hi;
     size = me.size/3 * 2;
+    display = false;
   }
   void checkInitiated() {
     if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
       upgrading = true;
+      display = true;
     }
   }
   void checkClicked() {
     if (!me.onemaxed && distance(mouseX, mouseY, me.x-50, me.y-30) <= size) {
       me.upgradeFirst();
       upgrading = false;
+      display = false;
     } else if (!me.twomaxed && distance(mouseX, mouseY, me.x+50, me.y-30) <= size) {
       me.upgradeSecond();
       upgrading = false;
+      display = false;
     } else if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
       upgrading = false;
+      display = false;
     }
   }
   void display() {
-    if(me.onemaxed){
-      fill(0, 0, 0);
-    } else{
-    fill(175, 34, 103);
+    if (display) {
+      if (me.onemaxed) {
+        fill(0, 0, 0);
+      } else {
+        fill(175, 34, 103);
+      }
+      ellipse(me.x-50, me.y-30, size, size);
+      if (me.twomaxed) {
+        fill(0, 0, 0);
+      } else {
+        fill(195, 134, 63);
+      }
+      ellipse(me.x+50, me.y-30, size, size);
     }
-    ellipse(me.x+50, me.y-30, size, size);
-    if(me.twomaxed){
-      fill(0, 0, 0);
-    } else{
-     fill(195, 134, 63);
-    }
-    ellipse(me.x-50, me.y-30, size, size);
   }
 }
 

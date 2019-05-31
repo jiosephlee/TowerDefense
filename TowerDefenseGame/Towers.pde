@@ -123,11 +123,12 @@ class Tower2 extends Towers {
         size+=10;
         speedChange--;
         penetrationLvl++;
+        twomaxed = true;
       } else if (firstPathLevel == 1) {
         damage+=20;
         penetrationLvl++;
         speedChange--;
-        maxed = true;
+        onemaxed = true;
       }
       firstPathLevel++;
     }
@@ -139,10 +140,11 @@ class Tower2 extends Towers {
         if (secondPathLevel == 0) {
           fireRate = fireRate/2;
           speedChange++;
+          onemaxed = true;
         } else if (secondPathLevel == 1) {
           speedChange++;
           bulletBeat = 2;
-          maxed = true;
+          twomaxed = true;
         }
         secondPathLevel++;
       }
