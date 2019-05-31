@@ -140,3 +140,13 @@ class followBullet extends Projectiles {
     return smallind;
   }
 }
+class MortarShell extends Projectiles {
+  float cx, cy,angSpeed, startingAngle,angle;
+  //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
+  //angSpeed is the angular velocity and is based on distance
+  MortarShell(float xA, float yA, Monster i, float damage) {
+    super(xA, yA, i, damage);
+  }
+  void move(){
+  }
+}

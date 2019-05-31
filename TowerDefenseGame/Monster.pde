@@ -183,6 +183,7 @@ class Tank extends RedSlime{
     damage = 10;
     imageFile = loadImage("images/Tank.png");
     maxHp = hp;
+    armored = true;
   }
   void display() { //displays slime
     image(imageFile, x, y, 4 * size, 5 * size);
