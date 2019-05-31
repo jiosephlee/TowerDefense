@@ -1,13 +1,10 @@
-
-
-
 import java.util.*;
 //global variables for running the game
 Map m;
 Menu menu;
 Path p;
 Towers loadedTower;
-LinkedList<Monster> Monsters;
+ArrayList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
@@ -28,7 +25,7 @@ void setup() {
   menu = new Menu();
   p = new Path();
 
-  Monsters = new LinkedList<Monster>(); //list of Monsters
+  Monsters = new ArrayList<Monster>(); //list of Monsters
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class

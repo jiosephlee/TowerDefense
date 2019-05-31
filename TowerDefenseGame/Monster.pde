@@ -14,6 +14,7 @@ abstract class Monster {
   boolean justReachedNode, bad; //has it just reached the node in the last frame
   long lastTime; //monster's time at last frame
   float nextNodeX, nextNodeY; //node of path that monster is trying to reach
+  float distanceTraveled;
   abstract void spawn(); 
   abstract void move();
   abstract void display();
@@ -22,6 +23,7 @@ abstract class Monster {
   abstract void die();
   void setBad(){
     bad = true;
+  }
   abstract float[] calculateNewPosition(long deltaTime);
   abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
   float getX(){
@@ -93,8 +95,9 @@ class Slime extends Monster {
     //uses change in time to calculate new position and moves slime there
     x = newPost[0];
     y = newPost[1];
+    distanceTraveled += deltaTime * speed;
   }
-  float[] calculateNewPosition(float deltaTime) {
+  float[] calculateNewPosition(long deltaTime) {
     //takes that that has elapsed to calculte a new positoin for the slime
     float[] ret = new float[2];
     nextNodeX = p.getCoordinates().get(pathNode + 1)[0];
@@ -124,6 +127,10 @@ class Slime extends Monster {
   void die() {
     toDestroy.add(this);
   }
+  float distanceTraveled(){
+    return distanceTraveled;
+  }
+  
 }
 class RedSlime extends Slime{
   float maxHp;
@@ -193,4 +200,16 @@ class Tank extends RedSlime{
     image(imageFile, x, y, 4 * size, 5 * size);
     displayHealth();
   }
+}
+class compareMonsters implements Comparator<Monster>{
+  public int compare(Monster a, Monster b) 
+    { 
+        if(a.distanceTraveled() > b.distanceTraveled()){
+          return -1;
+        }
+        return 1;
+    } 
+}
+void sortMonsters(){
+  Collections.sort(Monsters, new compareMonsters());
 }

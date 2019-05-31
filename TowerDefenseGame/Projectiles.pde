@@ -138,7 +138,7 @@ class followBullet extends Projectiles {
     return false;
   }
 
-  int nearestMonster(LinkedList<Monster> Monsters) {
+  int nearestMonster(List<Monster> Monsters) {
     float smallest = distance(this.x, this.y, Monsters.get(0).x, Monsters.get(0).y);
     int smallind = 0;
     int count = 0;
@@ -162,7 +162,7 @@ class MortarShell extends Projectiles {
   //angSpeed is the angular velocity and is based on distance
   long lastTimeStamp, timeElapsed; //holds timestamp of last frame
   MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
-    super(xA, yA, i, damage); //calls superconstructor
+    super(xA, yA, i, damage, 0, 0, 0);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
     long airTime = (long) sqrt(distance(xA,yA,i.getX(),i.getY())) * 4; //calculates airTime in ms using distance
     angSpeed = (float) Math.PI / airTime; //calculates angular velocity in radians per ms
