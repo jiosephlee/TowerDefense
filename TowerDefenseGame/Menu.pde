@@ -31,26 +31,17 @@ class Menu {
     text("Money: " + m.money, 1000, height - 225);
     text("Level: " + s.level, 1000, height - 150);
     text("FPS: " + (int) (frameRate + 0.5), 1000, height - 75);
-    //ask monsters to display
-    for (Monster m : Monsters) {
-      m.display();
-    }
-    //ask towers to display
-    for (Towers i : Towers) {
-      fill(0, 0, 255);
-      ellipse(i.x, i.y, i.size, i.size);
-    }
-    //ask projectiles to display
-    for (Projectiles i : Projectiles) {
-      fill(15, 15, 255);
-      ellipse(i.x, i.y, i.size, i.size);
-    }
   }
 }
 void loadButtons() {
+  fill(255, 0, 0);
+  //display circle at mouse pointer
   ellipse(mouseX, mouseY, 20, 20);
   for (Button i : Buttons) { //display the buttons
     i.display();
+  }
+  if (loaded) {
+    image(pause, 75, height - 75, 75, 75); // trash can to throw away loadedtower
   }
 }
 void checkButton() {
@@ -154,7 +145,7 @@ class upgradeButton {
       range.resize(me.range*2, 0);
       image(range, me.x, me.y);
       tint(255, 255);
-      
+
       if (me.onemaxed) {
         fill(0, 0, 0);
       } else {

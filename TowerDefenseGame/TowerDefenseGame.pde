@@ -70,8 +70,6 @@ void updateAll() { //updates and displays game variables
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
     image(pause, 75, height - 75, 75, 75);
-    fill(255, 0, 0);
-    //display circle at mouse pointer
     loadButtons();
     gameMove();
     if (mousePressed && !lastMousePressed) {
@@ -83,6 +81,7 @@ void updateAll() { //updates and displays game variables
       checkUpgrades();
       checkButton();
     }
+    movingDisplay();
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
     //when the game is paused
@@ -100,6 +99,7 @@ void updateAll() { //updates and displays game variables
         }
       }
     }
+    movingDisplay();
   } else if (gameMode == 3) { //pause due to awaiting level to start
     fieldSetup();
     loadButtons();
@@ -121,6 +121,7 @@ void updateAll() { //updates and displays game variables
       checkUpgrades();
       checkButton();
     }
+    movingDisplay();
   } else if (gameMode == 2) { //main menu mode
     fill(255, 178, 102);
     rectMode(CENTER);
@@ -162,4 +163,21 @@ void gameMove() {
   toDestroy.clear();
   toDestroyA.clear();
   //clears destruction queue
+}
+
+void movingDisplay(){
+      //ask monsters to display
+    for (Monster m : Monsters) {
+      m.display();
+    }
+    //ask towers to display
+    for (Towers i : Towers) {
+      fill(0, 0, 255);
+      ellipse(i.x, i.y, i.size, i.size);
+    }
+    //ask projectiles to display
+    for (Projectiles i : Projectiles) {
+      fill(15, 15, 255);
+      ellipse(i.x, i.y, i.size, i.size);
+    }
 }
