@@ -148,6 +148,13 @@ class upgradeButton {
   }
   void display() {
     if (display) {
+      tint(#000000, 128);
+      imageMode(CENTER);
+      //sets tint of circle around chosen tower
+      range.resize(me.range*2, 0);
+      image(range, me.x, me.y);
+      tint(255, 255);
+      
       if (me.onemaxed) {
         fill(0, 0, 0);
       } else {
