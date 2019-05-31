@@ -1,7 +1,7 @@
 class Spawner {
   int level; //tracks level
-  double levelTime; //tracks when the level started
-  double timeSinceLevel; //tracks how long its been since the level started
+  float levelTime; //tracks when the level started
+  float timeSinceLevel; //tracks how long its been since the level started
   float spawnRate; //how fast to spawn monsters
   float maxMonsters; //maximum number of monsters to spawn per level
   int spawned; //number of spawned monsters

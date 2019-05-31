@@ -17,12 +17,21 @@ abstract class Monster {
   abstract void spawn(); 
   abstract void move();
   abstract void display();
-  abstract double changeHP(double changeHP);
+  abstract float changeHP(float changeHP);
   abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
-  abstract float[] calculateNewPosition(float deltaTime);
   void setBad(){
     bad = true;
+  abstract float[] calculateNewPosition(long deltaTime);
+  abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
+  float getX(){
+    return x;
+  }
+  float getY(){
+    return y;
+  }
+  void displayHealth(){
+    //doesn't exist for weaker monsters
   }
 }
 class Slime extends Monster {
@@ -102,7 +111,7 @@ class Slime extends Monster {
     m.changeHP(damage);
     die();
   }
-  double changeHP(double change) {
+  float changeHP(float change) {
     //changes hp, is used when a projectile attacks slime
     //gives the user money if its hp is below 0 and dies
     hp += change;
@@ -117,6 +126,7 @@ class Slime extends Monster {
   }
 }
 class RedSlime extends Slime{
+  float maxHp;
   //a stronger slime
   RedSlime(Path p){
     //better stats, spawns chldren when it dies
@@ -126,6 +136,7 @@ class RedSlime extends Slime{
     hp = 15;
     childrenNumber = 2;
     damage = 5;
+    maxHp = hp;
   }
   void dealDamage(){
     //deals damage to the map
@@ -140,5 +151,46 @@ class RedSlime extends Slime{
       float[] newPos = calculateNewPosition(i);
       Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
     }
+  }
+  void displayHealth(){
+    rectMode(CENTER);
+    fill(255,0,0);
+    rect(x-10,y -30,60,12);
+    rectMode(CORNER);
+    fill(0,255,0);
+    rect(x-40,y-36,60.0 * hp / maxHp, 12);
+  }
+  void display(){
+    super.display();
+    displayHealth();
+  }
+}
+class Mushroom extends Slime{
+  //a fast and weak monster
+  Mushroom(Path p){
+    //better stats, spawns chldren when it dies
+    super(p);
+    size = 8;
+    speed = 2.25;
+    hp = 5;
+    damage = 5;
+    imageFile = loadImage("images/Mushroom.png");
+  }
+}
+class Tank extends RedSlime{
+  Tank(Path p){
+    super(p);
+    size = 20;
+    speed = 0.5;
+    hp = 40;
+    childrenNumber = 6;
+    damage = 10;
+    imageFile = loadImage("images/Tank.png");
+    maxHp = hp;
+    armored = true;
+  }
+  void display() { //displays slime
+    image(imageFile, x, y, 4 * size, 5 * size);
+    displayHealth();
   }
 }

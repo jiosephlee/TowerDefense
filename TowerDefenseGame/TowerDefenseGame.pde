@@ -19,6 +19,7 @@ boolean lastMousePressed;
 Button[] Buttons;
 Button selectedButton;
 boolean loaded;
+boolean paused;
 void setup() {
   //setup screen size and initial Map, Menu, and Path
   size(1280, 720);
