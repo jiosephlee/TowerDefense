@@ -78,7 +78,7 @@ void updateAll() { //updates and displays game variables
         gameMode = 1;
         s.pause(); // pauses spawner
       }
-      if (loaded && distance(mouseX, mouseY, width - 75, height - 75) < 37.5) {
+      if (loaded && distance(mouseX, mouseY, width - 475, height - 75) < 37.5) {
         loaded = false;
       }
       checkUpgrades();

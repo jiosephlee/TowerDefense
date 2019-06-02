@@ -41,7 +41,7 @@ void loadButtons() {
       }
     }
   if (loaded) {
-    image(pause, 75, height - 75, 75, 75); // trash can to throw away loadedtower
+    image(pause, width - 475, height - 75, 75, 75); // trash can to throw away loadedtower
   }
 }
 void checkButton() {
