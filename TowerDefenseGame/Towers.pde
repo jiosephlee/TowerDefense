@@ -101,7 +101,12 @@ class Tower2 extends Towers {
     price = 20;
     bulletBeat=1;
   }
-
+  void attack(){
+    if(Math.random() < 0.01 && Monsters.size() > 0){
+      Projectiles.add(new MortarShell(x,y,Monsters.get(0),10.0,50.0));
+    }
+  }
+  /*
   void attack() {
     if (resting && (millis() - shotTime)/1000 >= fireRate) {     //if more than the time that firerate dictates has passed, then it shoots again
       resting = false;
@@ -117,6 +122,7 @@ class Tower2 extends Towers {
       }
     }
   }
+  */
   void upgradeFirst() {
     if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
       if (firstPathLevel == 0) {
