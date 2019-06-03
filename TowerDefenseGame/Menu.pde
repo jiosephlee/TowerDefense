@@ -23,23 +23,23 @@ void loadButtons() {
     i.display();
   }
   color zoneColor = mapZones.get(mouseX, mouseY);
-    if (loaded) {
-      if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
-        tint(#000000, 128);
-      } else {
-        tint(255, 128); //if not keep it red which means invalid
-      }
-      imageMode(CENTER);
-      //sets tint of circle around mouse pointer if tower cannot be placed at mouse location
-      range.resize(loadedTower.range*2, 0);
-      image(range, mouseX, mouseY);
-      tint(255, 255);
+  if (loaded) {
+    if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
+      tint(#000000, 128);
+    } else {
+      tint(255, 128); //if not keep it red which means invalid
     }
-    if (upgrading) {
-      for (upgradeButton i : upgrades) {
-        i.display();
-      }
+    imageMode(CENTER);
+    //sets tint of circle around mouse pointer if tower cannot be placed at mouse location
+    range.resize(loadedTower.range*2, 0);
+    image(range, mouseX, mouseY);
+    tint(255, 255);
+  }
+  if (upgrading) {
+    for (upgradeButton i : upgrades) {
+      i.display();
     }
+  }
   if (loaded) {
     image(trash, width - 475, height - 75, 75, 75); // trash can to throw away loadedtower
   }
@@ -174,6 +174,15 @@ void checkUpgrades() {
   }
 }
 
-void checkHover(){
-  
+void checkHover() {
+  for (Button i : Buttons) {
+    if (mouseInZone(i.x, i.y, i.x+40, i.y+40)){
+    }
+  }
+  for (Towers me : Towers) {
+    if (distance(mouseX, mouseY, me.x-50, me.y-30) <= me.size) {
+    }
+    if (distance(mouseX, mouseY, me.x+50, me.y-30) <= me.size) {
+    }
+  }
 }
