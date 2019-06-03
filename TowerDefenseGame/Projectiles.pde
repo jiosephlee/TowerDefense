@@ -17,6 +17,8 @@ abstract class Projectiles {
     damage = damageA;
     //level = 1;
   }
+  void clearTime(){ //default for clearing the time when pausing
+  }
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
@@ -181,12 +183,25 @@ class MortarShell extends Projectiles {
     lastTimeStamp = System.currentTimeMillis();
   }
   void clearTime(){
-    lastTimeStamp =  System.currentTimeMillis();
+    lastTimeStamp =  System.currentTimeMillis(); //used after each pause
   }
-  void move(){
+  void move(){ //use elapsed time to calculate how far to move in the arc;
     long timeChange = System.currentTimeMillis() - lastTimeStamp;
     timeElapsed += timeChange;
-    x = cx + pathRadius * (startingAngle + angSpeed * timeElapsed); 
-    lastTimeStamp = System.currentTimeMillis();
+    x = cx + pathRadius * cos(startingAngle + angSpeed * timeElapsed); 
+    y = cy + pathRadius * sin(startingAngle + angSpeed * timeElapsed);
+    clearTime();
+  }
+  void attack(){
+    for(Monster m: Monsters){
+      if((distance(x,y,m.x,m.y) < blastRadius)){
+        m.changeHP(damage);
+        toDestroyA.add(this);
+      }
+    }
+  }
+  void display(){
+    fill(255,0,0);
+    ellipse(x,y,20,20);
   }
 }

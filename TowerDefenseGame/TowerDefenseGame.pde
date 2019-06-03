@@ -24,7 +24,7 @@ void setup() {
   menu = new Menu();
   p = new Path();
   upgrading = false;
-  Monsters = new LinkedList<Monster>(); //list of Monsters
+  Monsters = new ArrayList<Monster>(); //list of Monsters
 
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
@@ -71,7 +71,6 @@ void updateAll() { //updates and displays game variables
     //display pause button
     image(pause, 75, height - 75, 75, 75);
     fill(255, 0, 0);
-    //display circle at mouse pointer
     loadButtons();
     gameMove();
     if (mousePressed && !lastMousePressed) {
@@ -139,11 +138,6 @@ void updateAll() { //updates and displays game variables
   }
   lastMousePressed = mousePressed; //debounce
 }
-
-void gameMove() {
-  for (Monster m : Monsters) {
-    m.move();
-  }
 
 void gameMove() {
   for (Monster m : Monsters) {

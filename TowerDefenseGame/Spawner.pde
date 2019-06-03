@@ -28,6 +28,9 @@ class Spawner {
     //resumes the game after a pause and compensates for that in time elapsed
     long time = System.currentTimeMillis();
     levelTime += (time - pauseTime);
+    for(Projectiles p: Projectiles){
+      p.clearTime();
+    }
   }
   void resetTime() {
     //reset the time counter after each level
