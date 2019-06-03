@@ -101,12 +101,6 @@ class Tower2 extends Towers {
     price = 20;
     bulletBeat=1;
   }
-  void attack(){
-    if(Math.random() < 0.01 && Monsters.size() > 0){
-      Projectiles.add(new MortarShell(x,y,Monsters.get(0),10.0,50.0));
-    }
-  }
-  /*
   void attack() {
     if (resting && (millis() - shotTime)/1000 >= fireRate) {     //if more than the time that firerate dictates has passed, then it shoots again
       resting = false;
@@ -122,7 +116,6 @@ class Tower2 extends Towers {
       }
     }
   }
-  */
   void upgradeFirst() {
     if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
       if (firstPathLevel == 0) {
@@ -155,5 +148,24 @@ class Tower2 extends Towers {
         secondPathLevel++;
       }
     }
+  }
+}
+class MortarTower extends Towers {
+  float blastRadius;
+  MortarTower(float xA, float yA) {
+    super(xA, yA, 40, 600, 5, 10);
+    blastRadius = 75;
+    price = 40;
+  }
+  void attack() {
+    if ((millis() - shotTime)/1000 <= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
+      Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius));
+    }
+    shotTime = millis();
+  }
+
+  void upgradeFirst() {
+  }
+  void upgradeSecond() {
   }
 }

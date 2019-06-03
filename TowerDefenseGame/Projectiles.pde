@@ -172,12 +172,12 @@ class MortarShell extends Projectiles {
   MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
     super(xA, yA, i, damage, 0, 0, 0);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
-    long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 40; //calculates airTime in ms using distance
+    long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 50; //calculates airTime in ms using distance
     angSpeed = (float) Math.PI / airTime; //calculates angular velocity in radians per ms
     float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
     cx = (target[0] + x) / 2.0; //sets center of the arc
     cy = (target[1] + y) / 2.0; 
-
+    damage = 10;
     pathRadius = distance(target[0], target[1], cx, cy);
     startingAngle = (float)Math.atan((cy-y)/(cx-x)); //calculates starting angle from center
     if (x < cx) { //set direction of trajectory and account for range of arctan
@@ -194,7 +194,7 @@ class MortarShell extends Projectiles {
     timeElapsed += timeChange;
     x = cx + pathRadius * cos(startingAngle + angSpeed * timeElapsed); 
     y = cy + pathRadius * sin(startingAngle + angSpeed * timeElapsed);
-    if(angSpeed * timeElapsed > PI){
+    if(abs(angSpeed * timeElapsed) > PI){
       attack();
     }
     clearTime();
@@ -202,10 +202,10 @@ class MortarShell extends Projectiles {
   void attack() {
     for (Monster m : Monsters) {
       if ((distance(x, y, m.x, m.y) < blastRadius)) {
-        m.changeHP(damage);
-        toDestroyA.add(this);
+        m.changeHP( -1 * damage);
       }
     }
+    toDestroyA.add(this);
   }
   void display() {
     fill(255, 100, 100);

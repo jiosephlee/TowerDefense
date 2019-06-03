@@ -116,6 +116,15 @@ class Button2 extends Button {
   }
 }
 
+class Button3 extends Button {
+  Button3() {
+    super(1200, 400, new MortarTower(-1, -1), color(213, 324, 23));
+  }
+  void newTower() {
+    load = new MortarTower(-1, -1);
+  }
+}
+
 class upgradeButton {
   Towers me;
   int size;

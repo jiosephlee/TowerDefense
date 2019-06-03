@@ -31,7 +31,7 @@ void setup() {
   s = new Spawner(); //spawner class
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
-  Buttons = new Button[]{new Button1(), new Button2()};
+  Buttons = new Button[]{new Button1(), new Button2(),new Button3()};
   upgrades = new ArrayList<upgradeButton>();
   loaded =  false;
   //load graphics of game
@@ -69,6 +69,7 @@ void updateAll() { //updates and displays game variables
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
+    sortMonsters();
     image(pause, 75, height - 75, 75, 75);
     fill(255, 0, 0);
     loadButtons();
