@@ -175,22 +175,26 @@ void checkUpgrades() {
 }
 
 void checkHover() {
-  for (Button i : Buttons) {
-    if (mouseInZone(i.x,i.y,i.x + 40, i.y +40)){
-      fill(255,255,255);
-      rect(i.x, i.y - 30, 30, 30);
-      println("yo");
+  if (!loaded) {
+    for (Button i : Buttons) {
+      if (mouseInZone(i.x, i.y, i.x + 40, i.y +40)) {
+        fill(0, 0, 0);
+        rect(i.x, i.y - 30, 30, 30);
+        println("yo");
+      }
     }
-  }
-  for (Towers me : Towers) {
-    if (distance(mouseX, mouseY, me.x-50, me.y-30) <= me.size) {
-      fill(255,255,255);
-      rect(me.x - 50, me.y - 30, 30, 30);
-      println("yo");
-    }
-    if (distance(mouseX, mouseY, me.x+50, me.y-30) <= me.size) {
-      fill(255,255,255);
-      rect(me.x + 50, me.y - 30, 30, 30);
+    if (upgrading) {
+      for (upgradeButton i : upgrades) {
+        if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size) {
+          fill(255, 255, 255);
+          rect(i.me.x - 50 - i.size/2, i.me.y - 30 - i.size, 30, 30);
+          println("yo");
+        }
+        if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size) {
+          fill(255, 255, 255);
+          rect(i.me.x + 50 - i.size/2, i.me.y - 30 - i.size, 30, 30);
+        }
+      }
     }
   }
 }
