@@ -178,8 +178,11 @@ void checkHover() {
   if (!loaded) {
     for (Button i : Buttons) {
       if (mouseInZone(i.x, i.y, i.x + 40, i.y +40)) {
-        image(textbubble1,i.x + 30, i.y - 80, 200,120);
-        println("yo");
+        if(i.x < 1100){
+          image(textbubble,i.x + 30, i.y - 80, 200,120);
+        } else{
+          image(textbubble2,i.x - 50, i.y - 80, 200,120);
+        }
       }
     }
     if (upgrading) {
