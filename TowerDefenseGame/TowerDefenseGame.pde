@@ -85,6 +85,7 @@ void updateAll() { //updates and displays game variables
       checkUpgrades();
       checkButton();
     }
+    checkHover();
     movingDisplay();
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
@@ -125,6 +126,7 @@ void updateAll() { //updates and displays game variables
       checkUpgrades();
       checkButton();
     }
+    checkHover();
     movingDisplay();
   } else if (gameMode == 2) { //main menu mode
     fill(255, 178, 102);

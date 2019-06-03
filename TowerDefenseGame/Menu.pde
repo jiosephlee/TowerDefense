@@ -176,13 +176,21 @@ void checkUpgrades() {
 
 void checkHover() {
   for (Button i : Buttons) {
-    if (mouseInZone(i.x, i.y, i.x+40, i.y+40)){
+    if (mouseInZone(i.x,i.y,i.x + 40, i.y +40)){
+      fill(255,255,255);
+      rect(i.x, i.y - 30, 30, 30);
+      println("yo");
     }
   }
   for (Towers me : Towers) {
     if (distance(mouseX, mouseY, me.x-50, me.y-30) <= me.size) {
+      fill(255,255,255);
+      rect(me.x - 50, me.y - 30, 30, 30);
+      println("yo");
     }
     if (distance(mouseX, mouseY, me.x+50, me.y-30) <= me.size) {
+      fill(255,255,255);
+      rect(me.x + 50, me.y - 30, 30, 30);
     }
   }
 }
