@@ -29,8 +29,9 @@ abstract class Projectiles {
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
-        i.setBad();
-        Monsters.remove(i);
+        //i.setBad();
+        //Monsters.remove(i);
+        toDestroy.add(i);
         penetrationLevel--;
         if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
           dead = true;
@@ -135,6 +136,7 @@ class followBullet extends Projectiles {
             gostraight = true;
           }
         }
+        //redirecting code
         vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
         vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
         turnedTime = millis();
@@ -145,8 +147,9 @@ class followBullet extends Projectiles {
   boolean dealDamage(Monster i) {
     if (distance(i.x, i.y, x, y) <= size) { //if monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) { // if monster died
-        monster.setBad();
-        Monsters.remove(monster);// remove dead monster so you dont target it again
+        //monster.setBad();
+        toDestroy.add(monster);
+        //Monsters.remove(monster);// remove dead monster so you dont target it again
         if (Monsters.size() > 0) { //if their are monsters on the map, get a new monster
           int a = this.nearestMonster(Monsters);
           if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
@@ -254,7 +257,7 @@ class MortarShell extends Projectiles {
       for (int i = 0; i < Monsters.size(); i++) {
         Monster m = Monsters.get(i);
         if ((distance(x, y, m.x, m.y) < blastRadius)) {
-          m.changeHP(-1 * damage);
+          dealDamage(m);
         }
       }
     }
