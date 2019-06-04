@@ -165,10 +165,12 @@ class followBullet extends Projectiles {
 }
 //projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
+  PImage explosion;
+  boolean landed; //whether or not the projectile has landed
   float cx, cy, angSpeed, startingAngle, angle, blastRadius, pathRadius;
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
-  long lastTimeStamp, timeElapsed; //holds timestamp of last frame
+  long lastTimeStamp, timeElapsed, landingTime; //holds timestamp of last frame
   MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
     super(xA, yA, i, damage, 0, 0, 0);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
@@ -184,6 +186,7 @@ class MortarShell extends Projectiles {
       angSpeed *= -1;
       startingAngle += Math.PI;
     }
+    explosion = loadImage("images/explosion.png");
     lastTimeStamp = System.currentTimeMillis();
   }
   void clearTime() {
@@ -192,23 +195,35 @@ class MortarShell extends Projectiles {
   void move() { //use elapsed time to calculate how far to move in the arc;
     long timeChange = System.currentTimeMillis() - lastTimeStamp;
     timeElapsed += timeChange;
-    x = cx + pathRadius * cos(startingAngle + angSpeed * timeElapsed); 
-    y = cy + pathRadius * sin(startingAngle + angSpeed * timeElapsed);
-    if(abs(angSpeed * timeElapsed) > PI){
+    if (abs(angSpeed * timeElapsed) > PI) {
       attack();
+    } else { 
+      x = cx + pathRadius * cos(startingAngle + angSpeed * timeElapsed); 
+      y = cy + pathRadius * sin(startingAngle + angSpeed * timeElapsed);
     }
     clearTime();
   }
   void attack() {
+    if (landingTime == 0) {
+      landed = true;
+      landingTime = System.currentTimeMillis();
+    }
     for (Monster m : Monsters) {
       if ((distance(x, y, m.x, m.y) < blastRadius)) {
         m.changeHP( -1 * damage);
       }
     }
-    toDestroyA.add(this);
+    println(System.currentTimeMillis() - landingTime);
+    if (System.currentTimeMillis() - landingTime > 700) {
+      toDestroyA.add(this);
+    }
   }
   void display() {
-    fill(255, 100, 100);
-    ellipse(x, y, 20, 20);
+    if (landed) {
+      image(explosion, x, y, 10 + (System.currentTimeMillis() - landingTime )/10.0, 10 + (System.currentTimeMillis() - landingTime )/10.0);
+    } else {
+      fill(255, 100, 100);
+      ellipse(x, y, 20, 20);
+    }
   }
 }

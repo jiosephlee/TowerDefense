@@ -209,10 +209,17 @@ void checkHover() {
           image(textbubble,i.x + 45, i.y - 80, 200,120);
           textSize(24);
           fill(255, 255, 255);
-          text("IntroCS Student", i.x - 47.5, i.y - 107.5);
+          if(i.y < 250){
+            text("IntroCS Student", i.x - 47.5, i.y - 107.5);
           textSize(12);
           text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
-        } else{
+          } else{
+             text("SoftDev Mortar", i.x - 47.5, i.y - 107.5);
+          textSize(12);
+          text("Tower that fires mortar \nshells at monsters", i.x - 47.5, i.y - 87.5);
+          }
+          
+        }else{
           image(textbubble2,i.x - 32.5, i.y - 80, 200,120);
           textSize(24);
           fill(255, 255, 255);
