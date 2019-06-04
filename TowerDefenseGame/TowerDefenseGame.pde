@@ -175,12 +175,10 @@ void movingDisplay(){
     }
     //ask towers to display
     for (Towers i : Towers) {
-      fill(0, 0, 255);
-      ellipse(i.x, i.y, i.size, i.size);
+      i.display();
     }
     //ask projectiles to display
     for (Projectiles i : Projectiles) {
-      fill(15, 15, 255);
-      ellipse(i.x, i.y, i.size, i.size);
+      i.display();
     }
 }

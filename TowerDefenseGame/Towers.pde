@@ -1,6 +1,6 @@
 abstract class Towers {
   float x, y, fireRate, damage, shotTime;
-  int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange;
+  int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange, Color;
   boolean resting, onemaxed, twomaxed;
   upgradeButton upgrade;
 
@@ -30,6 +30,10 @@ abstract class Towers {
   void setxy(float xA, float yA) {
     x = xA; 
     y = yA;
+  }
+  void display(){
+    fill(Color);
+    ellipse(x, y, size, size);
   }
     void checkInitiated() {
     if (distance(mouseX, mouseY, x, y) <= size) {
@@ -67,6 +71,7 @@ class Tower1 extends Towers {
     super(xA, yA, 40, 100, 1, 5);
     price = 10;
     bulletSpread = 1;
+    Color = color(103, 207, 45);
   }
 
 
@@ -167,6 +172,7 @@ class Tower2 extends Towers {
     super(xA, yA, 40, 100, 1, 5);
     price = 20;
     bulletBeat=1;
+    Color = color(173, 107, 245);
   }
 
   void attack() {

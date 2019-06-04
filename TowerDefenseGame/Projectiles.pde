@@ -17,6 +17,11 @@ abstract class Projectiles {
     damage = damageA;
     //level = 1;
   }
+  abstract void move();
+  void display() {
+    fill(15, 15, 255);
+    ellipse(x, y, size, size);
+  }
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
@@ -35,7 +40,6 @@ abstract class Projectiles {
     }
     return false;
   }
-  abstract void move();
 }
 
 class StraightBullet extends Projectiles {
@@ -158,31 +162,31 @@ class followBullet extends Projectiles {
 }
 //projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
-  float cx, cy,angSpeed, startingAngle,angle,blastRadius,pathRadius;
+  float cx, cy, angSpeed, startingAngle, angle, blastRadius, pathRadius;
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
   long lastTimeStamp, timeElapsed; //holds timestamp of last frame
   MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
     super(xA, yA, i, damage, 0, 0, 0);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
-    long airTime = (long) sqrt(distance(xA,yA,i.getX(),i.getY())) * 4; //calculates airTime in ms using distance
+    long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 4; //calculates airTime in ms using distance
     angSpeed = (float) Math.PI / airTime; //calculates angular velocity in radians per ms
     float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
     cx = (target[0] + x) / 2.0; //sets center of the arc
     cy = (target[1] + y) / 2.0; 
-    
-    pathRadius = distance(target[0],target[1],cx,cy);
+
+    pathRadius = distance(target[0], target[1], cx, cy);
     startingAngle = (float)Math.atan((cy-y)/(cx-x)); //calculates starting angle from center
-    if(x < cx){ //set direction of trajectory and account for range of arctan
+    if (x < cx) { //set direction of trajectory and account for range of arctan
       angSpeed *= -1;
       startingAngle += Math.PI;
     }
     lastTimeStamp = System.currentTimeMillis();
   }
-  void clearTime(){
+  void clearTime() {
     lastTimeStamp =  System.currentTimeMillis();
   }
-  void move(){
+  void move() {
     long timeChange = System.currentTimeMillis() - lastTimeStamp;
     timeElapsed += timeChange;
     x = cx + pathRadius * (startingAngle + angSpeed * timeElapsed); 
