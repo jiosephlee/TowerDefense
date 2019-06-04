@@ -33,7 +33,6 @@ void loadButtons() {
     ellipse(mouseX, mouseY, loadedTower.range*2, loadedTower.range*2);
   }
   if (upgrading) {
-    print("hi");
     for (Towers j : Towers) {
       j.upgrade.display();
     }
@@ -117,32 +116,8 @@ class upgradeButton {
   void notDisplay() {
     display = false;
   }
-  void checkInitiated() {
-    if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
-      for (Towers i : Towers) {
-        i.upgrade.notDisplay();
-      }
-      upgrading = true;
-      display = true;
-    }
-  }
-  void checkClicked() {
-    if (!me.onemaxed && distance(mouseX, mouseY, me.x-50, me.y-30) <= size) {
-      me.upgradeFirst();
-      upgrading = false;
-      display = false;
-    } else if (!me.twomaxed && distance(mouseX, mouseY, me.x+50, me.y-30) <= size) {
-      me.upgradeSecond();
-      upgrading = false;
-      display = false;
-    } else if (distance(mouseX, mouseY, me.x, me.y + 40) <= 15) {
-      upgrading = false;
-      display = false;
-      Towers.remove(me);
-    } else if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
-      upgrading = false;
-      display = false;
-    }
+  void yesDisplay(){
+    display = true;
   }
   void display() {
     if (display) {
@@ -170,11 +145,11 @@ class upgradeButton {
 void checkUpgrades() {
   if (upgrading) {
     for (Towers i : Towers) {
-        i.upgrade.checkClicked();
+        i.checkClicked();
     }
   } else {
     for (Towers i : Towers) {
-      i.upgrade.checkInitiated();
+      i.checkInitiated();
     }
   }
 }

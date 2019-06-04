@@ -41,21 +41,21 @@ abstract class Towers {
     }
   }
   void checkClicked() {
-    if (!me.onemaxed && distance(mouseX, mouseY, me.x-50, me.y-30) <= size) {
-      me.upgradeFirst();
+    if (!onemaxed && distance(mouseX, mouseY, x-50, y-30) <= size) {
+      upgradeFirst();
       upgrading = false;
-      display = false;
-    } else if (!me.twomaxed && distance(mouseX, mouseY, me.x+50, me.y-30) <= size) {
-      me.upgradeSecond();
+      upgrade.notDisplay();
+    } else if (!twomaxed && distance(mouseX, mouseY, x+50, y-30) <= size) {
+      upgradeSecond();
       upgrading = false;
-      display = false;
-    } else if (distance(mouseX, mouseY, me.x, me.y + 40) <= 15) {
+      upgrade.notDisplay();
+    } else if (distance(mouseX, mouseY, x, y + 40) <= 15) {
       upgrading = false;
-      display = false;
-      Towers.remove(me);
-    } else if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
+      upgrade.notDisplay();
+      Towers.remove(this);
+    } else if (distance(mouseX, mouseY, x, y) <= size) {
       upgrading = false;
-      display = false;
+      upgrade.notDisplay();
     }
   }
 }

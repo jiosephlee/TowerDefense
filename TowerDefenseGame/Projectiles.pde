@@ -119,7 +119,6 @@ class followBullet extends Projectiles {
           int a = this.nearestMonster(Monsters);
           if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
             monster = Monsters.get(a);
-            print(a);
           } else { //a is negative when the nearest monster is really far. in that case its too far so lets continue going straight instead
             gostraight=true;
           }
