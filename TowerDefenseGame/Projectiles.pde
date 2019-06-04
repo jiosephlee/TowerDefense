@@ -205,18 +205,18 @@ class MortarShell extends Projectiles {
     clearTime();
   }
   void attack() {
+    if (!landed) {
+      for (int i = 0; i < Monsters.size(); i++) {
+        Monster m = Monsters.get(i);
+        if ((distance(x, y, m.x, m.y) < blastRadius)) {
+          m.changeHP(-1 * damage);
+        }
+      }
+    }
     //if the mortar shell has landed, start counting
     if (landingTime == 0) {
       landed = true;
       landingTime = System.currentTimeMillis();
-    }
-    //kills monsters in the blast radius
-    for (Monster m : Monsters) {
-      if ((distance(x, y, m.x, m.y) < blastRadius)) {
-        if (m.changeHP(-1 * damage) <=0) {
-          toDestroy.add(m);
-        }
-      }
     }
     //destroys the mortar shell after landing for a while
     if (System.currentTimeMillis() - landingTime > 700) {

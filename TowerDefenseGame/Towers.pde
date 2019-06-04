@@ -236,7 +236,7 @@ class MortarTower extends Towers {
   }
 
   void upgradeFirst() {
-    if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
+    if (m.changeMoney(-(1 + firstPathLevel) * 15 )) {
       if (firstPathLevel == 0) {
         size+=5;
         damage+= 5;
@@ -251,7 +251,7 @@ class MortarTower extends Towers {
   }
   void upgradeSecond() {
     if (secondPathLevel < 3) {
-      if (m.changeMoney(-(1 + secondPathLevel) * 5)) {
+      if (m.changeMoney(-(1 + secondPathLevel) * 15)) {
         if (secondPathLevel == 0) {
           fireRate = 1.5;
           onemaxed = true;

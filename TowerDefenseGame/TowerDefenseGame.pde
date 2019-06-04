@@ -31,7 +31,7 @@ void setup() {
   s = new Spawner(); //spawner class
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
-  Buttons = new Button[]{new Button1(), new Button2(),new Button3()};
+  Buttons = new Button[]{new Button1(), new Button2(), new Button3()};
   upgrades = new ArrayList<upgradeButton>();
   loaded =  false;
   //load graphics of game
@@ -65,7 +65,36 @@ void fieldSetup() {
   text("y: " + mouseY, 50, 100);
   textSize(20);
 }
-
+//cheats
+void keyPressed() {
+  switch(key) {
+  case 'q':
+    s.level++;
+    //add level
+    break;
+  case 'w':
+    s.level += 5;
+    //add 5 level
+    break;
+  case 'e':
+    s.level =99;
+    //level 99
+    break;
+  case 'm':
+    m.money += 10000;
+    //get od money
+    break;
+  case 'o':
+    //add health
+    m.hp += 25;
+    break;  
+  case 'p':
+    //subtract health
+    m.hp -= 25;
+    break;
+  default:
+  }
+}
 void updateAll() { //updates and displays game variables
   textSize(36);
   if (gameMode == 0) {
@@ -159,9 +188,10 @@ void gameMove() {
 
   for (Projectiles i : Projectiles) {
     i.move();
-  }
-  for (Monster m : toDestroy) {
-    Monsters.remove(m); //removes monsters from linkedlist after they die
+    for (Monster m : toDestroy) {
+      Monsters.remove(m); //removes monsters from linkedlist after they die
+    }
+    toDestroy.clear();
   }
   for (Towers m : Towers) {
     m.attack(); //ask all towers to attack
@@ -170,24 +200,23 @@ void gameMove() {
     Projectiles.remove(i); //remove all projectiles awaiting removal
     i = null;
   }
-  toDestroy.clear();
   toDestroyA.clear();
   //clears destruction queue
 }
 
-void movingDisplay(){
-      //ask monsters to display
-    for (Monster m : Monsters) {
-      m.display();
-    }
-    //ask towers to display
-    for (Towers i : Towers) {
-      fill(0, 0, 255);
-      ellipse(i.x, i.y, i.size, i.size);
-    }
-    //ask projectiles to display
-    for (Projectiles i : Projectiles) {
-      fill(15, 15, 255);
-      ellipse(i.x, i.y, i.size, i.size);
-    }
+void movingDisplay() {
+  //ask monsters to display
+  for (Monster m : Monsters) {
+    m.display();
+  }
+  //ask towers to display
+  for (Towers i : Towers) {
+    fill(0, 0, 255);
+    ellipse(i.x, i.y, i.size, i.size);
+  }
+  //ask projectiles to display
+  for (Projectiles i : Projectiles) {
+    fill(15, 15, 255);
+    ellipse(i.x, i.y, i.size, i.size);
+  }
 }
