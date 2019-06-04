@@ -1,6 +1,14 @@
 # TowerDefense -- Defending Konstantinople
 The game is a classic Tower Defense game. Defend your city by putting down towers and survive as best as you can. There are three different types of towers. IntroCS students that shoot straight at the monsters, APCS students that shoot bullets that follow monsters, and SoftDev students that shoot bombs that explode. There are features like those of a classic TD. You can upgrade them to different paths, sell them, etc. Try it out and see if you can best the monsters!
 
+For Demoing and Testing Purposes, we've also added cheatcodes to advance the game faster 
+Press Q to move onto next level
+Press W to move on five levels ahead
+Press E to move onto level 99
+Press M to get 10,000 dollars
+Press O to add 25 health 
+Press P to subtract 25 health
+
 # Development Logs
 
 5/19
@@ -66,6 +74,7 @@ The game is a classic Tower Defense game. Defend your city by putting down tower
 - Finished hovering feature with adjustments on what text should pop up and where (Jo)
 - Fixed bugs involved with multiple tower upgrading/buying (Jo)
 - Created Sell Tower feature (Jo)
+- Fixed a bunch of bugs that came with extensive testing (Jo)
 - Finished Mortar Tower and fixed issues with concurrent modification (Qiong)
 - Tuned the Mortar Tower and the strengths of monsters, created a boss known as BossK (Qiong)
 - Created game Over menu (Qiong)
