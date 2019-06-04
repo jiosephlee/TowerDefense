@@ -9,24 +9,6 @@ class Menu {
     fill(0);
     textSize(36);
     text("HP: " + (int) (m.hp + 0.5), 600, 50);  // displays hp
-    color zoneColor = mapZones.get(mouseX, mouseY);
-    if (loaded) {
-      if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
-        tint(#000000, 128);
-      } else {
-        tint(255, 128); //if not keep it red which means invalid
-      }
-      imageMode(CENTER);
-      //sets tint of circle around mouse pointer if tower cannot be placed at mouse location
-      range.resize(loadedTower.range*2, 0);
-      image(range, mouseX, mouseY);
-      tint(255, 255);
-    }
-    if (upgrading) {
-      for (upgradeButton i : upgrades) {
-        i.display();
-      }
-    }
     //display money, level and fps
     text("Money: " + m.money, 1000, height - 225);
     text("Level: " + s.level, 1000, height - 150);
@@ -47,17 +29,39 @@ class Menu {
   }
 }
 void loadButtons() {
+  fill(255, 0, 0);
+  //display circle at mouse pointer
   ellipse(mouseX, mouseY, 20, 20);
   for (Button i : Buttons) { //display the buttons
     i.display();
+  }
+  color zoneColor = mapZones.get(mouseX, mouseY);
+  if (loaded) {
+    if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
+      tint(#000000, 128);
+    } else {
+      tint(255, 128); //if not keep it red which means invalid
+    }
+    imageMode(CENTER);
+    //sets tint of circle around mouse pointer if tower cannot be placed at mouse location
+    range.resize(loadedTower.range*2, 0);
+    image(range, mouseX, mouseY);
+    tint(255, 255);
+  }
+  if (upgrading) {
+    for (upgradeButton i : upgrades) {
+      i.display();
+    }
+  }
+  if (loaded) {
+    image(trash, width - 475, height - 75, 75, 75); // trash can to throw away loadedtower
   }
 }
 void checkButton() {
 
   //uses background image to check if the area where the mouse is at is suitable for placing a tower
   if (loaded && isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
-    if (m.money >= loadedTower.price) {
-      m.changeMoney(-1 * loadedTower.price); //uses money to place tower
+    if (m.changeMoney(-1 * loadedTower.price)){ //uses money to place tower
       loadedTower.setxy(mouseX, mouseY);
       Towers.add(loadedTower);
       selectedButton.newTower();
@@ -70,6 +74,7 @@ void checkButton() {
       if (get(mouseX, mouseY) == b.Color) {
         selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
         loaded = true; 
+        upgrading = false;
         loadedTower = b.load; //take the tower from the button and load it to map
         break;
       }
@@ -134,8 +139,14 @@ class upgradeButton {
     size = me.size/3 * 2;
     display = false;
   }
+  void notDisplay(){
+    display = false;
+  }
   void checkInitiated() {
     if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
+      for(upgradeButton i : upgrades){
+        i.notDisplay();
+      }
       upgrading = true;
       display = true;
     }
@@ -156,6 +167,13 @@ class upgradeButton {
   }
   void display() {
     if (display) {
+      tint(#000000, 128);
+      imageMode(CENTER);
+      //sets tint of circle around chosen tower
+      range.resize(me.range*2, 0);
+      image(range, me.x, me.y);
+      tint(255, 255);
+
       if (me.onemaxed) {
         fill(0, 0, 0);
       } else {
@@ -183,19 +201,39 @@ void checkUpgrades() {
     }
   }
 }
-/*void loadMainMenu() {
- fill(255, 178, 102);
- rectMode(CENTER);
- rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
- textAlign(CENTER);
- 
- fill(0);
- textSize(72);
- text("PLAY", width/2.0, height/2.0 + 175);
- if (mousePressed && centerMouseInZone(width/2.0, height /2.0 + 150, 300, 120)) { 
- //if play button is presed change to gameMode 0
- gameMode = 0;
- s.newLevel(); // starts new level when the play button is presed
- }
- }
- */
+
+void checkHover() {
+  if (!loaded) {
+    for (Button i : Buttons) {
+      if (mouseInZone(i.x, i.y, i.x + 40, i.y +40)) {
+        if(i.x < 1100){
+          image(textbubble,i.x + 45, i.y - 80, 200,120);
+          textSize(24);
+          fill(255, 255, 255);
+          text("IntroCS Student", i.x - 47.5, i.y - 107.5);
+          textSize(12);
+          text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
+        } else{
+          image(textbubble2,i.x - 32.5, i.y - 80, 200,120);
+          textSize(24);
+          fill(255, 255, 255);
+          text("AP CS Student", i.x - 125, i.y - 110);
+          textSize(12);
+          text("Tower that shoots bullets \nthat follow untargeted \nmonsters", i.x - 125, i.y - 90);
+        }
+      }
+    }
+    if (upgrading) {
+      for (upgradeButton i : upgrades) {
+        if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size && !i.me.onemaxed) {
+          image(textbubble,i.me.x - 10, i.me.y - 120, 200,140);
+          i.me.displayFirstUpgradeText();
+        }
+        if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size && !i.me.twomaxed) {
+          image(textbubble2,i.me.x + 12.5, i.me.y - 120, 200,140);
+          i.me.displaySecondUpgradeText();
+        }
+      }
+    }
+  }
+}
