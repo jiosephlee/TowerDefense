@@ -59,8 +59,13 @@ The game is a classic Tower Defense game. Defend your city by putting down tower
 
 6/3
 - Wrote conditional structural code for when hovering feature should happen: when buying a tower and upgrading (Jo)
+- Finished writing the Mortar shell projectile and started to test it by replacing Tower 2's projectiles with it, spent alot of time debugging the mortar shell spawning (Qiong)
+- Began to write Mortar Tower (Qiong)
 
 6/4
 - Finished hovering feature with adjustments on what text should pop up and where (Jo)
 - Fixed bugs involved with multiple tower upgrading/buying (Jo)
 - Created Sell Tower feature (Jo)
+- Finished Mortar Tower and fixed issues with concurrent modification (Qiong)
+- Tuned the Mortar Tower and the strengths of monsters, created a boss known as BossK (Qiong)
+- Created game Over menu (Qiong)
