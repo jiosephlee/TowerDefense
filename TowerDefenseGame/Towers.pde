@@ -243,7 +243,7 @@ class MortarTower extends Towers {
         twomaxed = true;
       } else if (firstPathLevel == 1) {
         size+=5;
-        damage+=10;
+        blastRadius+=25;
         onemaxed = true;
       }
       firstPathLevel++;
@@ -261,6 +261,35 @@ class MortarTower extends Towers {
         }
         secondPathLevel++;
       }
+    }
+  }
+  void displayFirstUpgradeText() {
+    fill(255,255,255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1", x - 104.5, y - 167.5);
+      textSize(12);
+      text("Increase damage by 5 points", x - 104.5, y - 150);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 103.5, y - 165);
+      textSize(12);
+      text("Increase blast radius", x - 103.5, y - 145);
+    }
+  }
+
+  void displaySecondUpgradeText() {
+    fill(255,255,255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1", x - 78.5, y - 165);
+      textSize(12);
+      text("Increase fire rate by 50%", x - 78.5, y - 145);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 78.5, y - 165);
+      textSize(12);
+      text("Doubles initial fireRate", x - 78.5, y - 145);
     }
   }
 }
