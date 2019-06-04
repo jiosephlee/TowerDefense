@@ -199,27 +199,13 @@ void checkHover() {
       for (upgradeButton i : upgrades) {
         if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size) {
           image(textbubble,i.me.x - 32.5, i.me.y - 80, 100,70);
-          displayFirstUpgradeText(i.me);
+          i.me.displayFirstUpgradeText();
         }
         if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size) {
           image(textbubble2,i.me.x + 32.5, i.me.y - 80, 100,70);
-          displaySecondUpgradeText(i.me);
+          i.me.displaySecondUpgradeText();
         }
       }
     }
-  }
-}
-
-void displayFirstUpgradeText(Towers me){
-  if(me.firstPathLevel == 0){
-  } else if(me.firstPathLevel == 1){
-  } else if(me.firstPathLevel == 2){
-  }
-}
-
-void displaySecondUpgradeText(Towers me){
-  if(me.firstPathLevel == 0){
-  } else if(me.firstPathLevel == 1){
-  } else if(me.firstPathLevel == 2){
   }
 }

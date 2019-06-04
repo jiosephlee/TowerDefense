@@ -22,6 +22,8 @@ abstract class Towers {
   abstract void attack();
   abstract void upgradeFirst();
   abstract void upgradeSecond();
+  abstract void displayFirstUpgradeText();
+  abstract void displaySecondUpgradeText();
 
   void setxy(float xA, float yA) {
     x = xA; 
@@ -92,6 +94,19 @@ class Tower1 extends Towers {
       twomaxed = true;
     }
   }
+  void displayFirstUpgradeText() {
+    if (me.firstPathLevel == 0) {
+    } else if (me.firstPathLevel == 1) {
+    } else if (me.firstPathLevel == 2) {
+    }
+  }
+
+  void displaySecondUpgradeText() {
+    if (me.firstPathLevel == 0) {
+    } else if (me.firstPathLevel == 1) {
+    } else if (me.firstPathLevel == 2) {
+    }
+  }
 }
 
 class Tower2 extends Towers {
@@ -148,6 +163,19 @@ class Tower2 extends Towers {
         }
         secondPathLevel++;
       }
+    }
+  }
+  void displayFirstUpgradeText() {
+    if (me.firstPathLevel == 0) {
+    } else if (me.firstPathLevel == 1) {
+    } else if (me.firstPathLevel == 2) {
+    }
+  }
+
+  void displaySecondUpgradeText() {
+    if (me.firstPathLevel == 0) {
+    } else if (me.firstPathLevel == 1) {
+    } else if (me.firstPathLevel == 2) {
     }
   }
 }
