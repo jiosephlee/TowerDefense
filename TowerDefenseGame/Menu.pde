@@ -198,11 +198,11 @@ void checkHover() {
     if (upgrading) {
       for (upgradeButton i : upgrades) {
         if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size) {
-          image(textbubble,i.me.x - 32.5, i.me.y - 80, 100,70);
+          image(textbubble,i.me.x - 32.5, i.me.y - 80, 200,140);
           i.me.displayFirstUpgradeText();
         }
         if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size) {
-          image(textbubble2,i.me.x + 32.5, i.me.y - 80, 100,70);
+          image(textbubble2,i.me.x + 32.5, i.me.y - 80, 200,140);
           i.me.displaySecondUpgradeText();
         }
       }

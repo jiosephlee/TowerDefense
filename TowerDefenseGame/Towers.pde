@@ -95,16 +95,29 @@ class Tower1 extends Towers {
     }
   }
   void displayFirstUpgradeText() {
-    if (me.firstPathLevel == 0) {
-    } else if (me.firstPathLevel == 1) {
-    } else if (me.firstPathLevel == 2) {
+    fill(255,255,255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1", x - 75, y - 95);
+      textSize(12);
+      text("Upgrade to have a penetration level of 2 \n If monster doesn't die immediately \n bullet will not penetrate", x - 75, y - 85);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 75, y - 95);
+      textSize(12);
+      text("Upgrade to", x - 75, y - 85);
+    } else if (firstPathLevel == 2) {
+      textSize(16);
+      text("Level 3", x - 75, y - 95);
+      textSize(12);
+      text("Upgrade to", x - 75, y - 85);
     }
   }
 
   void displaySecondUpgradeText() {
-    if (me.firstPathLevel == 0) {
-    } else if (me.firstPathLevel == 1) {
-    } else if (me.firstPathLevel == 2) {
+    if (firstPathLevel == 0) {
+    } else if (firstPathLevel == 1) {
+    } else if (firstPathLevel == 2) {
     }
   }
 }
@@ -166,16 +179,16 @@ class Tower2 extends Towers {
     }
   }
   void displayFirstUpgradeText() {
-    if (me.firstPathLevel == 0) {
-    } else if (me.firstPathLevel == 1) {
-    } else if (me.firstPathLevel == 2) {
+    if (firstPathLevel == 0) {
+    } else if (firstPathLevel == 1) {
+    } else if (firstPathLevel == 2) {
     }
   }
 
   void displaySecondUpgradeText() {
-    if (me.firstPathLevel == 0) {
-    } else if (me.firstPathLevel == 1) {
-    } else if (me.firstPathLevel == 2) {
+    if (firstPathLevel == 0) {
+    } else if (firstPathLevel == 1) {
+    } else if (firstPathLevel == 2) {
     }
   }
 }
