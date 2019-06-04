@@ -48,8 +48,7 @@ void checkButton() {
 
   //uses background image to check if the area where the mouse is at is suitable for placing a tower
   if (loaded && isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
-    if (m.money >= loadedTower.price) {
-      m.changeMoney(-1 * loadedTower.price); //uses money to place tower
+    if (m.changeMoney(-1 * loadedTower.price)){ //uses money to place tower
       loadedTower.setxy(mouseX, mouseY);
       Towers.add(loadedTower);
       selectedButton.newTower();
@@ -62,6 +61,7 @@ void checkButton() {
       if (get(mouseX, mouseY) == b.Color) {
         selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
         loaded = true; 
+        upgrading = false;
         loadedTower = b.load; //take the tower from the button and load it to map
         break;
       }

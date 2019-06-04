@@ -25,7 +25,7 @@ class Map {
   }
   boolean changeMoney(int a){
     //modify the user's money
-    if(money + a >= 0){
+    if(money + a >= 0){ // if i still have at least 0 money after spending it, it's okay
       money += a;
       return true;
     }

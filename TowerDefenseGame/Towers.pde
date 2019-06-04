@@ -190,9 +190,9 @@ class Tower2 extends Towers {
     fill(255,255,255);
     if (firstPathLevel == 0) {
       textSize(16);
-      text("Level 1", x - 103.5, y - 167.5);
+      text("Level 1", x - 104.5, y - 167.5);
       textSize(12);
-      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however \nAlso, decreases bullet speed", x - 103.5, y - 150);
+      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however \nAlso, decreases bullet speed", x - 104.5, y - 150);
     } else if (firstPathLevel == 1) {
       textSize(16);
       text("Level 2", x - 103.5, y - 165);
@@ -205,14 +205,14 @@ class Tower2 extends Towers {
     fill(255,255,255);
     if (firstPathLevel == 0) {
       textSize(16);
-      text("Level 1", x - 80, y - 165);
+      text("Level 1", x - 78.5, y - 165);
       textSize(12);
-      text("Double firerate and increase \nbullet speed", x - 80, y - 145);
+      text("Double firerate and increase \nbullet speed", x - 78.5, y - 145);
     } else if (firstPathLevel == 1) {
       textSize(16);
-      text("Level 2", x - 80, y - 165);
+      text("Level 2", x - 78.5, y - 165);
       textSize(12);
-      text("Shoots bullets twice at a time and increases bullet speed", x - 80, y - 145);
+      text("Shoots bullets twice at a time and increases bullet speed", x - 78.5, y - 145);
     }
   }
 }
