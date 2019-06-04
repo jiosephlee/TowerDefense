@@ -179,22 +179,19 @@ void checkHover() {
     for (Button i : Buttons) {
       if (mouseInZone(i.x, i.y, i.x + 40, i.y +40)) {
         if(i.x < 1100){
-          image(textbubble,i.x + 30, i.y - 80, 200,120);
+          image(textbubble,i.x + 40, i.y - 80, 200,120);
         } else{
-          image(textbubble2,i.x - 50, i.y - 80, 200,120);
+          image(textbubble2,i.x - 40, i.y - 80, 200,120);
         }
       }
     }
     if (upgrading) {
       for (upgradeButton i : upgrades) {
         if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size) {
-          fill(0, 0, 0);
-          rect(i.me.x - 50 - i.size/2, i.me.y - 30 - i.size*2, 30, 30);
-          println("yo");
+          image(textbubble,i.me.x - 40, i.me.y - 80, 100,70);
         }
         if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size) {
-          fill(0, 0, 0);
-          rect(i.me.x + 50 - i.size/2, i.me.y - 30 - i.size*2, 30, 30);
+          image(textbubble2,i.me.x + 80 + i.me.size, i.me.y - 80, 100,70);
         }
       }
     }
