@@ -210,10 +210,11 @@ class MortarShell extends Projectiles {
     }
     for (Monster m : Monsters) {
       if ((distance(x, y, m.x, m.y) < blastRadius)) {
-        m.changeHP( -1 * damage);
+        if (m.changeHP(-1 * damage) <=0) {
+          toDestroy.add(m);
+        }
       }
     }
-    println(System.currentTimeMillis() - landingTime);
     if (System.currentTimeMillis() - landingTime > 700) {
       toDestroyA.add(this);
     }

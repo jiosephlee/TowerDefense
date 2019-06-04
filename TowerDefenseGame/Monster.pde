@@ -150,15 +150,6 @@ class RedSlime extends Slime{
     m.changeHP(damage);
     toDestroy.add(this);
   }
-  void die(){
-    //dies but also spawns two new slimes at position
-    toDestroy.add(this);
-    m.changeMoney(2);
-    for(int i = 0; i < childrenNumber; i++){
-      float[] newPos = calculateNewPosition(i);
-      Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
-    }
-  }
   void displayHealth(){
     rectMode(CENTER);
     fill(255,0,0);
