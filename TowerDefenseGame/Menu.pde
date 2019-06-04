@@ -181,10 +181,11 @@ void checkHover() {
       if (mouseInZone(i.x, i.y, i.x + 40, i.y +40)) {
         if (i.x < 1100) {
           image(textbubble, i.x + 45, i.y - 80, 200, 120);
-          textSize(24);
+          textSize(18);
           fill(255, 255, 255);
+
           if (i.y < 250) {
-            text("IntroCS Tower", i.x - 47.5, i.y - 107.5);
+            text("IntroCS Tower ($10)", i.x - 47.5, i.y - 107.5);
             textSize(12);
             text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
           } else {
@@ -197,7 +198,8 @@ void checkHover() {
 
           textSize(24);
           fill(255, 255, 255);
-          text("AP CS Tower", i.x - 125, i.y - 110);
+          text("AP CS Tower ($20)", i.x - 125, i.y - 110);
+
           textSize(12);
           text("Tower that shoots bullets \nthat follow untargeted \nmonsters", i.x - 125, i.y - 90);
         }
