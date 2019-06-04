@@ -13,6 +13,18 @@ class Menu {
     text("Money: " + m.money, 1000, height - 225);
     text("Level: " + s.level, 1000, height - 150);
     text("FPS: " + (int) (frameRate + 0.5), 1000, height - 75);
+    //ask monsters to display
+    for (Monster m : Monsters) {
+      m.display();
+    }
+    //ask towers to display
+    for (Towers i : Towers) {
+      i.display();
+    }
+    //ask projectiles to display
+    for (Projectiles i : Projectiles) {
+      i.display();
+    }
   }
 }
 void loadButtons() {
@@ -104,6 +116,15 @@ class Button2 extends Button {
   }
 }
 
+class Button3 extends Button {
+  Button3() {
+    super(1020, 350, new MortarTower(-1, -1), color(213, 324, 23));
+  }
+  void newTower() {
+    load = new MortarTower(-1, -1);
+  }
+}
+
 class upgradeButton {
   Towers me;
   int size;
@@ -162,11 +183,20 @@ void checkHover() {
           image(textbubble, i.x + 45, i.y - 80, 200, 120);
           textSize(24);
           fill(255, 255, 255);
-          text("IntroCS Student", i.x - 47.5, i.y - 107.5);
+          if(i.y < 250){
+            text("IntroCS Student", i.x - 47.5, i.y - 107.5);
           textSize(12);
           text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
-        } else {
-          image(textbubble2, i.x - 32.5, i.y - 80, 200, 120);
+
+          } else{
+             text("SoftDev Mortar", i.x - 47.5, i.y - 107.5);
+          textSize(12);
+          text("Tower that fires mortar \nshells at monsters", i.x - 47.5, i.y - 87.5);
+          }
+          
+        }else{
+          image(textbubble2,i.x - 32.5, i.y - 80, 200,120);
+
           textSize(24);
           fill(255, 255, 255);
           text("AP CS Student", i.x - 125, i.y - 110);
