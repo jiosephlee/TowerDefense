@@ -27,14 +27,15 @@ void loadButtons() {
     if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
       fill(101, 127);
     } else {
-      fill(255,0,0, 127);
+      fill(255, 0, 0, 127);
     }
     //places a transparent circle around mouse pointer showing whether tower cannot be placed at mouse location
     ellipse(mouseX, mouseY, loadedTower.range*2, loadedTower.range*2);
   }
   if (upgrading) {
-    for (upgradeButton i : upgrades) {
-      i.display();
+    for (Towers j : Towers) {
+
+      j.upgrade.display();
     }
   }
   if (loaded) {
@@ -50,7 +51,6 @@ void checkButton() {
       Towers.add(loadedTower);
       selectedButton.newTower();
       loaded = false;
-      upgrades.add(new upgradeButton(loadedTower));
       upgrading = false;
     }
   } else {// if they press the button tell map that it's been clicked and load the selected tower
@@ -119,8 +119,8 @@ class upgradeButton {
   }
   void checkInitiated() {
     if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
-      for (upgradeButton i : upgrades) {
-        i.notDisplay();
+      for (Towers i : Towers) {
+        i.upgrade.notDisplay();
       }
       upgrading = true;
       display = true;
@@ -147,7 +147,7 @@ class upgradeButton {
   void display() {
     if (display) {
       //sets range around chosen tower
-      fill(101,127);
+      fill(101, 127);
       ellipse(me.x, me.y, loadedTower.range*2, loadedTower.range*2);
 
       if (me.onemaxed) {
@@ -169,12 +169,16 @@ class upgradeButton {
 
 void checkUpgrades() {
   if (upgrading) {
-    for (upgradeButton i : upgrades) {
-      i.checkClicked();
+    for (Towers i : Towers) {
+      for (upgradeButton j : i.upgrades) {
+        j.checkClicked();
+      }
     }
   } else {
-    for (upgradeButton i : upgrades) {
-      i.checkInitiated();
+    for (Towers i : Towers) {
+      for (upgradeButton j : i.upgrades) {
+        j.checkInitiated();
+      }
     }
   }
 }
@@ -201,14 +205,16 @@ void checkHover() {
       }
     }
     if (upgrading) {
-      for (upgradeButton i : upgrades) {
-        if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size && !i.me.onemaxed) {
-          image(textbubble, i.me.x - 10, i.me.y - 120, 200, 140);
-          i.me.displayFirstUpgradeText();
-        }
-        if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size && !i.me.twomaxed) {
-          image(textbubble2, i.me.x + 12.5, i.me.y - 120, 200, 140);
-          i.me.displaySecondUpgradeText();
+      for (Towers j : Towers) {
+        for (upgradeButton i : j.upgrades) {
+          if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size && !i.me.onemaxed) {
+            image(textbubble, i.me.x - 10, i.me.y - 120, 200, 140);
+            i.me.displayFirstUpgradeText();
+          }
+          if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size && !i.me.twomaxed) {
+            image(textbubble2, i.me.x + 12.5, i.me.y - 120, 200, 140);
+            i.me.displaySecondUpgradeText();
+          }
         }
       }
     }

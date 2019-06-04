@@ -2,6 +2,7 @@ abstract class Towers {
   float x, y, fireRate, damage, shotTime;
   int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange;
   boolean resting, onemaxed, twomaxed;
+  upgradeButton upgrade;
 
 
   Towers(float xA, float yA, int sizeA, int rangeA, float fireRateA, float damageA) {
@@ -17,6 +18,7 @@ abstract class Towers {
     speedChange = 0;
     onemaxed = false;
     twomaxed = false;
+    upgrade = new upgradeButton(loadedTower);
   }
 
   abstract void attack();

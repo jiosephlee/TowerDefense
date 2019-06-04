@@ -8,7 +8,6 @@ ArrayList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
-ArrayList<upgradeButton> upgrades;
 LinkedList<Towers> Towers;
 PImage background, mapZones, play, pause, trash, textbubble, textbubble2;
 Spawner s;
@@ -32,7 +31,6 @@ void setup() {
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
   Buttons = new Button[]{new Button1(), new Button2()};
-  upgrades = new ArrayList<upgradeButton>();
   loaded =  false;
   //load graphics of game
   textbubble2 = loadImage("images/textbubble2.png");
