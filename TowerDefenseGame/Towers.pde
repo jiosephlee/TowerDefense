@@ -46,32 +46,34 @@ abstract class Towers {
     }
   }
   void checkClicked() {
-    if (!onemaxed && distance(mouseX, mouseY, x-50, y-30) <= size) {
-      upgradeFirst();
-      upgrading = false;
-      upgrade.notDisplay();
-    } else if (!twomaxed && distance(mouseX, mouseY, x+50, y-30) <= size) {
-      upgradeSecond();
-      upgrading = false;
-      upgrade.notDisplay();
-    } else if (distance(mouseX, mouseY, x, y + 40) <= 15) {
-      upgrading = false;
-      upgrade.notDisplay();
-      m.changeMoney(this.price/2);
-      Towers.remove(this);
-    } else if (distance(mouseX, mouseY, x, y) <= size) {
-      upgrading = false;
-      upgrade.notDisplay();
+    if (upgrade.display) {
+      if (!onemaxed && distance(mouseX, mouseY, x-50, y-30) <= size) {
+        upgradeFirst();
+        upgrading = false;
+        upgrade.notDisplay();
+      } else if (!twomaxed && distance(mouseX, mouseY, x+50, y-30) <= size) {
+        upgradeSecond();
+        upgrading = false;
+        upgrade.notDisplay();
+      } else if (distance(mouseX, mouseY, x, y + 40) <= 15) {
+        upgrading = false;
+        upgrade.notDisplay();
+        m.changeMoney(this.price/2);
+        Towers.remove(this);
+      } else if (distance(mouseX, mouseY, x, y) <= size) {
+        upgrading = false;
+        upgrade.notDisplay();
+      }
     }
   }
 }
 
-class BasicTower extends Towers {
+class BasiccTower extends Towers {
 
   int bulletSpread;
-  BasicTower(float xA, float yA) {
+  BasiccTower(float xA, float yA) {
     super(xA, yA, 40, 100, 1, 5);
-    price = 10;
+    price = 15;
     bulletSpread = 1;
     Color = color(103, 207, 45);
   }
@@ -85,7 +87,7 @@ class BasicTower extends Towers {
     if (!resting) {
       for (Monster i : Monsters) {
         if (distance(i.x, i.y, x, y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
-          Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange));
+          Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange, Color));
           resting = true;
           shotTime = millis();
           return;
@@ -185,7 +187,7 @@ class FollowTower extends Towers {
     if (!resting) {
       for (Monster i : Monsters) {
         if (distance(i.x, i.y, x, y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
-          Projectiles.add(new followBullet(x, y, i, damage, size, penetrationLvl, speedChange));
+          Projectiles.add(new followBullet(x, y, i, damage, size, penetrationLvl, speedChange, Color));
           resting = true;
           shotTime = millis();
           return;
@@ -259,7 +261,7 @@ class FollowTower extends Towers {
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
-    super(xA, yA, 25, 800, 2.0, 10);
+    super(xA, yA, 40, 800, 2.0, 10);
     blastRadius = 75;
     price = 40;
     Color = color(213, 324, 23);
@@ -267,7 +269,7 @@ class MortarTower extends Towers {
   void attack() {
 
     if ((millis() - shotTime)/1000.0 >= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
-      Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius));
+      Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius, Color));
       shotTime = millis();
     }
   }

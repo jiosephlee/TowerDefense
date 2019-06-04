@@ -10,7 +10,7 @@ ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
 ArrayList<upgradeButton> upgrades;
-PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2,BossK;
+PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2, BossK;
 
 Spawner s;
 int gameMode;
@@ -92,7 +92,7 @@ void keyPressed() {
   case 'p':
     //subtract health
     m.hp -= 25;
-    if(m.hp <= 0){
+    if (m.hp <= 0) {
       gameMode = 4;
     }
     break;
@@ -161,6 +161,9 @@ void updateAll() { //updates and displays game variables
         gameMode = 0;
         s.resetTime(); //resets the time of level
       }
+      if (loaded && distance(mouseX, mouseY, width - 475, height - 75) < 37.5) {
+        loaded = false;
+      }
       checkUpgrades();
       checkButton();
     }
@@ -184,9 +187,9 @@ void updateAll() { //updates and displays game variables
   } else if (gameMode == 4) { // game over
     textSize(72);
     text("GAME OVER :)", height/2, width/2);
-    text("Level: " + s.level, 50,150);
+    text("Level: " + s.level, 50, 150);
     imageMode(CORNER);
-    image(BossK,40,300,400,400);
+    image(BossK, 40, 300, 400, 400);
     fill(255, 178, 102);
     rectMode(CENTER);
     rect(width/2.0 + 200, height/2.0, 600, 120);  //fill in rectangle for play button
@@ -228,17 +231,17 @@ void gameMove() {
   //clears destruction queue
 }
 
-void movingDisplay(){
-      //ask monsters to display
-    for (Monster m : Monsters) {
-      m.display();
-    }
-    //ask towers to display
-    for (Towers i : Towers) {
-      i.display();
-    }
-    //ask projectiles to display
-    for (Projectiles i : Projectiles) {
-      i.display();
-    }
+void movingDisplay() {
+  //ask monsters to display
+  for (Monster m : Monsters) {
+    m.display();
+  }
+  //ask towers to display
+  for (Towers i : Towers) {
+    i.display();
+  }
+  //ask projectiles to display
+  for (Projectiles i : Projectiles) {
+    i.display();
+  }
 }

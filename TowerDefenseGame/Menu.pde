@@ -93,17 +93,17 @@ abstract class Button {
     rect(x, y, 40, 40);
     fill(0);
     textSize(12);
-    text((load.getClass().getName() + "").substring(17, 23), x - 50, y + 20);
+    text((load.getClass().getName() + "").substring(17, 28), x - 75, y + 20);
   }
 }
 
 
 class Button1 extends Button {
   Button1() {
-    super(1020, 200, new BasicTower(-1, -1), color(103, 207, 45));
+    super(1020, 200, new BasiccTower(-1, -1), color(103, 207, 45));
   }
   void newTower() {
-    load = new BasicTower(-1, -1);
+    load = new BasiccTower(-1, -1);
   }
 }
 
@@ -185,7 +185,7 @@ void checkHover() {
           fill(255, 255, 255);
 
           if (i.y < 250) {
-            text("IntroCS Tower ($10)", i.x - 47.5, i.y - 107.5);
+            text("IntroCS Tower ($15)", i.x - 47.5, i.y - 107.5);
             textSize(12);
             text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
           } else {
@@ -196,9 +196,9 @@ void checkHover() {
         } else {
           image(textbubble2, i.x - 32.5, i.y - 80, 200, 120);
 
-          textSize(24);
+          textSize(18);
           fill(255, 255, 255);
-          text("AP CS Tower ($20)", i.x - 125, i.y - 110);
+          text("AP CS Tower ($25)", i.x - 125, i.y - 110);
 
           textSize(12);
           text("Tower that shoots bullets \nthat follow untargeted \nmonsters", i.x - 125, i.y - 90);
@@ -207,13 +207,15 @@ void checkHover() {
     }
     if (upgrading) {
       for (Towers i : Towers) {
-        if (distance(mouseX, mouseY, i.x-50, i.y-30) <= i.size && !i.onemaxed) {
-          image(textbubble, i.x - 10, i.y - 120, 200, 140);
-          i.displayFirstUpgradeText();
-        }
-        if (distance(mouseX, mouseY, i.x+50, i.y-30) <= i.size && !i.twomaxed) {
-          image(textbubble2, i.x + 12.5, i.y - 120, 200, 140);
-          i.displaySecondUpgradeText();
+        if (i.upgrade.display) {
+          if (distance(mouseX, mouseY, i.x-50, i.y-30) <= i.size && !i.onemaxed) {
+            image(textbubble, i.x - 10, i.y - 120, 200, 140);
+            i.displayFirstUpgradeText();
+          }
+          if (distance(mouseX, mouseY, i.x+50, i.y-30) <= i.size && !i.twomaxed) {
+            image(textbubble2, i.x + 12.5, i.y - 120, 200, 140);
+            i.displaySecondUpgradeText();
+          }
         }
       }
     }
