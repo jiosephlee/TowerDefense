@@ -9,7 +9,9 @@ LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
 LinkedList<Towers> Towers;
-PImage background, mapZones, play, pause, trash, textbubble, textbubble2;
+ArrayList<upgradeButton> upgrades;
+PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2,BossK;
+
 Spawner s;
 int gameMode;
 boolean lastMousePressed, loaded, upgrading, paused;
@@ -24,13 +26,15 @@ void setup() {
   p = new Path();
   upgrading = false;
   Monsters = new ArrayList<Monster>(); //list of Monsters
-
+  BossK = loadImage("images/misterK.png");
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
-  Buttons = new Button[]{new Button1(), new Button2()};
+  Buttons = new Button[]{new Button1(), new Button2(), new Button3()};
+  upgrades = new ArrayList<upgradeButton>();
+
   loaded =  false;
   //load graphics of game
   textbubble2 = loadImage("images/textbubble2.png");
@@ -62,13 +66,46 @@ void fieldSetup() {
   text("y: " + mouseY, 50, 100);
   textSize(20);
 }
-
+//cheats
+void keyPressed() {
+  switch(key) {
+  case 'q':
+    s.level++;
+    //add level
+    break;
+  case 'w':
+    s.level += 5;
+    //add 5 level
+    break;
+  case 'e':
+    s.level =99;
+    //level 99
+    break;
+  case 'm':
+    m.money += 10000;
+    //get od money
+    break;
+  case 'o':
+    //add health
+    m.hp += 25;
+    break;  
+  case 'p':
+    //subtract health
+    m.hp -= 25;
+    if(m.hp <= 0){
+      gameMode = 4;
+    }
+    break;
+  default:
+  }
+}
 void updateAll() { //updates and displays game variables
   textSize(36);
   if (gameMode == 0) {
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
+    sortMonsters();
     image(pause, 75, height - 75, 75, 75);
     loadButtons();
     gameMove();
@@ -89,9 +126,10 @@ void updateAll() { //updates and displays game variables
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
     //when the game is paused
+    textSize(18);
     text("Press Play Button to Resume", 125, 650);
     image(play, 75, height - 75, 75, 75);
-    //displays the play button
+    //display s the play button
     if (mousePressed && !lastMousePressed) {
       if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
         gameMode = 0;
@@ -109,6 +147,7 @@ void updateAll() { //updates and displays game variables
     loadButtons();
     //when the game is paused
     imageMode(CENTER);
+    textSize(18);
     text("Press Play Button to Start New Level", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
@@ -142,19 +181,41 @@ void updateAll() { //updates and displays game variables
     fill(0);
     textSize(72);
     text("PLAY", width/2.0, height/2.0 + 175);
+  } else if (gameMode == 4) { // game over
+    textSize(72);
+    text("GAME OVER :)", height/2, width/2);
+    text("Level: " + s.level, 50,150);
+    imageMode(CORNER);
+    image(BossK,40,300,400,400);
+    fill(255, 178, 102);
+    rectMode(CENTER);
+    rect(width/2.0 + 200, height/2.0, 600, 120);  //fill in rectangle for play button
+    textAlign(CENTER);
+    if (mousePressed && !lastMousePressed) {
+      if (centerMouseInZone(width/2.0 + 200, height /2.0, 600, 120)) {
+        //if play button is presed change to gameMode 0
+        gameMode = 0;
+        s.newLevel(); // starts new level when the play button is presed
+      }
+    }
+    fill(0);
+    textSize(72);
+    text("PLAY AGAIN", width/2.0 + 210, height/2.0 + 25);
   }
   lastMousePressed = mousePressed; //debounce
 }
 
-void gameMove(){
-  for(Monster i: Monsters){
-    i.move();
+void gameMove() {
+  for (Monster m : Monsters) {
+    m.move();
   }
+
   for (Projectiles i : Projectiles) {
     i.move();
-  }
-  for (Monster m : toDestroy) {
-    Monsters.remove(m); //removes monsters from linkedlist after they die
+    for (Monster m : toDestroy) {
+      Monsters.remove(m); //removes monsters from linkedlist after they die
+    }
+    toDestroy.clear();
   }
   for (Towers m : Towers) {
     m.attack(); //ask all towers to attack
@@ -163,7 +224,6 @@ void gameMove(){
     Projectiles.remove(i); //remove all projectiles awaiting removal
     i = null;
   }
-  toDestroy.clear();
   toDestroyA.clear();
   //clears destruction queue
 }

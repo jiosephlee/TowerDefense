@@ -1,4 +1,5 @@
 abstract class Towers {
+
   float x, y, fireRate, damage, shotTime;
   int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange, Color;
   boolean resting, onemaxed, twomaxed;
@@ -31,11 +32,11 @@ abstract class Towers {
     x = xA; 
     y = yA;
   }
-  void display(){
+  void display() {
     fill(Color);
     ellipse(x, y, size, size);
   }
-    void checkInitiated() {
+  void checkInitiated() {
     if (distance(mouseX, mouseY, x, y) <= size) {
       for (Towers i : Towers) {
         i.upgrade.notDisplay();
@@ -65,10 +66,10 @@ abstract class Towers {
   }
 }
 
-class Tower1 extends Towers {
+class BasicTower extends Towers {
 
   int bulletSpread;
-  Tower1(float xA, float yA) {
+  BasicTower(float xA, float yA) {
     super(xA, yA, 40, 100, 1, 5);
     price = 10;
     bulletSpread = 1;
@@ -169,15 +170,14 @@ class Tower1 extends Towers {
   }
 }
 
-class Tower2 extends Towers {
+class FollowTower extends Towers {
   int bulletBeat;
-  Tower2(float xA, float yA) {
+  FollowTower(float xA, float yA) {
     super(xA, yA, 40, 100, 1, 5);
-    price = 20;
+    price = 25;
     bulletBeat=1;
     Color = color(173, 107, 245);
   }
-
   void attack() {
     if (resting && (millis() - shotTime)/1000 >= fireRate) {     //if more than the time that firerate dictates has passed, then it shoots again
       resting = false;
@@ -227,7 +227,7 @@ class Tower2 extends Towers {
     }
   }
   void displayFirstUpgradeText() {
-    fill(255,255,255);
+    fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
       text("Level 1 ($10)", x - 104.5, y - 167.5);
@@ -242,7 +242,7 @@ class Tower2 extends Towers {
   }
 
   void displaySecondUpgradeText() {
-    fill(255,255,255);
+    fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
       text("Level 1 ($10)", x - 78.5, y - 165);
@@ -253,6 +253,80 @@ class Tower2 extends Towers {
       text("Level 2 ($15)", x - 78.5, y - 165);
       textSize(12);
       text("Shoots bullets twice at a time and increases bullet speed", x - 78.5, y - 145);
+    }
+  }
+}
+class MortarTower extends Towers {
+  float blastRadius;
+  MortarTower(float xA, float yA) {
+    super(xA, yA, 25, 800, 2.0, 10);
+    blastRadius = 75;
+    price = 40;
+    Color = color(213, 324, 23);
+  }
+  void attack() {
+
+    if ((millis() - shotTime)/1000.0 >= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
+      Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius));
+      shotTime = millis();
+    }
+  }
+
+  void upgradeFirst() {
+    if (m.changeMoney(-(1 + firstPathLevel) * 15 )) {
+      if (firstPathLevel == 0) {
+        size+=5;
+        damage+= 5;
+        twomaxed = true;
+      } else if (firstPathLevel == 1) {
+        size+=5;
+        blastRadius+=25;
+        onemaxed = true;
+      }
+      price += (1 + firstPathLevel) * 15;
+      firstPathLevel++;
+    }
+  }
+  void upgradeSecond() {
+    if (m.changeMoney(-(1 + secondPathLevel) * 15)) {
+      if (secondPathLevel == 0) {
+        fireRate = 1.5;
+        onemaxed = true;
+      } else if (secondPathLevel == 1) {
+        fireRate = 1;
+        twomaxed = true;
+      }
+      price += (1 + firstPathLevel) * 15;
+      secondPathLevel++;
+    }
+  }
+  void displayFirstUpgradeText() {
+    fill(255, 255, 255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1 ($15) ", x - 104.5, y - 167.5);
+      textSize(12);
+      text("Increase damage by 5 points", x - 104.5, y - 150);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2 ($30)", x - 103.5, y - 165);
+      textSize(12);
+      text("Increase blast radius", x - 103.5, y - 145);
+    }
+  }
+
+  void displaySecondUpgradeText() {
+    fill(255, 255, 255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1 ($10)", x - 78.5, y - 165);
+      textSize(12);
+      text("Increase fire rate by 50%", x - 78.5, y - 145);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2 ($30)", x - 78.5, y - 165);
+      textSize(12);
+      text("Doubles initial fireRate", x - 78.5, y - 145);
     }
   }
 }

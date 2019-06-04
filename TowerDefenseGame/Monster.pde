@@ -6,7 +6,6 @@ abstract class Monster {
   float hp;
   int childrenNumber; //children spawned if it is killed
   float damage; //damage done when it reaches end of map
-  boolean armored; //resistance to certain attacks
   float x; //x coordinate
   Path p; //path it is following
   float y; //y coord
@@ -21,18 +20,18 @@ abstract class Monster {
   abstract float changeHP(float changeHP);
   abstract void dealDamage(); //deal damage to map when it hits the end
   abstract void die();
-  void setBad(){
+  void setBad() {
     bad = true;
   }
   abstract float[] calculateNewPosition(long deltaTime);
   abstract float distanceTraveled(); // distance travelled by the mosnter since the start of hte level
-  float getX(){
+  float getX() {
     return x;
   }
-  float getY(){
+  float getY() {
     return y;
   }
-  void displayHealth(){
+  void displayHealth() {
     //doesn't exist for weaker monsters
   }
 }
@@ -46,7 +45,7 @@ class Slime extends Monster {
     speed = 1;
     hp = 5;
     childrenNumber = 0;
-    armored = false;
+
     x = 0;
     y = 0;
     bad = false;
@@ -127,54 +126,53 @@ class Slime extends Monster {
   void die() {
     toDestroy.add(this);
   }
-  float distanceTraveled(){
+  float distanceTraveled() {
     return distanceTraveled;
   }
-  
 }
-class RedSlime extends Slime{
+class RedSlime extends Slime {
   float maxHp;
   //a stronger slime
-  RedSlime(Path p){
+  RedSlime(Path p) {
     //better stats, spawns chldren when it dies
     super(p);
     size = 15;
     speed = 1.5;
-    hp = 15;
+    hp = 15 + pow(s.level,0.6);
     childrenNumber = 2;
     damage = 5;
     maxHp = hp;
   }
-  void dealDamage(){
+  void dealDamage() {
     //deals damage to the map
     m.changeHP(damage);
     toDestroy.add(this);
   }
-  void die(){
-    //dies but also spawns two new slimes at position
-    toDestroy.add(this);
-    m.changeMoney(2);
-    for(int i = 0; i < childrenNumber; i++){
-      float[] newPos = calculateNewPosition(i);
-      Monsters.add(new Slime(p,newPos[0],newPos[1], pathNode));
-    }
-  }
-  void displayHealth(){
+  void displayHealth() {
     rectMode(CENTER);
-    fill(255,0,0);
-    rect(x-10,y -30,60,12);
+    fill(255, 0, 0);
+    rect(x-10, y -30, 60, 12);
     rectMode(CORNER);
-    fill(0,255,0);
-    rect(x-40,y-36,60.0 * hp / maxHp, 12);
+    fill(0, 255, 0);
+    rect(x-40, y-36, 60.0 * hp / maxHp, 12);
   }
-  void display(){
+  void display() {
     super.display();
     displayHealth();
   }
+  void die() {
+    //dies but also spawns two new slimes at position
+    m.changeMoney(2);
+    for (int i = 0; i < childrenNumber; i++) {
+      float[] newPos = calculateNewPosition(-50+ i * 100);
+      Monsters.add(new Slime(p, newPos[0], newPos[1], pathNode));
+    }
+    toDestroy.add(this);
+  }
 }
-class Mushroom extends Slime{
+class Mushroom extends Slime {
   //a fast and weak monster
-  Mushroom(Path p){
+  Mushroom(Path p) {
     //better stats, spawns chldren when it dies
     super(p);
     size = 8;
@@ -184,32 +182,63 @@ class Mushroom extends Slime{
     imageFile = loadImage("images/Mushroom.png");
   }
 }
-class Tank extends RedSlime{
-  Tank(Path p){
+class Tank extends RedSlime {
+  Tank(Path p) {
     super(p);
     size = 20;
     speed = 0.5;
-    hp = 40;
+    hp = 40 + pow(s.level,0.75);
     childrenNumber = 6;
     damage = 10;
     imageFile = loadImage("images/Tank.png");
     maxHp = hp;
-    armored = true;
   }
   void display() { //displays slime
-    image(imageFile, x, y, 4 * size, 5 * size);
+    image(imageFile, x, y, 5 * size, 4 * size);
     displayHealth();
   }
+  Tank(Path p, float x, float y, int pathNode) {
+    //alternate constructor that is useful for creating a basic slime when a higher level slime dies
+    this(p);
+    this.pathNode = pathNode;
+    this.x = x;
+    this.y = y;
+  }
 }
-class compareMonsters implements Comparator<Monster>{
+class compareMonsters implements Comparator<Monster> {
   public int compare(Monster a, Monster b) 
-    { 
-        if(a.distanceTraveled() > b.distanceTraveled()){
-          return -1;
-        }
-        return 1;
-    } 
+  { 
+    if (a.distanceTraveled() > b.distanceTraveled()) {
+      return -1;
+    }
+    return 1;
+  }
 }
-void sortMonsters(){
+void sortMonsters() {
   Collections.sort(Monsters, new compareMonsters());
+}
+class BossK extends Tank{
+  BossK(Path p) {
+    super(p);
+    size = 50;
+    speed = 0.25;
+    hp = 500;
+    childrenNumber = 6;
+    damage = 99;
+    imageFile = loadImage("images/misterK.png");
+    maxHp = hp;
+  }
+  void display() { //displays slime
+    image(imageFile, x, y, 3 * size, 3 * size);
+    displayHealth();
+  }
+  void die() {
+    //dies but also spawns two new slimes at position
+    m.changeMoney(30);
+    for (int i = 0; i < childrenNumber; i++) {
+      float[] newPos = calculateNewPosition(-50+ i * 100);
+      Monsters.add(new Tank(p, newPos[0], newPos[1], pathNode));
+    }
+    toDestroy.add(this);
+  }
 }

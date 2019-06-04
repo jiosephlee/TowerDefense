@@ -17,7 +17,10 @@ abstract class Projectiles {
     damage = damageA;
     //level = 1;
   }
+  void clearTime() { //default for clearing the time when pausing
+  }
   abstract void move();
+
   void display() {
     fill(15, 15, 255);
     ellipse(x, y, size, size);
@@ -162,18 +165,26 @@ class followBullet extends Projectiles {
 }
 //projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
+
+  PImage explosion;
+  boolean landed; //whether or not the projectile has landed
+
   float cx, cy, angSpeed, startingAngle, angle, blastRadius, pathRadius;
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
-  long lastTimeStamp, timeElapsed; //holds timestamp of last frame
+  long lastTimeStamp, timeElapsed, landingTime; //holds timestamp of last frame
   MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
     super(xA, yA, i, damage, 0, 0, 0);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
-    long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 4; //calculates airTime in ms using distance
+
+    long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 50; //calculates airTime in ms using distance
+
     angSpeed = (float) Math.PI / airTime; //calculates angular velocity in radians per ms
     float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
     cx = (target[0] + x) / 2.0; //sets center of the arc
     cy = (target[1] + y) / 2.0; 
+
+    damage = 10;
 
     pathRadius = distance(target[0], target[1], cx, cy);
     startingAngle = (float)Math.atan((cy-y)/(cx-x)); //calculates starting angle from center
@@ -181,15 +192,53 @@ class MortarShell extends Projectiles {
       angSpeed *= -1;
       startingAngle += Math.PI;
     }
+    explosion = loadImage("images/explosion.png");
     lastTimeStamp = System.currentTimeMillis();
   }
   void clearTime() {
-    lastTimeStamp =  System.currentTimeMillis();
+
+    lastTimeStamp =  System.currentTimeMillis(); //used after each pause
   }
-  void move() {
+  void move() { //use elapsed time to calculate how far to move in the arc;
+
     long timeChange = System.currentTimeMillis() - lastTimeStamp;
     timeElapsed += timeChange;
-    x = cx + pathRadius * (startingAngle + angSpeed * timeElapsed); 
-    lastTimeStamp = System.currentTimeMillis();
+    if (abs(angSpeed * timeElapsed) > PI) {
+      attack();
+    } else { 
+      //use polar math to calculate x and y position based on time
+      x = cx + pathRadius * cos(startingAngle + angSpeed * timeElapsed); 
+      y = cy + pathRadius * sin(startingAngle + angSpeed * timeElapsed);
+    }
+    clearTime();
+  }
+  void attack() {
+    if (!landed) {
+      for (int i = 0; i < Monsters.size(); i++) {
+        Monster m = Monsters.get(i);
+        if ((distance(x, y, m.x, m.y) < blastRadius)) {
+          m.changeHP(-1 * damage);
+        }
+      }
+    }
+    //if the mortar shell has landed, start counting
+    if (landingTime == 0) {
+      landed = true;
+      landingTime = System.currentTimeMillis();
+    }
+    //destroys the mortar shell after landing for a while
+    if (System.currentTimeMillis() - landingTime > 700) {
+      toDestroyA.add(this);
+    }
+  }
+  void display() {
+    //uses the time since the mortar has landed to display an explosion
+    if (landed) {
+      image(explosion, x, y, 10 + (System.currentTimeMillis() - landingTime )/10.0, 10 + (System.currentTimeMillis() - landingTime )/10.0);
+    } else {
+      //just a normal circle when in air
+      fill(255, 100, 100);
+      ellipse(x, y, 20, 20);
+    }
   }
 }

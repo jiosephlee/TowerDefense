@@ -19,8 +19,7 @@ class Map {
     //if hp negative, display game over
     hp -= x;
     if(hp < 0){
-      textSize(72);
-      text("GAME OVER", height/2, width/2);
+      gameMode = 4;
     }
   }
   boolean changeMoney(int a){

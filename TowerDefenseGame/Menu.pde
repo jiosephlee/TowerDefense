@@ -13,6 +13,18 @@ class Menu {
     text("Money: " + m.money, 1000, height - 225);
     text("Level: " + s.level, 1000, height - 150);
     text("FPS: " + (int) (frameRate + 0.5), 1000, height - 75);
+    //ask monsters to display
+    for (Monster m : Monsters) {
+      m.display();
+    }
+    //ask towers to display
+    for (Towers i : Towers) {
+      i.display();
+    }
+    //ask projectiles to display
+    for (Projectiles i : Projectiles) {
+      i.display();
+    }
   }
 }
 void loadButtons() {
@@ -52,7 +64,7 @@ void checkButton() {
       loaded = false;
       upgrading = false;
     }
-  } else {// if they press the button tell map that it's been clicked and load the selected tower
+  } else {//if they press the button tell map that it's been clicked and load the selected tower
     for ( Button b : Buttons) {
       if (get(mouseX, mouseY) == b.Color) {
         selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
@@ -88,19 +100,28 @@ abstract class Button {
 
 class Button1 extends Button {
   Button1() {
-    super(1020, 200, new Tower1(-1, -1), color(103, 207, 45));
+    super(1020, 200, new BasicTower(-1, -1), color(103, 207, 45));
   }
   void newTower() {
-    load = new Tower1(-1, -1);
+    load = new BasicTower(-1, -1);
   }
 }
 
 class Button2 extends Button {
   Button2() {
-    super(1200, 200, new Tower2(-1, -1), color(173, 107, 245));
+    super(1200, 200, new FollowTower(-1, -1), color(173, 107, 245));
   }
   void newTower() {
-    load = new Tower2(-1, -1);
+    load = new FollowTower(-1, -1);
+  }
+}
+
+class Button3 extends Button {
+  Button3() {
+    super(1020, 350, new MortarTower(-1, -1), color(213, 324, 23));
+  }
+  void newTower() {
+    load = new MortarTower(-1, -1);
   }
 }
 
@@ -116,7 +137,7 @@ class upgradeButton {
   void notDisplay() {
     display = false;
   }
-  void yesDisplay(){
+  void yesDisplay() {
     display = true;
   }
   void display() {
@@ -145,7 +166,7 @@ class upgradeButton {
 void checkUpgrades() {
   if (upgrading) {
     for (Towers i : Towers) {
-        i.checkClicked();
+      i.checkClicked();
     }
   } else {
     for (Towers i : Towers) {
@@ -162,14 +183,23 @@ void checkHover() {
           image(textbubble, i.x + 45, i.y - 80, 200, 120);
           textSize(18);
           fill(255, 255, 255);
-          text("IntroCS Student ($10)", i.x - 47.5, i.y - 107.5);
-          textSize(12);
-          text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
+
+          if (i.y < 250) {
+            text("IntroCS Tower ($10)", i.x - 47.5, i.y - 107.5);
+            textSize(12);
+            text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
+          } else {
+            text("SoftDev Mortar ($40)", i.x - 47.5, i.y - 107.5);
+            textSize(12);
+            text("Tower that fires mortar \nshells at monsters", i.x - 47.5, i.y - 87.5);
+          }
         } else {
           image(textbubble2, i.x - 32.5, i.y - 80, 200, 120);
-          textSize(18);
+
+          textSize(24);
           fill(255, 255, 255);
-          text("AP CS Student ($20)", i.x - 125, i.y - 110);
+          text("AP CS Tower ($20)", i.x - 125, i.y - 110);
+
           textSize(12);
           text("Tower that shoots bullets \nthat follow untargeted \nmonsters", i.x - 125, i.y - 90);
         }
@@ -177,15 +207,14 @@ void checkHover() {
     }
     if (upgrading) {
       for (Towers i : Towers) {
-          if (distance(mouseX, mouseY, i.x-50, i.y-30) <= i.size && !i.onemaxed) {
-            image(textbubble, i.x - 10, i.y - 120, 200, 140);
-            i.displayFirstUpgradeText();
-          }
-          if (distance(mouseX, mouseY, i.x+50, i.y-30) <= i.size && !i.twomaxed) {
-            image(textbubble2, i.x + 12.5, i.y - 120, 200, 140);
-            i.displaySecondUpgradeText();
-          }
-        
+        if (distance(mouseX, mouseY, i.x-50, i.y-30) <= i.size && !i.onemaxed) {
+          image(textbubble, i.x - 10, i.y - 120, 200, 140);
+          i.displayFirstUpgradeText();
+        }
+        if (distance(mouseX, mouseY, i.x+50, i.y-30) <= i.size && !i.twomaxed) {
+          image(textbubble2, i.x + 12.5, i.y - 120, 200, 140);
+          i.displaySecondUpgradeText();
+        }
       }
     }
   }
