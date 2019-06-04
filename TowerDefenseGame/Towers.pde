@@ -98,19 +98,19 @@ class Tower1 extends Towers {
     fill(255,255,255);
     if (firstPathLevel == 0) {
       textSize(16);
-      text("Level 1", x - 75, y - 95);
+      text("Level 1", x - 100, y - 165);
       textSize(12);
-      text("Upgrade to have a penetration level of 2 \n If monster doesn't die immediately \n bullet will not penetrate", x - 75, y - 85);
+      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 100, y - 145);
     } else if (firstPathLevel == 1) {
       textSize(16);
-      text("Level 2", x - 75, y - 95);
+      text("Level 2", x - 100, y - 165);
       textSize(12);
-      text("Upgrade to", x - 75, y - 85);
+      text("Upgrade to increase damage \nrate by 10", x - 100, y - 145);
     } else if (firstPathLevel == 2) {
       textSize(16);
-      text("Level 3", x - 75, y - 95);
+      text("Level 3", x - 100, y - 165);
       textSize(12);
-      text("Upgrade to", x - 75, y - 85);
+      text("Upgrade to have a penetration \nlevel of 3 and increase damage \nrate by 5", x - 100, y - 145);
     }
   }
 
