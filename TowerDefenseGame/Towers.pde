@@ -288,7 +288,7 @@ class FollowTower extends Towers {
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
-    super(xA, yA, 40, 800, 2.0, 10);
+    super(xA, yA, 40, 800, 2.0, 5);
     blastRadius = 75;
     price = 40;
     Color = color(213, 324, 23);
