@@ -57,7 +57,7 @@ class Spawner {
         spawned++;
       }
     }
-    //println("yuh " + spawned + " " + maxMonsters + " " +Monsters.size());
+
     if (spawned > maxMonsters && Monsters.size() == 0) {
       //pauses the game if all monsters have been killed and starts new level
       newLevel();

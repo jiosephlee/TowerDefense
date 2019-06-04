@@ -198,16 +198,19 @@ class MortarShell extends Projectiles {
     if (abs(angSpeed * timeElapsed) > PI) {
       attack();
     } else { 
+      //use polar math to calculate x and y position based on time
       x = cx + pathRadius * cos(startingAngle + angSpeed * timeElapsed); 
       y = cy + pathRadius * sin(startingAngle + angSpeed * timeElapsed);
     }
     clearTime();
   }
   void attack() {
+    //if the mortar shell has landed, start counting
     if (landingTime == 0) {
       landed = true;
       landingTime = System.currentTimeMillis();
     }
+    //kills monsters in the blast radius
     for (Monster m : Monsters) {
       if ((distance(x, y, m.x, m.y) < blastRadius)) {
         if (m.changeHP(-1 * damage) <=0) {
@@ -215,14 +218,17 @@ class MortarShell extends Projectiles {
         }
       }
     }
+    //destroys the mortar shell after landing for a while
     if (System.currentTimeMillis() - landingTime > 700) {
       toDestroyA.add(this);
     }
   }
   void display() {
+    //uses the time since the mortar has landed to display an explosion
     if (landed) {
       image(explosion, x, y, 10 + (System.currentTimeMillis() - landingTime )/10.0, 10 + (System.currentTimeMillis() - landingTime )/10.0);
     } else {
+      //just a normal circle when in air
       fill(255, 100, 100);
       ellipse(x, y, 20, 20);
     }

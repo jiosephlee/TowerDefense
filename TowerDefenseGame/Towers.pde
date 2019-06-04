@@ -228,7 +228,7 @@ class MortarTower extends Towers {
     price = 40;
   }
   void attack() {
-    //println((millis() - shotTime)/1000.0);
+
     if ((millis() - shotTime)/1000.0 >= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
       Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius));
       shotTime = millis();

@@ -93,6 +93,7 @@ void updateAll() { //updates and displays game variables
   } else if (gameMode == 1) { //pause due to user
     fieldSetup();
     //when the game is paused
+    textSize(18);
     text("Press Play Button to Resume", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //display s the play button
@@ -113,6 +114,7 @@ void updateAll() { //updates and displays game variables
     loadButtons();
     //when the game is paused
     imageMode(CENTER);
+    textSize(18);
     text("Press Play Button to Start New Level", 125, 650);
     image(play, 75, height - 75, 75, 75);
     //displays the play button
