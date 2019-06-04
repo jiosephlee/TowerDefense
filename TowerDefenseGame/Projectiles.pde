@@ -1,10 +1,10 @@
 abstract class Projectiles {
   float vx, vy, x, y, damage, speed;
-  int penetrationLevel, size;
+  int penetrationLevel, size, Color;
   boolean canAttackArmored, doneShooting, dead;
 
 
-  Projectiles(float xA, float yA, Monster i, float damageA, int sizeA, int penetrationLvl, int speedChange) {
+  Projectiles(float xA, float yA, Monster i, float damageA, int sizeA, int penetrationLvl, int speedChange, int colorA) {
     speed = 5 + speedChange;
     vx = ((i.x - xA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
     vy = ((i.y - yA)/ (float)Math.sqrt(Math.pow(i.x - xA, 2) + Math.pow(i.y - yA, 2))) * speed;
@@ -15,6 +15,7 @@ abstract class Projectiles {
     penetrationLevel = penetrationLvl;
     dead = false;
     damage = damageA;
+    Color = colorA;
     //level = 1;
   }
   void clearTime() { //default for clearing the time when pausing
@@ -22,14 +23,15 @@ abstract class Projectiles {
   abstract void move();
 
   void display() {
-    fill(15, 15, 255);
+    fill(Color);
     ellipse(x, y, size, size);
   }
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
-        i.setBad();
-        Monsters.remove(i);
+        //i.setBad();
+        //Monsters.remove(i);
+        toDestroy.add(i);
         penetrationLevel--;
         if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
           dead = true;
@@ -44,10 +46,22 @@ abstract class Projectiles {
     return false;
   }
 }
+/*
 
+
+
+
+
+
+
+
+
+
+
+*/
 class StraightBullet extends Projectiles {
-  StraightBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange) {
-    super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange);
+  StraightBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange,int colorA) {
+    super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange, colorA);
   }
   void move() {
     if (!dead) {
@@ -66,13 +80,25 @@ class StraightBullet extends Projectiles {
     }
   }
 }
+/*
 
+
+
+
+
+
+
+
+
+
+
+*/
 class followBullet extends Projectiles {
   float turnedTime;
   Monster monster;
   boolean resting, gostraight;
-  followBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange) {
-    super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange);
+  followBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange, int colorA) {
+    super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange, colorA);
     monster = i;
     resting = true;
     turnedTime =  millis();
@@ -110,6 +136,7 @@ class followBullet extends Projectiles {
             gostraight = true;
           }
         }
+        //redirecting code
         vx = ((monster.x - x)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
         vy = ((monster.y - y)/ (float)Math.sqrt(Math.pow(monster.x - x, 2) + Math.pow(monster.y - y, 2))) * speed;
         turnedTime = millis();
@@ -120,8 +147,9 @@ class followBullet extends Projectiles {
   boolean dealDamage(Monster i) {
     if (distance(i.x, i.y, x, y) <= size) { //if monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) { // if monster died
-        monster.setBad();
-        Monsters.remove(monster);// remove dead monster so you dont target it again
+        //monster.setBad();
+        toDestroy.add(monster);
+        //Monsters.remove(monster);// remove dead monster so you dont target it again
         if (Monsters.size() > 0) { //if their are monsters on the map, get a new monster
           int a = this.nearestMonster(Monsters);
           if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
@@ -162,7 +190,19 @@ class followBullet extends Projectiles {
     }
     return smallind;
   }
-}
+}/*
+
+
+
+
+
+
+
+
+
+
+
+*/
 //projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
 
@@ -173,8 +213,8 @@ class MortarShell extends Projectiles {
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
   long lastTimeStamp, timeElapsed, landingTime; //holds timestamp of last frame
-  MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
-    super(xA, yA, i, damage, 0, 0, 0);//calls superconstructor
+  MortarShell(float xA, float yA, Monster i, float damage, float blastRadius, int colorA) {
+    super(xA, yA, i, damage, 0, 0, 0, colorA);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
 
     long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 50; //calculates airTime in ms using distance
@@ -217,7 +257,7 @@ class MortarShell extends Projectiles {
       for (int i = 0; i < Monsters.size(); i++) {
         Monster m = Monsters.get(i);
         if ((distance(x, y, m.x, m.y) < blastRadius)) {
-          m.changeHP(-1 * damage);
+          dealDamage(m);
         }
       }
     }

@@ -27,7 +27,8 @@ class Menu {
     }
   }
 }
-void loadButtons() {
+
+void loadButtons() { //loads all the buttons on the side menu and upgrade buttons
   fill(255, 0, 0);
   //display circle at mouse pointer
   ellipse(mouseX, mouseY, 20, 20);
@@ -35,47 +36,22 @@ void loadButtons() {
     i.display();
   }
   color zoneColor = mapZones.get(mouseX, mouseY);
-  if (loaded) {
+  if (loaded) { //if user selected a button
     if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
       fill(101, 127);
-    } else {
+    } else { //else show red range
       fill(255, 0, 0, 127);
     }
-    //places a transparent circle around mouse pointer showing whether tower cannot be placed at mouse location
-    ellipse(mouseX, mouseY, loadedTower.range*2, loadedTower.range*2);
+    ellipse(mouseX, mouseY, loadedTower.range*2, loadedTower.range*2); //places a transparent circle around mouse pointer showing whether tower cannot be placed at mouse location
+    image(trash, width - 475, height - 75, 75, 75); // trash can to throw away loadedtower
   }
-  if (upgrading) {
+  if (upgrading) { //if user wants to upgrade, load the tower buttons for that tower
     for (Towers j : Towers) {
       j.upgrade.display();
     }
   }
-  if (loaded) {
-    image(trash, width - 475, height - 75, 75, 75); // trash can to throw away loadedtower
-  }
 }
-void checkButton() {
 
-  //uses background image to check if the area where the mouse is at is suitable for placing a tower
-  if (loaded && isWhite(mapZones.get(mouseX, mouseY)) && distance(mouseX, mouseY, 75, height - 75) >= 37.5) { //if user places tower, place it and replace the button's loaded tower with a new one, and tell the map no tower is selected now
-    if (m.changeMoney(-1 * loadedTower.price)) { //uses money to place tower
-      loadedTower.setxy(mouseX, mouseY);
-      Towers.add(loadedTower);
-      selectedButton.newTower();
-      loaded = false;
-      upgrading = false;
-    }
-  } else {//if they press the button tell map that it's been clicked and load the selected tower
-    for ( Button b : Buttons) {
-      if (get(mouseX, mouseY) == b.Color) {
-        selectedButton = b; //load button that's been clicked so it can be reset with a new object later on
-        loaded = true; 
-        upgrading = false;
-        loadedTower = b.load; //take the tower from the button and load it to map
-        break;
-      }
-    }
-  }
-}
 
 abstract class Button {
   float x, y;
@@ -93,17 +69,17 @@ abstract class Button {
     rect(x, y, 40, 40);
     fill(0);
     textSize(12);
-    text((load.getClass().getName() + "").substring(17, 23), x - 50, y + 20);
+    text((load.getClass().getName() + "").substring(17, 28), x - 75, y + 20);
   }
 }
 
 
 class Button1 extends Button {
   Button1() {
-    super(1020, 200, new BasicTower(-1, -1), color(103, 207, 45));
+    super(1020, 200, new BasiccTower(-1, -1), color(103, 207, 45));
   }
   void newTower() {
-    load = new BasicTower(-1, -1);
+    load = new BasiccTower(-1, -1);
   }
 }
 
@@ -159,63 +135,6 @@ class upgradeButton {
       }
       ellipse(me.x+50, me.y-30, size, size);
       image(trash, me.x, me.y + 50, 30, 30); // trash can to sell tower
-    }
-  }
-}
-
-void checkUpgrades() {
-  if (upgrading) {
-    for (Towers i : Towers) {
-      i.checkClicked();
-    }
-  } else {
-    for (Towers i : Towers) {
-      i.checkInitiated();
-    }
-  }
-}
-
-void checkHover() {
-  if (!loaded) {
-    for (Button i : Buttons) {
-      if (mouseInZone(i.x, i.y, i.x + 40, i.y +40)) {
-        if (i.x < 1100) {
-          image(textbubble, i.x + 45, i.y - 80, 200, 120);
-          textSize(18);
-          fill(255, 255, 255);
-
-          if (i.y < 250) {
-            text("IntroCS Tower ($10)", i.x - 47.5, i.y - 107.5);
-            textSize(12);
-            text("Tower that shoots bullets \nstraight at the monsters", i.x - 47.5, i.y - 87.5);
-          } else {
-            text("SoftDev Mortar ($40)", i.x - 47.5, i.y - 107.5);
-            textSize(12);
-            text("Tower that fires mortar \nshells at monsters", i.x - 47.5, i.y - 87.5);
-          }
-        } else {
-          image(textbubble2, i.x - 32.5, i.y - 80, 200, 120);
-
-          textSize(24);
-          fill(255, 255, 255);
-          text("AP CS Tower ($20)", i.x - 125, i.y - 110);
-
-          textSize(12);
-          text("Tower that shoots bullets \nthat follow untargeted \nmonsters", i.x - 125, i.y - 90);
-        }
-      }
-    }
-    if (upgrading) {
-      for (Towers i : Towers) {
-        if (distance(mouseX, mouseY, i.x-50, i.y-30) <= i.size && !i.onemaxed) {
-          image(textbubble, i.x - 10, i.y - 120, 200, 140);
-          i.displayFirstUpgradeText();
-        }
-        if (distance(mouseX, mouseY, i.x+50, i.y-30) <= i.size && !i.twomaxed) {
-          image(textbubble2, i.x + 12.5, i.y - 120, 200, 140);
-          i.displaySecondUpgradeText();
-        }
-      }
     }
   }
 }
