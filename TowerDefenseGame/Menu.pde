@@ -33,8 +33,8 @@ void loadButtons() {
     ellipse(mouseX, mouseY, loadedTower.range*2, loadedTower.range*2);
   }
   if (upgrading) {
+    print("hi");
     for (Towers j : Towers) {
-
       j.upgrade.display();
     }
   }
@@ -170,15 +170,11 @@ class upgradeButton {
 void checkUpgrades() {
   if (upgrading) {
     for (Towers i : Towers) {
-      for (upgradeButton j : i.upgrades) {
-        j.checkClicked();
-      }
+        i.upgrade.checkClicked();
     }
   } else {
     for (Towers i : Towers) {
-      for (upgradeButton j : i.upgrades) {
-        j.checkInitiated();
-      }
+      i.upgrade.checkInitiated();
     }
   }
 }
@@ -205,17 +201,16 @@ void checkHover() {
       }
     }
     if (upgrading) {
-      for (Towers j : Towers) {
-        for (upgradeButton i : j.upgrades) {
-          if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size && !i.me.onemaxed) {
-            image(textbubble, i.me.x - 10, i.me.y - 120, 200, 140);
-            i.me.displayFirstUpgradeText();
+      for (Towers i : Towers) {
+          if (distance(mouseX, mouseY, i.x-50, i.y-30) <= i.size && !i.onemaxed) {
+            image(textbubble, i.x - 10, i.y - 120, 200, 140);
+            i.displayFirstUpgradeText();
           }
-          if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size && !i.me.twomaxed) {
-            image(textbubble2, i.me.x + 12.5, i.me.y - 120, 200, 140);
-            i.me.displaySecondUpgradeText();
+          if (distance(mouseX, mouseY, i.x+50, i.y-30) <= i.size && !i.twomaxed) {
+            image(textbubble2, i.x + 12.5, i.y - 120, 200, 140);
+            i.displaySecondUpgradeText();
           }
-        }
+        
       }
     }
   }

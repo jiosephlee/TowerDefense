@@ -18,7 +18,7 @@ abstract class Towers {
     speedChange = 0;
     onemaxed = false;
     twomaxed = false;
-    upgrade = new upgradeButton(loadedTower);
+    upgrade = new upgradeButton(this);
   }
 
   abstract void attack();
@@ -30,6 +30,33 @@ abstract class Towers {
   void setxy(float xA, float yA) {
     x = xA; 
     y = yA;
+  }
+    void checkInitiated() {
+    if (distance(mouseX, mouseY, x, y) <= size) {
+      for (Towers i : Towers) {
+        i.upgrade.notDisplay();
+      }
+      upgrading = true;
+      upgrade.yesDisplay();
+    }
+  }
+  void checkClicked() {
+    if (!me.onemaxed && distance(mouseX, mouseY, me.x-50, me.y-30) <= size) {
+      me.upgradeFirst();
+      upgrading = false;
+      display = false;
+    } else if (!me.twomaxed && distance(mouseX, mouseY, me.x+50, me.y-30) <= size) {
+      me.upgradeSecond();
+      upgrading = false;
+      display = false;
+    } else if (distance(mouseX, mouseY, me.x, me.y + 40) <= 15) {
+      upgrading = false;
+      display = false;
+      Towers.remove(me);
+    } else if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
+      upgrading = false;
+      display = false;
+    }
   }
 }
 
