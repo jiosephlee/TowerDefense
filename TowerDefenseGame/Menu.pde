@@ -184,14 +184,14 @@ void checkHover() {
           fill(255, 255, 255);
           text("IntroCS Student", i.x - 45, i.y - 100);
           textSize(12);
-          text("Tower that shoots bullets \n straight at the monsters", i.x - 45, i.y - 80);
+          text("Tower that shoots bullets \nstraight at the monsters", i.x - 45, i.y - 80);
         } else{
           image(textbubble2,i.x - 32.5, i.y - 80, 200,120);
           textSize(24);
           fill(255, 255, 255);
-          text("AP CS Student", i.x - 120, i.y - 100);
+          text("AP CS Student", i.x - 125, i.y - 105);
           textSize(12);
-          text("Tower that shoots bullets \n that follow untargeted monsters", i.x - 120, i.y - 80);
+          text("Tower that shoots bullets \nthat follow untargeted monsters", i.x - 125, i.y - 85);
         }
       }
     }

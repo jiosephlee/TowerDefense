@@ -97,7 +97,7 @@ class Tower1 extends Towers {
       textSize(16);
       text("Level 1", x - 100, y - 165);
       textSize(12);
-      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 100, y - 145);
+      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however", x - 100, y - 145);
     } else if (firstPathLevel == 1) {
       textSize(16);
       text("Level 2", x - 100, y - 165);
@@ -187,25 +187,27 @@ class Tower2 extends Towers {
     }
   }
   void displayFirstUpgradeText() {
+    fill(255,255,255);
     if (firstPathLevel == 0) {
       textSize(16);
-      text("Level 1", x - 100, y - 165);
+      text("Level 1", x - 103.5, y - 167.5);
       textSize(12);
-      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 100, y - 145);
+      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however \nAlso, decreases bullet speed", x - 103.5, y - 145);
     } else if (firstPathLevel == 1) {
       textSize(16);
-      text("Level 2", x - 100, y - 165);
+      text("Level 2", x - 103.5, y - 165);
       textSize(12);
-      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 100, y - 145);
+      text("Upgrade to have a penetration level of 2. If \nmonster doesn't \ndie immediately bullet will \nnot go through, however", x - 103.5, y - 145);
     } else if (firstPathLevel == 2) {
       textSize(16);
-      text("Level 3", x - 100, y - 165);
+      text("Level 3", x - 103.5, y - 165);
       textSize(12);
-      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 100, y - 145);
+      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 103.5, y - 145);
     }
   }
 
   void displaySecondUpgradeText() {
+    fill(255,255,255);
     if (firstPathLevel == 0) {
       textSize(16);
       text("Level 1", x - 100, y - 165);
