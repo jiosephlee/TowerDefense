@@ -179,19 +179,29 @@ void checkHover() {
     for (Button i : Buttons) {
       if (mouseInZone(i.x, i.y, i.x + 40, i.y +40)) {
         if(i.x < 1100){
-          image(textbubble,i.x + 40, i.y - 80, 200,120);
+          image(textbubble,i.x + 45, i.y - 80, 200,120);
+          textSize(24);
+          fill(255, 255, 255);
+          text("IntroCS Student", i.x - 45, i.y - 100);
+          textSize(12);
+          text("Tower that shoots bullets \n straight at the monsters", i.x - 45, i.y - 80);
         } else{
-          image(textbubble2,i.x - 40, i.y - 80, 200,120);
+          image(textbubble2,i.x - 32.5, i.y - 80, 200,120);
+          textSize(24);
+          fill(255, 255, 255);
+          text("AP CS Student", i.x - 120, i.y - 100);
+          textSize(12);
+          text("Tower that shoots bullets \n that follow untargeted monsters", i.x - 120, i.y - 80);
         }
       }
     }
     if (upgrading) {
       for (upgradeButton i : upgrades) {
         if (distance(mouseX, mouseY, i.me.x-50, i.me.y-30) <= i.me.size) {
-          image(textbubble,i.me.x - 40, i.me.y - 80, 100,70);
+          image(textbubble,i.me.x - 32.5, i.me.y - 80, 100,70);
         }
         if (distance(mouseX, mouseY, i.me.x+50, i.me.y-30) <= i.me.size) {
-          image(textbubble2,i.me.x + 80 + i.me.size, i.me.y - 80, 100,70);
+          image(textbubble2,i.me.x + 32.5, i.me.y - 80, 100,70);
         }
       }
     }
