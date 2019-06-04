@@ -1,8 +1,9 @@
 abstract class Towers {
-  float x, y, fireRate, damage;
-  long shotTime;
-  int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange;
+
+  float x, y, fireRate, damage, shotTime;
+  int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange, Color;
   boolean resting, onemaxed, twomaxed;
+  upgradeButton upgrade;
 
 
   Towers(float xA, float yA, int sizeA, int rangeA, float fireRateA, float damageA) {
@@ -18,6 +19,7 @@ abstract class Towers {
     speedChange = 0;
     onemaxed = false;
     twomaxed = false;
+    upgrade = new upgradeButton(this);
   }
 
   abstract void attack();
@@ -34,6 +36,37 @@ abstract class Towers {
     fill(0, 0, 255);
     ellipse(x, y, size, size);
   }
+  void display(){
+    fill(Color);
+    ellipse(x, y, size, size);
+  }
+    void checkInitiated() {
+    if (distance(mouseX, mouseY, x, y) <= size) {
+      for (Towers i : Towers) {
+        i.upgrade.notDisplay();
+      }
+      upgrading = true;
+      upgrade.yesDisplay();
+    }
+  }
+  void checkClicked() {
+    if (!onemaxed && distance(mouseX, mouseY, x-50, y-30) <= size) {
+      upgradeFirst();
+      upgrading = false;
+      upgrade.notDisplay();
+    } else if (!twomaxed && distance(mouseX, mouseY, x+50, y-30) <= size) {
+      upgradeSecond();
+      upgrading = false;
+      upgrade.notDisplay();
+    } else if (distance(mouseX, mouseY, x, y + 40) <= 15) {
+      upgrading = false;
+      upgrade.notDisplay();
+      Towers.remove(this);
+    } else if (distance(mouseX, mouseY, x, y) <= size) {
+      upgrading = false;
+      upgrade.notDisplay();
+    }
+  }
 }
 
 class Tower1 extends Towers {
@@ -43,6 +76,7 @@ class Tower1 extends Towers {
     super(xA, yA, 40, 100, 1, 5);
     price = 10;
     bulletSpread = 1;
+    Color = color(103, 207, 45);
   }
 
 
@@ -143,6 +177,7 @@ class Tower2 extends Towers {
     super(xA, yA, 40, 100, 1, 5);
     price = 20;
     bulletBeat=1;
+    Color = color(173, 107, 245);
   }
   void attack() {
     if (resting && (millis() - shotTime)/1000 >= fireRate) {     //if more than the time that firerate dictates has passed, then it shoots again

@@ -19,6 +19,8 @@ abstract class Projectiles {
   }
   void clearTime() { //default for clearing the time when pausing
   }
+  abstract void move();
+
   void display() {
     fill(15, 15, 255);
     ellipse(x, y, size, size);
@@ -41,7 +43,6 @@ abstract class Projectiles {
     }
     return false;
   }
-  abstract void move();
 }
 
 class StraightBullet extends Projectiles {
@@ -125,7 +126,6 @@ class followBullet extends Projectiles {
           int a = this.nearestMonster(Monsters);
           if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
             monster = Monsters.get(a);
-            print(a);
           } else { //a is negative when the nearest monster is really far. in that case its too far so lets continue going straight instead
             gostraight=true;
           }
@@ -165,8 +165,10 @@ class followBullet extends Projectiles {
 }
 //projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
+
   PImage explosion;
   boolean landed; //whether or not the projectile has landed
+
   float cx, cy, angSpeed, startingAngle, angle, blastRadius, pathRadius;
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
@@ -174,12 +176,16 @@ class MortarShell extends Projectiles {
   MortarShell(float xA, float yA, Monster i, float damage, float blastRadius) {
     super(xA, yA, i, damage, 0, 0, 0);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
+
     long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 50; //calculates airTime in ms using distance
+
     angSpeed = (float) Math.PI / airTime; //calculates angular velocity in radians per ms
     float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
     cx = (target[0] + x) / 2.0; //sets center of the arc
     cy = (target[1] + y) / 2.0; 
+
     damage = 10;
+
     pathRadius = distance(target[0], target[1], cx, cy);
     startingAngle = (float)Math.atan((cy-y)/(cx-x)); //calculates starting angle from center
     if (x < cx) { //set direction of trajectory and account for range of arctan
@@ -190,9 +196,11 @@ class MortarShell extends Projectiles {
     lastTimeStamp = System.currentTimeMillis();
   }
   void clearTime() {
+
     lastTimeStamp =  System.currentTimeMillis(); //used after each pause
   }
   void move() { //use elapsed time to calculate how far to move in the arc;
+
     long timeChange = System.currentTimeMillis() - lastTimeStamp;
     timeElapsed += timeChange;
     if (abs(angSpeed * timeElapsed) > PI) {
