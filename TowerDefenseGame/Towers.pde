@@ -56,6 +56,7 @@ abstract class Towers {
     } else if (distance(mouseX, mouseY, x, y + 40) <= 15) {
       upgrading = false;
       upgrade.notDisplay();
+      m.changeMoney(this.price/2);
       Towers.remove(this);
     } else if (distance(mouseX, mouseY, x, y) <= size) {
       upgrading = false;
@@ -106,6 +107,7 @@ class Tower1 extends Towers {
         damage+=5;
         onemaxed = true;
       }
+      price += (1 + firstPathLevel) * 5;
       firstPathLevel++;
     }
   }
@@ -123,6 +125,7 @@ class Tower1 extends Towers {
         twomaxed = true;
       }
       secondPathLevel++;
+      price += (1 + firstPathLevel) * 5;
     }
   }
   void displayFirstUpgradeText() {
@@ -204,6 +207,7 @@ class Tower2 extends Towers {
         onemaxed = true;
       }
       firstPathLevel++;
+      price += (1 + firstPathLevel) * 5;
     }
   }
 
@@ -219,6 +223,7 @@ class Tower2 extends Towers {
         twomaxed = true;
       }
       secondPathLevel++;
+      price += (1 + firstPathLevel) * 5;
     }
   }
   void displayFirstUpgradeText() {
