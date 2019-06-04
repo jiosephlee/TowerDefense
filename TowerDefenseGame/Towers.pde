@@ -77,25 +77,22 @@ class Tower1 extends Towers {
   }
 
   void upgradeSecond() {
-    if (secondPathLevel == 0) {
-      fireRate = fireRate/2;
-      m.changeMoney(-1 * 5);
+    if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
+      if (secondPathLevel == 0) {
+        fireRate = fireRate/2;
+      } else if (secondPathLevel ==1) {
+        speedChange++;
+        damage+=5;
+        onemaxed = true;
+      } else if (secondPathLevel == 2) {
+        bulletSpread = 3;
+        twomaxed = true;
+      }
       secondPathLevel++;
-    } else if (secondPathLevel ==1) {
-      speedChange++;
-      damage+=5;
-      m.changeMoney(-1 * 5);
-      secondPathLevel++;
-      onemaxed = true;
-    } else if (secondPathLevel == 2) {
-      bulletSpread = 3;
-      m.changeMoney(-1 * 10);
-      secondPathLevel++;
-      twomaxed = true;
     }
   }
   void displayFirstUpgradeText() {
-    fill(255,255,255);
+    fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
       text("Level 1", x - 100, y - 165);
@@ -105,19 +102,32 @@ class Tower1 extends Towers {
       textSize(16);
       text("Level 2", x - 100, y - 165);
       textSize(12);
-      text("Upgrade to increase damage \nrate by 10", x - 100, y - 145);
+      text("Increase bullet speed and \ndamage rate by 5", x - 100, y - 145);
     } else if (firstPathLevel == 2) {
       textSize(16);
       text("Level 3", x - 100, y - 165);
       textSize(12);
-      text("Upgrade to have a penetration \nlevel of 3 and increase damage \nrate by 5", x - 100, y - 145);
+      text("Shoots a spread of 3 bullets", x - 100, y - 145);
     }
   }
 
   void displaySecondUpgradeText() {
-    if (firstPathLevel == 0) {
-    } else if (firstPathLevel == 1) {
-    } else if (firstPathLevel == 2) {
+    fill(255, 255, 255);
+    if (secondPathLevel == 0) {
+      textSize(16);
+      text("Level 1", x - 80, y - 165);
+      textSize(12);
+      text("Double firerate by 2", x - 80, y - 145);
+    } else if (secondPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 80, y - 165);
+      textSize(12);
+      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 80, y - 145);
+    } else if (secondPathLevel == 2) {
+      textSize(16);
+      text("Level 3", x - 80, y - 165);
+      textSize(12);
+      text("Upgrade to have a penetration \nlevel of 2. If monster doesn't \ndie immediately bullet will \nnot go through, however", x - 80, y - 145);
     }
   }
 }
