@@ -1,5 +1,6 @@
 abstract class Towers {
-  float x, y, fireRate, damage, shotTime;
+  float x, y, fireRate, damage;
+  long shotTime;
   int firstPathLevel, secondPathLevel, range, price, size, penetrationLvl, speedChange;
   boolean resting, onemaxed, twomaxed;
 
@@ -153,15 +154,17 @@ class Tower2 extends Towers {
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
-    super(xA, yA, 40, 600, 5, 10);
+    super(xA, yA, 40, 600, 2.0, 10);
     blastRadius = 75;
     price = 40;
   }
   void attack() {
-    if ((millis() - shotTime)/1000 <= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
+    //println((millis() - shotTime)/1000.0);
+    if ((millis() - shotTime)/1000.0 >= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
       Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius));
-    }
-    shotTime = millis();
+      shotTime = millis();  
+  }
+    
   }
 
   void upgradeFirst() {
