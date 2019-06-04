@@ -47,6 +47,20 @@ The Best Processing Tower Defense Game of all time. jk but it's pretty good
 - Used Collections.sort to sort the Monsters based on how far they are along the path. (Qiong)
 - Wrote Tank Monster Class (Qiong)
 - Began to work on and plan out Mortar Shell projectile (Qiong)
+- Fixed retargeting monster bug by putting tags on them (Jo)
+- Created an upgrading tower system and upgrade button graphics along with it so users can upgrade their towers (Jo)
 
 5/31
 - Created cancel building tower feature (Jo)
+- Created show-tower's-range-when-clicked feature (Jo)
+
+6/2
+- fixed bug in tower canceling and adjusted it's graphics
+
+6/3
+- Wrote conditional structural code for when hovering feature should happen: when buying a tower and upgrading (Jo)
+
+6/4
+- Finished hovering feature with adjustments on what text should pop up and where (Jo)
+- Fixed bugs involved with multiple tower upgrading/buying (Jo)
+- Created Sell Tower feature (Jo)
