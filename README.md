@@ -1,5 +1,5 @@
-# TowerDefense
-The Best Processing Tower Defense Game of all time. jk but it's pretty good
+# TowerDefense -- Defending Konstanople
+The game is a classic Tower Defense game. Defend your city by putting down towers and survive as best as you can. There are three different types of towers. IntroCS students that shoot straight at the monsters, APCS students that shoot bullets that follow monsters, and SoftDev students that shoot bombs that explode. There are features like those of a classic TD. You can upgrade them to different paths, sell them, etc. Try it out and see if you can best the monsters!
 
 # Development Logs
 
@@ -55,7 +55,7 @@ The Best Processing Tower Defense Game of all time. jk but it's pretty good
 - Created show-tower's-range-when-clicked feature (Jo)
 
 6/2
-- fixed bug in tower canceling and adjusted it's graphics
+- fixed bug in tower canceling and adjusted it's graphics (Jo)
 
 6/3
 - Wrote conditional structural code for when hovering feature should happen: when buying a tower and upgrading (Jo)
