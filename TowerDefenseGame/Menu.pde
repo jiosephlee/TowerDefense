@@ -25,7 +25,7 @@ void loadButtons() {
   color zoneColor = mapZones.get(mouseX, mouseY);
   if (loaded) {
     if (isWhite(zoneColor)) { //if mousezone is valid tint the range image gray
-      fill(127, 127);
+      fill(101, 127);
     } else {
       fill(255,0,0, 127);
     }
@@ -135,6 +135,10 @@ class upgradeButton {
       me.upgradeSecond();
       upgrading = false;
       display = false;
+    } else if (distance(mouseX, mouseY, me.x, me.y + 40) <= 15) {
+      upgrading = false;
+      display = false;
+      Towers.remove(me);
     } else if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
       upgrading = false;
       display = false;
@@ -142,12 +146,9 @@ class upgradeButton {
   }
   void display() {
     if (display) {
-      tint(#000000, 128);
-      imageMode(CENTER);
-      //sets tint of circle around chosen tower
-      range.resize(me.range*2, 0);
-      image(range, me.x, me.y);
-      tint(255, 255);
+      //sets range around chosen tower
+      fill(101,127);
+      ellipse(me.x, me.y, loadedTower.range*2, loadedTower.range*2);
 
       if (me.onemaxed) {
         fill(0, 0, 0);
@@ -161,6 +162,7 @@ class upgradeButton {
         fill(195, 134, 63);
       }
       ellipse(me.x+50, me.y-30, size, size);
+      image(trash, me.x, me.y + 50, 30, 30); // trash can to sell tower
     }
   }
 }

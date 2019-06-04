@@ -10,7 +10,7 @@ ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
 ArrayList<upgradeButton> upgrades;
 LinkedList<Towers> Towers;
-PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2;
+PImage background, mapZones, play, pause, trash, textbubble, textbubble2;
 Spawner s;
 int gameMode;
 boolean lastMousePressed, loaded, upgrading, paused;
@@ -38,7 +38,6 @@ void setup() {
   textbubble2 = loadImage("images/textbubble2.png");
   textbubble = loadImage("images/textbubble.png");
   trash = loadImage("images/trash.png");
-  range = loadImage("images/range.png");
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
   //set gameMode to be in main menu (2);
