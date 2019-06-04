@@ -149,7 +149,10 @@ void updateAll() { //updates and displays game variables
   lastMousePressed = mousePressed; //debounce
 }
 
-
+void gameMove(){
+  for(Monster i: Monsters){
+    i.move();
+  }
   for (Projectiles i : Projectiles) {
     i.move();
   }
