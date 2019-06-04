@@ -222,19 +222,19 @@ class MortarShell extends Projectiles {
       }
     }
     //if the mortar shell has landed, start counting
-    if (landingTime == 0) {
+    if (landingTime <= 1) {
       landed = true;
-      landingTime = System.currentTimeMillis();
+      landingTime = timeElapsed;
     }
     //destroys the mortar shell after landing for a while
-    if (System.currentTimeMillis() - landingTime > 700) {
+    if (timeElapsed - landingTime > 700) {
       toDestroyA.add(this);
     }
   }
   void display() {
     //uses the time since the mortar has landed to display an explosion
     if (landed) {
-      image(explosion, x, y, 10 + (System.currentTimeMillis() - landingTime )/10.0, 10 + (System.currentTimeMillis() - landingTime )/10.0);
+      image(explosion, x, y, 10 + (timeElapsed- landingTime )/10.0, 10 + (timeElapsed - landingTime )/10.0);
     } else {
       //just a normal circle when in air
       fill(255, 100, 100);
