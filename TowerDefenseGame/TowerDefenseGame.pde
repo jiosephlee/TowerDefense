@@ -8,9 +8,8 @@ ArrayList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
-ArrayList<upgradeButton> upgrades;
 LinkedList<Towers> Towers;
-PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2;
+PImage background, mapZones, play, pause, trash, textbubble, textbubble2;
 Spawner s;
 int gameMode;
 boolean lastMousePressed, loaded, upgrading, paused;
@@ -32,13 +31,11 @@ void setup() {
   Towers = new LinkedList<Towers>(); //list of towers to display
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
   Buttons = new Button[]{new Button1(), new Button2()};
-  upgrades = new ArrayList<upgradeButton>();
   loaded =  false;
   //load graphics of game
   textbubble2 = loadImage("images/textbubble2.png");
   textbubble = loadImage("images/textbubble.png");
   trash = loadImage("images/trash.png");
-  range = loadImage("images/range.png");
   play = loadImage("images/play.png");
   pause = loadImage("images/pause.png");
   //set gameMode to be in main menu (2);
@@ -178,12 +175,10 @@ void movingDisplay(){
     }
     //ask towers to display
     for (Towers i : Towers) {
-      fill(0, 0, 255);
-      ellipse(i.x, i.y, i.size, i.size);
+      i.display();
     }
     //ask projectiles to display
     for (Projectiles i : Projectiles) {
-      fill(15, 15, 255);
-      ellipse(i.x, i.y, i.size, i.size);
+      i.display();
     }
 }
