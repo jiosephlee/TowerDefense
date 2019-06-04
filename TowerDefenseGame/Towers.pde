@@ -32,11 +32,11 @@ abstract class Towers {
     x = xA; 
     y = yA;
   }
-  void display(){
+  void display() {
     fill(Color);
     ellipse(x, y, size, size);
   }
-    void checkInitiated() {
+  void checkInitiated() {
     if (distance(mouseX, mouseY, x, y) <= size) {
       for (Towers i : Towers) {
         i.upgrade.notDisplay();
@@ -65,10 +65,10 @@ abstract class Towers {
   }
 }
 
-class Tower1 extends Towers {
+class BasicTower extends Towers {
 
   int bulletSpread;
-  Tower1(float xA, float yA) {
+  BasicTower(float xA, float yA) {
     super(xA, yA, 40, 100, 1, 5);
     price = 10;
     bulletSpread = 1;
@@ -167,11 +167,11 @@ class Tower1 extends Towers {
   }
 }
 
-class Tower2 extends Towers {
+class FollowTower extends Towers {
   int bulletBeat;
-  Tower2(float xA, float yA) {
+  FollowTower(float xA, float yA) {
     super(xA, yA, 40, 100, 1, 5);
-    price = 20;
+    price = 25;
     bulletBeat=1;
     Color = color(173, 107, 245);
   }
@@ -222,7 +222,7 @@ class Tower2 extends Towers {
     }
   }
   void displayFirstUpgradeText() {
-    fill(255,255,255);
+    fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
       text("Level 1", x - 104.5, y - 167.5);
@@ -237,7 +237,7 @@ class Tower2 extends Towers {
   }
 
   void displaySecondUpgradeText() {
-    fill(255,255,255);
+    fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
       text("Level 1", x - 78.5, y - 165);
@@ -257,6 +257,7 @@ class MortarTower extends Towers {
     super(xA, yA, 25, 800, 2.0, 10);
     blastRadius = 75;
     price = 40;
+    Color = color(213, 324, 23);
   }
   void attack() {
 
@@ -277,48 +278,48 @@ class MortarTower extends Towers {
         blastRadius+=25;
         onemaxed = true;
       }
+      price += (1 + firstPathLevel) * 15;
       firstPathLevel++;
     }
   }
   void upgradeSecond() {
-    if (secondPathLevel < 3) {
-      if (m.changeMoney(-(1 + secondPathLevel) * 15)) {
-        if (secondPathLevel == 0) {
-          fireRate = 1.5;
-          onemaxed = true;
-        } else if (secondPathLevel == 1) {
-          fireRate = 1;
-          twomaxed = true;
-        }
-        secondPathLevel++;
+    if (m.changeMoney(-(1 + secondPathLevel) * 15)) {
+      if (secondPathLevel == 0) {
+        fireRate = 1.5;
+        onemaxed = true;
+      } else if (secondPathLevel == 1) {
+        fireRate = 1;
+        twomaxed = true;
       }
+      price += (1 + firstPathLevel) * 15;
+      secondPathLevel++;
     }
   }
   void displayFirstUpgradeText() {
-    fill(255,255,255);
+    fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
-      text("Level 1", x - 104.5, y - 167.5);
+      text("Level 1 ($15) ", x - 104.5, y - 167.5);
       textSize(12);
       text("Increase damage by 5 points", x - 104.5, y - 150);
     } else if (firstPathLevel == 1) {
       textSize(16);
-      text("Level 2", x - 103.5, y - 165);
+      text("Level 2 ($30)", x - 103.5, y - 165);
       textSize(12);
       text("Increase blast radius", x - 103.5, y - 145);
     }
   }
 
   void displaySecondUpgradeText() {
-    fill(255,255,255);
+    fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
-      text("Level 1", x - 78.5, y - 165);
+      text("Level 1 ($10)", x - 78.5, y - 165);
       textSize(12);
       text("Increase fire rate by 50%", x - 78.5, y - 145);
     } else if (firstPathLevel == 1) {
       textSize(16);
-      text("Level 2", x - 78.5, y - 165);
+      text("Level 2 ($30)", x - 78.5, y - 165);
       textSize(12);
       text("Doubles initial fireRate", x - 78.5, y - 145);
     }
