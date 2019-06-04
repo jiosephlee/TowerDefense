@@ -178,18 +178,17 @@ class MortarShell extends Projectiles {
   //cx and cy are the coordinates of the line segment connecting the monster and the starting point of the mortar shell
   //angSpeed is the angular velocity and is based on distance
   long lastTimeStamp, timeElapsed, landingTime; //holds timestamp of last frame
-  MortarShell(float xA, float yA, Monster i, float damage, float blastRadius, int colorA) {
-    super(xA, yA, i, damage, 0, 0, 0, colorA);//calls superconstructor
+  MortarShell(float xA, float yA, Monster i, float damageA, float blastRadius, int colorA, int speedChange) {
+    super(xA, yA, i, damageA, 0, 0, 0, colorA);//calls superconstructor
     this.blastRadius = blastRadius; //sets blast radius
 
     long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 50; //calculates airTime in ms using distance
-
-    angSpeed = (float) Math.PI / airTime; //calculates angular velocity in radians per ms
+    print(speedChange);
+    angSpeed = ((float) Math.PI / airTime) / (speedChange + 1.1); //calculates angular velocity in radians per ms
     float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
     cx = (target[0] + x) / 2.0; //sets center of the arc
     cy = (target[1] + y) / 2.0; 
 
-    damage = 10;
 
     pathRadius = distance(target[0], target[1], cx, cy);
     startingAngle = (float)Math.atan((cy-y)/(cx-x)); //calculates starting angle from center

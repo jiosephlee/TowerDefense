@@ -288,7 +288,7 @@ class FollowTower extends Towers {
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
-    super(xA, yA, 40, 800, 2.0, 10);
+    super(xA, yA, 40, 800, 2.0, 3);
     blastRadius = 75;
     price = 40;
     Color = color(213, 324, 23);
@@ -296,7 +296,7 @@ class MortarTower extends Towers {
   void attack() {
 
     if ((millis() - shotTime)/1000.0 >= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
-      Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius, Color));
+      Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius, Color, speedChange));
       shotTime = millis();
     }
   }
@@ -306,10 +306,12 @@ class MortarTower extends Towers {
       if (firstPathLevel == 0) {
         size+=5;
         damage+= 5;
+        speedChange+=0.2;
         twomaxed = true;
       } else if (firstPathLevel == 1) {
         size+=5;
         blastRadius+=25;
+        speedChange+=0.4;
         onemaxed = true;
       }
       price += (1 + firstPathLevel) * 15;
@@ -320,9 +322,11 @@ class MortarTower extends Towers {
     if (m.changeMoney(-(1 + secondPathLevel) * 15)) {
       if (secondPathLevel == 0) {
         fireRate = 1.5;
+        speedChange+=0.2;
         onemaxed = true;
       } else if (secondPathLevel == 1) {
         fireRate = 1;
+        speedChange+=0.4;
         twomaxed = true;
       }
       price += (1 + firstPathLevel) * 15;
