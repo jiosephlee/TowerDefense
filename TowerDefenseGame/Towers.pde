@@ -23,6 +23,8 @@ abstract class Towers {
   abstract void attack();
   abstract void upgradeFirst();
   abstract void upgradeSecond();
+  abstract void displayFirstUpgradeText();
+  abstract void displaySecondUpgradeText();
 
   void setxy(float xA, float yA) {
     x = xA; 
@@ -80,21 +82,57 @@ class Tower1 extends Towers {
   }
 
   void upgradeSecond() {
+    if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
+      if (secondPathLevel == 0) {
+        fireRate = fireRate/2;
+      } else if (secondPathLevel ==1) {
+        speedChange++;
+        damage+=5;
+        onemaxed = true;
+      } else if (secondPathLevel == 2) {
+        bulletSpread = 3;
+        twomaxed = true;
+      }
+      secondPathLevel++;
+    }
+  }
+  void displayFirstUpgradeText() {
+    fill(255, 255, 255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1", x - 104.5, y - 165);
+      textSize(12);
+      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however", x - 104.5, y - 145);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 100, y - 165);
+      textSize(12);
+      text("Increase damage rate by 10", x - 100, y - 145);
+    } else if (firstPathLevel == 2) {
+      textSize(16);
+      text("Level 3", x - 100, y - 165);
+      textSize(12);
+      text("Increase penetration level \nto 3 and damage rate by 5 \nbut decrease bullet speed", x - 100, y - 145);
+    }
+  }
+
+  void displaySecondUpgradeText() {
+    fill(255, 255, 255);
     if (secondPathLevel == 0) {
-      fireRate = fireRate/2;
-      m.changeMoney(-1 * 5);
-      secondPathLevel++;
-    } else if (secondPathLevel ==1) {
-      speedChange++;
-      damage+=5;
-      m.changeMoney(-1 * 5);
-      secondPathLevel++;
-      onemaxed = true;
+      textSize(16);
+      text("Level 1", x - 80, y - 165);
+      textSize(12);
+      text("Double firerate by 2", x - 80, y - 145);
+    } else if (secondPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 80, y - 165);
+      textSize(12);
+      text("Increase bullet speed and \ndamage rate by 5", x - 80, y - 145);
     } else if (secondPathLevel == 2) {
-      bulletSpread = 3;
-      m.changeMoney(-1 * 10);
-      secondPathLevel++;
-      twomaxed = true;
+      textSize(16);
+      text("Level 3", x - 80, y - 165);
+      textSize(12);
+      text("Shoots a spread of 3 bullets", x - 80, y - 145);
     }
   }
 }
@@ -139,19 +177,46 @@ class Tower2 extends Towers {
   }
 
   void upgradeSecond() {
-    if (secondPathLevel < 3) {
-      if (m.changeMoney(-(1 + secondPathLevel) * 5)) {
-        if (secondPathLevel == 0) {
-          fireRate = fireRate/2;
-          speedChange++;
-          onemaxed = true;
-        } else if (secondPathLevel == 1) {
-          speedChange++;
-          bulletBeat = 2;
-          twomaxed = true;
-        }
-        secondPathLevel++;
+    if (m.changeMoney(-(1 + secondPathLevel) * 5)) {
+      if (secondPathLevel == 0) {
+        fireRate = fireRate/2;
+        speedChange++;
+        onemaxed = true;
+      } else if (secondPathLevel == 1) {
+        speedChange++;
+        bulletBeat = 2;
+        twomaxed = true;
       }
+      secondPathLevel++;
+    }
+  }
+  void displayFirstUpgradeText() {
+    fill(255,255,255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1", x - 104.5, y - 167.5);
+      textSize(12);
+      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however \nAlso, decreases bullet speed", x - 104.5, y - 150);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 103.5, y - 165);
+      textSize(12);
+      text("Increase penetration level to 3, \ndecrease bullet speed, and \nincrease damage rate by 20", x - 103.5, y - 145);
+    }
+  }
+
+  void displaySecondUpgradeText() {
+    fill(255,255,255);
+    if (firstPathLevel == 0) {
+      textSize(16);
+      text("Level 1", x - 78.5, y - 165);
+      textSize(12);
+      text("Double firerate and increase \nbullet speed", x - 78.5, y - 145);
+    } else if (firstPathLevel == 1) {
+      textSize(16);
+      text("Level 2", x - 78.5, y - 165);
+      textSize(12);
+      text("Shoots bullets twice at a time and increases bullet speed", x - 78.5, y - 145);
     }
   }
 }
