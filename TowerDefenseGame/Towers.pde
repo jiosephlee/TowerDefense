@@ -32,10 +32,6 @@ abstract class Towers {
     x = xA; 
     y = yA;
   }
-  void display() {
-    fill(0, 0, 255);
-    ellipse(x, y, size, size);
-  }
   void display(){
     fill(Color);
     ellipse(x, y, size, size);
