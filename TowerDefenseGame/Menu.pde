@@ -117,8 +117,14 @@ class upgradeButton {
     size = me.size/3 * 2;
     display = false;
   }
+  void notDisplay(){
+    display = false;
+  }
   void checkInitiated() {
     if (distance(mouseX, mouseY, me.x, me.y) <= me.size) {
+      for(upgradeButton i : upgrades){
+        i.notDisplay();
+      }
       upgrading = true;
       display = true;
     }
