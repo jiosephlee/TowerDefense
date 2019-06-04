@@ -16,58 +16,70 @@ abstract class Towers {
     firstPathLevel = 0;
     secondPathLevel = 0;
     penetrationLvl = 1;
-    speedChange = 0;
-    onemaxed = false;
+    speedChange = 0; //variable used to influence projectile speeds through tower upgrades
+    onemaxed = false; //signifies when path is maxed out
     twomaxed = false;
-    upgrade = new upgradeButton(this);
+    upgrade = new upgradeButton(this); //each tower has their own upgrade button set. The object is a "set" of buttons that belong to the tower
   }
 
   abstract void attack();
-  abstract void upgradeFirst();
-  abstract void upgradeSecond();
-  abstract void displayFirstUpgradeText();
-  abstract void displaySecondUpgradeText();
+  abstract void upgradeFirst(); //upgrades a tower's first path
+  abstract void upgradeSecond(); // upgrades a tower's second path
+  abstract void displayFirstUpgradeText(); //displays first path text
+  abstract void displaySecondUpgradeText(); //displays second path text
 
   void setxy(float xA, float yA) {
     x = xA; 
     y = yA;
   }
-  void display() {
+  void display() { 
     fill(Color);
     ellipse(x, y, size, size);
   }
-  void checkInitiated() {
-    if (distance(mouseX, mouseY, x, y) <= size) {
-      for (Towers i : Towers) {
+  void checkInitiated() { //check if tower has been clicked to initate upgrade/selling
+    if (distance(mouseX, mouseY, x, y) <= size) { //if it has
+      for (Towers i : Towers) { //turn off all towers' click status
         i.upgrade.notDisplay();
       }
-      upgrading = true;
-      upgrade.yesDisplay();
+      upgrading = true; 
+      upgrade.yesDisplay(); // then turn on mine
     }
   }
-  void checkClicked() {
+  void checkUpgradesClicked() { //check if one of the tower's buttons has been clicked
     if (upgrade.display) {
-      if (!onemaxed && distance(mouseX, mouseY, x-50, y-30) <= size) {
+      if (!onemaxed && distance(mouseX, mouseY, x-50, y-30) <= size) { //if left most button has been clicked
         upgradeFirst();
         upgrading = false;
         upgrade.notDisplay();
-      } else if (!twomaxed && distance(mouseX, mouseY, x+50, y-30) <= size) {
+      } else if (!twomaxed && distance(mouseX, mouseY, x+50, y-30) <= size) { //if right most button has been clicked
         upgradeSecond();
         upgrading = false;
         upgrade.notDisplay();
-      } else if (distance(mouseX, mouseY, x, y + 40) <= 15) {
+      } else if (distance(mouseX, mouseY, x, y + 40) <= 15) { // if sell button has been clicked
         upgrading = false;
         upgrade.notDisplay();
         m.changeMoney(this.price/2);
         Towers.remove(this);
-      } else if (distance(mouseX, mouseY, x, y) <= size) {
+      } else if (distance(mouseX, mouseY, x, y) <= size) { //if tower has been clicked, undo the upgrading graphics
         upgrading = false;
         upgrade.notDisplay();
       }
     }
   }
 }
+/*
 
+
+
+
+
+
+
+
+
+
+
+*/
 class BasiccTower extends Towers {
 
   int bulletSpread;
@@ -81,14 +93,16 @@ class BasiccTower extends Towers {
 
 
   void attack() {
-    if (resting && (millis() - shotTime)/1000 >= fireRate) {     //if more than the time that firerate dictates has passed, then it shoots again
+    if (resting && (millis() - shotTime)/1000 >= fireRate) {   //if more than the time that firerate dictates has passed, then it shoots again
       resting = false;
     }
     if (!resting) {
       for (Monster i : Monsters) {
         if (distance(i.x, i.y, x, y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
-          Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange, Color));
-          resting = true;
+          for (int j = bulletSpread; j > 0; j--) {
+            Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange, Color));
+          }
+          resting = true; //tell the tower it's resting 
           shotTime = millis();
           return;
         }
@@ -171,7 +185,19 @@ class BasiccTower extends Towers {
     }
   }
 }
+/*
 
+
+
+
+
+
+
+
+
+
+
+*/
 class FollowTower extends Towers {
   int bulletBeat;
   FollowTower(float xA, float yA) {
@@ -258,6 +284,19 @@ class FollowTower extends Towers {
     }
   }
 }
+/*
+
+
+
+
+
+
+
+
+
+
+
+*/
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {

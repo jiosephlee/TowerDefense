@@ -45,7 +45,19 @@ abstract class Projectiles {
     return false;
   }
 }
+/*
 
+
+
+
+
+
+
+
+
+
+
+*/
 class StraightBullet extends Projectiles {
   StraightBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange,int colorA) {
     super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange, colorA);
@@ -67,7 +79,19 @@ class StraightBullet extends Projectiles {
     }
   }
 }
+/*
 
+
+
+
+
+
+
+
+
+
+
+*/
 class followBullet extends Projectiles {
   float turnedTime;
   Monster monster;
@@ -163,7 +187,19 @@ class followBullet extends Projectiles {
     }
     return smallind;
   }
-}
+}/*
+
+
+
+
+
+
+
+
+
+
+
+*/
 //projectile with blast radius that travels in a circular path
 class MortarShell extends Projectiles {
 
