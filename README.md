@@ -1,4 +1,4 @@
-# TowerDefense -- Defending Konstanople
+# TowerDefense -- Defending Konstantinople
 The game is a classic Tower Defense game. Defend your city by putting down towers and survive as best as you can. There are three different types of towers. IntroCS students that shoot straight at the monsters, APCS students that shoot bullets that follow monsters, and SoftDev students that shoot bombs that explode. There are features like those of a classic TD. You can upgrade them to different paths, sell them, etc. Try it out and see if you can best the monsters!
 
 # Development Logs
