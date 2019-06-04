@@ -28,6 +28,10 @@ abstract class Towers {
     x = xA; 
     y = yA;
   }
+  void display() {
+    fill(0, 0, 255);
+    ellipse(x, y, size, size);
+  }
 }
 
 class Tower1 extends Towers {
@@ -154,7 +158,7 @@ class Tower2 extends Towers {
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
-    super(xA, yA, 40, 600, 2.0, 10);
+    super(xA, yA, 25, 800, 2.0, 10);
     blastRadius = 75;
     price = 40;
   }
@@ -162,13 +166,36 @@ class MortarTower extends Towers {
     //println((millis() - shotTime)/1000.0);
     if ((millis() - shotTime)/1000.0 >= fireRate && Monsters.size() > 0) {     //if more than the time that firerate dictates has passed, then it shoots again
       Projectiles.add(new MortarShell(x, y, Monsters.get(0), damage, blastRadius));
-      shotTime = millis();  
-  }
-    
+      shotTime = millis();
+    }
   }
 
   void upgradeFirst() {
+    if (m.changeMoney(-(1 + firstPathLevel) * 5)) {
+      if (firstPathLevel == 0) {
+        size+=5;
+        damage+= 5;
+        twomaxed = true;
+      } else if (firstPathLevel == 1) {
+        size+=5;
+        damage+=10;
+        onemaxed = true;
+      }
+      firstPathLevel++;
+    }
   }
   void upgradeSecond() {
+    if (secondPathLevel < 3) {
+      if (m.changeMoney(-(1 + secondPathLevel) * 5)) {
+        if (secondPathLevel == 0) {
+          fireRate = 1.5;
+          onemaxed = true;
+        } else if (secondPathLevel == 1) {
+          fireRate = 1;
+          twomaxed = true;
+        }
+        secondPathLevel++;
+      }
+    }
   }
 }

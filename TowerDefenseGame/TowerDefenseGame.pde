@@ -88,7 +88,7 @@ void updateAll() { //updates and displays game variables
     //when the game is paused
     text("Press Play Button to Resume", 125, 650);
     image(play, 75, height - 75, 75, 75);
-    //displays the play button
+    //display s the play button
     if (mousePressed && !lastMousePressed) {
       if (distance(mouseX, mouseY, 75, height -75) < 37.5) {
         gameMode = 0;

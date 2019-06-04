@@ -37,8 +37,7 @@ class Menu {
     }
     //ask towers to display
     for (Towers i : Towers) {
-      fill(0, 0, 255);
-      ellipse(i.x, i.y, i.size, i.size);
+      i.display();
     }
     //ask projectiles to display
     for (Projectiles i : Projectiles) {
@@ -118,7 +117,7 @@ class Button2 extends Button {
 
 class Button3 extends Button {
   Button3() {
-    super(1200, 400, new MortarTower(-1, -1), color(213, 324, 23));
+    super(1020, 350, new MortarTower(-1, -1), color(213, 324, 23));
   }
   void newTower() {
     load = new MortarTower(-1, -1);
