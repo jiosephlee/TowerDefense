@@ -59,7 +59,7 @@ void fieldSetup() {
   background(255);
   m.display();
   menu.display();
-  p.display();
+  //p.display(); //display path for debug only
   fill(0);
   textSize(36);
   text("x: " + mouseX, 50, 50);
@@ -67,13 +67,11 @@ void fieldSetup() {
   textSize(20);
 }
 
-
-
 void updateAll() { //updates and displays game variables
   textSize(36);
-  
+
   if (gameMode == 0) { //regular play mode
-  
+
     fieldSetup(); //displays background features like map, menu etc.
     s.update(); //asks spawner to update and spawn monsters
     //display pause button
@@ -94,9 +92,8 @@ void updateAll() { //updates and displays game variables
     }
     checkHover();
     displayMovingObjects();
-
   } else if (gameMode == 1) { //pause due to user
-  
+
     fieldSetup();
     //when the game is paused
     textSize(18);
@@ -116,9 +113,8 @@ void updateAll() { //updates and displays game variables
       }
     }
     displayMovingObjects();
-
   } else if (gameMode == 3) { //pause due to awaiting level to start
-  
+
     fieldSetup();
     loadButtons();
     //when the game is paused
@@ -145,9 +141,8 @@ void updateAll() { //updates and displays game variables
     }
     checkHover();
     displayMovingObjects();
-
   } else if (gameMode == 2) { //main menu mode
-  
+
     fill(255, 178, 102);
     rectMode(CENTER);
     rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
@@ -162,9 +157,8 @@ void updateAll() { //updates and displays game variables
     fill(0);
     textSize(72);
     text("PLAY", width/2.0, height/2.0 + 175);
-
   } else if (gameMode == 4) { // game over
-  
+
     textSize(72);
     fill(0);
     text("GAME OVER :)", height/2, width/2);
@@ -179,7 +173,20 @@ void updateAll() { //updates and displays game variables
       if (centerMouseInZone(width/2.0 + 200, height /2.0, 600, 120)) {
         //if play button is presed change to gameMode 0
         gameMode = 0;
-        s.newLevel(); // starts new level when the play button is presed
+        m = new Map();
+        menu = new Menu();
+        p = new Path();
+        upgrading = false;
+        Monsters.clear();
+        toDestroy.clear();
+        toDestroyA.clear();
+        s = new Spawner(); //spawner class
+        Towers.clear();
+        Projectiles.clear();
+        Buttons = new Button[]{new Button1(), new Button2(), new Button3()};
+        upgrades = new ArrayList<upgradeButton>();
+        //clear all aspects of game to move to anew game
+        s.newLevel();
       }
     }
     fill(0);

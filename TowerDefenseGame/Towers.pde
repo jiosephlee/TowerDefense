@@ -284,19 +284,7 @@ class FollowTower extends Towers {
     }
   }
 }
-/*
 
-
-
-
-
-
-
-
-
-
-
-*/
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
