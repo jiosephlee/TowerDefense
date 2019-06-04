@@ -10,7 +10,7 @@ ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
 ArrayList<upgradeButton> upgrades;
 LinkedList<Towers> Towers;
-PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2;
+PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2,BossK;
 Spawner s;
 int gameMode;
 boolean lastMousePressed, loaded, upgrading, paused;
@@ -25,7 +25,7 @@ void setup() {
   p = new Path();
   upgrading = false;
   Monsters = new ArrayList<Monster>(); //list of Monsters
-
+  BossK = loadImage("images/misterK.png");
   toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
@@ -91,6 +91,9 @@ void keyPressed() {
   case 'p':
     //subtract health
     m.hp -= 25;
+    if(m.hp <= 0){
+      gameMode = 4;
+    }
     break;
   default:
   }
@@ -177,6 +180,26 @@ void updateAll() { //updates and displays game variables
     fill(0);
     textSize(72);
     text("PLAY", width/2.0, height/2.0 + 175);
+  } else if (gameMode == 4) { // game over
+    textSize(72);
+    text("GAME OVER :)", height/2, width/2);
+    text("Level: " + s.level, 50,150);
+    imageMode(CORNER);
+    image(BossK,40,300,400,400);
+    fill(255, 178, 102);
+    rectMode(CENTER);
+    rect(width/2.0 + 200, height/2.0, 600, 120);  //fill in rectangle for play button
+    textAlign(CENTER);
+    if (mousePressed && !lastMousePressed) {
+      if (centerMouseInZone(width/2.0 + 200, height /2.0, 600, 120)) {
+        //if play button is presed change to gameMode 0
+        gameMode = 0;
+        s.newLevel(); // starts new level when the play button is presed
+      }
+    }
+    fill(0);
+    textSize(72);
+    text("PLAY AGAIN", width/2.0 + 210, height/2.0 + 25);
   }
   lastMousePressed = mousePressed; //debounce
 }
