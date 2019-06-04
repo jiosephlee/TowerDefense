@@ -95,9 +95,9 @@ class Tower1 extends Towers {
     fill(255, 255, 255);
     if (firstPathLevel == 0) {
       textSize(16);
-      text("Level 1", x - 100, y - 165);
+      text("Level 1", x - 104.5, y - 165);
       textSize(12);
-      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however", x - 100, y - 145);
+      text("Increase penetration level to 2. If \nmonster doesn't die immediately \nbullet won't go through, however", x - 104.5, y - 145);
     } else if (firstPathLevel == 1) {
       textSize(16);
       text("Level 2", x - 100, y - 165);
@@ -107,7 +107,7 @@ class Tower1 extends Towers {
       textSize(16);
       text("Level 3", x - 100, y - 165);
       textSize(12);
-      text("Increase penetration level to 3 and damage rate by 5 but decrease bullet speed", x - 100, y - 145);
+      text("Increase penetration level \nto 3 and damage rate by 5 \nbut decrease bullet speed", x - 100, y - 145);
     }
   }
 
