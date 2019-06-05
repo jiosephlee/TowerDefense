@@ -33,7 +33,7 @@ void setup() {
   Projectiles = new LinkedList<Projectiles>(); // list of projectiles to display
   Buttons = new Button[]{new Button1(), new Button2(), new Button3()};
   upgrades = new ArrayList<upgradeButton>();
-
+  toDestroyB = new ArrayList<Towers>(); //list of Towers to destroy after every frame
   loaded =  false;
   //load graphics of game
   textbubble2 = loadImage("images/textbubble2.png");
