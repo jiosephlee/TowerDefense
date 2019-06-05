@@ -202,7 +202,6 @@ void updateAll() { //updates and displays game variables
 }
 
 
-
 void gameMove() { //moves moving objects
 
   for (Monster m : Monsters) {

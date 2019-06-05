@@ -67,19 +67,7 @@ abstract class Towers {
     }
   }
 }
-/*
 
-
-
-
-
-
-
-
-
-
-
-*/
 class BasiccTower extends Towers {
 
   BasiccTower(float xA, float yA) {
@@ -182,19 +170,7 @@ class BasiccTower extends Towers {
     }
   }
 }
-/*
 
-
-
-
-
-
-
-
-
-
-
-*/
 class FollowTower extends Towers {
   int bulletBeat;
   FollowTower(float xA, float yA) {
@@ -286,7 +262,7 @@ class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
 
-    super(xA, yA, 40, 800, 2.0, 3);
+    super(xA, yA, 40, 800, 3, 3);
 
     blastRadius = 75;
     price = 40;

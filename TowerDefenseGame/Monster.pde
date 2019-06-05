@@ -146,6 +146,7 @@ class RedSlime extends Slime {
   void dealDamage() {
     //deals damage to the map
     m.changeHP(damage);
+    toDestroy.add(this);
   }
   void displayHealth() {
     rectMode(CENTER);
@@ -175,8 +176,8 @@ class Mushroom extends Slime {
     //better stats, spawns chldren when it dies
     super(p);
     size = 8;
-    speed = 2.25;
-    hp = 5;
+    speed = 2.5;
+    hp = 3;
     damage = 5;
     imageFile = loadImage("images/Mushroom.png");
   }
