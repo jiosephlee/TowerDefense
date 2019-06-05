@@ -29,9 +29,8 @@ abstract class Projectiles {
   boolean dealDamage(Monster i) {
     if (Math.pow(i.x - x, 2) + Math.pow(i.y - y, 2) <= Math.pow(size, 2)) { //monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) {
-        //i.setBad();
-        //Monsters.remove(i);
-        toDestroy.add(i);
+        i.setBad();
+        i.die();
         penetrationLevel--;
         if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
           dead = true;
@@ -48,7 +47,7 @@ abstract class Projectiles {
 }
 
 class StraightBullet extends Projectiles {
-  StraightBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange,int colorA) {
+  StraightBullet(float xA, float yA, Monster i, float damage, int sizeA, int penetrationLvl, int speedChange, int colorA) {
     super(xA, yA, i, damage, sizeA, penetrationLvl, speedChange, colorA);
   }
   void move() {
@@ -123,19 +122,8 @@ class followBullet extends Projectiles {
   boolean dealDamage(Monster i) {
     if (distance(i.x, i.y, x, y) <= size) { //if monster is in bullet's range
       if (i.changeHP(-1 * damage) <=0) { // if monster died
-        //monster.setBad();
-        toDestroy.add(monster);
-        //Monsters.remove(monster);// remove dead monster so you dont target it again
-        if (Monsters.size() > 0) { //if their are monsters on the map, get a new monster
-          int a = this.nearestMonster(Monsters);
-          if ( a > -1) { //a is non-negative when nearest monster thats not too far exists. in that case target onto that
-            monster = Monsters.get(a);
-          } else { //a is negative when the nearest monster is really far. in that case its too far so lets continue going straight instead
-            gostraight=true;
-          }
-        } else { //if there's no monsters on the map, just go straight
-          gostraight = true;
-        }
+        monster.setBad();
+        i.die();
         penetrationLevel--;
         if (penetrationLevel <= 0) { //if pentration level dips below 0, kill the bullet
           toDestroyA.add(this);
@@ -183,7 +171,6 @@ class MortarShell extends Projectiles {
     this.blastRadius = blastRadius; //sets blast radius
 
     long airTime = (long) sqrt(distance(xA, yA, i.getX(), i.getY())) * 50; //calculates airTime in ms using distance
-    print(speedChange);
     angSpeed = ((float) Math.PI / airTime) / (speedChange + 1.1); //calculates angular velocity in radians per ms
     float[] target = i.calculateNewPosition(airTime); //calculates location of monster at target time
     cx = (target[0] + x) / 2.0; //sets center of the arc
@@ -221,7 +208,10 @@ class MortarShell extends Projectiles {
       for (int i = 0; i < Monsters.size(); i++) {
         Monster m = Monsters.get(i);
         if ((distance(x, y, m.x, m.y) < blastRadius)) {
-           m.changeHP(-1 * damage);
+          if(m.changeHP(-1 * damage) <= 0){
+            m.setBad();
+            m.die();
+          }
         }
       }
     }

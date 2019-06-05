@@ -6,8 +6,8 @@ Path p;
 Towers loadedTower;
 ArrayList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
-ArrayList<Monster> toDestroy;
 ArrayList<Projectiles> toDestroyA;
+ArrayList<Towers> toDestroyB;
 LinkedList<Towers> Towers;
 ArrayList<upgradeButton> upgrades;
 PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2, BossK;
@@ -27,7 +27,6 @@ void setup() {
   upgrading = false;
   Monsters = new ArrayList<Monster>(); //list of Monsters
   BossK = loadImage("images/misterK.png");
-  toDestroy = new ArrayList<Monster>(); // list of Monsters to kill after every frame
   toDestroyA = new ArrayList<Projectiles>(); //list of projectiles to destroy after every frame
   s = new Spawner(); //spawner class
   Towers = new LinkedList<Towers>(); //list of towers to display
@@ -184,7 +183,6 @@ void updateAll() { //updates and displays game variables
         p = new Path();
         upgrading = false;
         Monsters.clear();
-        toDestroy.clear();
         toDestroyA.clear();
         s = new Spawner(); //spawner class
         Towers.clear();
@@ -211,10 +209,6 @@ void gameMove() { //moves moving objects
   }
   for (Projectiles i : Projectiles) {
     i.move();
-    for (Monster m : toDestroy) {
-      Monsters.remove(m); //removes monsters from linkedlist after they die
-    }
-    toDestroy.clear();
   }
   for (Towers m : Towers) {
     m.attack(); //ask all towers to attack
@@ -223,6 +217,11 @@ void gameMove() { //moves moving objects
     Projectiles.remove(i); //remove all projectiles awaiting removal
     i = null;
   }
+  for (Towers i : toDestroyB) {
+    Towers.remove(i); //remove all projectiles awaiting removal
+    i = null;
+  }
+  toDestroyB.clear();
   toDestroyA.clear();
   //clears destruction queue
 }
