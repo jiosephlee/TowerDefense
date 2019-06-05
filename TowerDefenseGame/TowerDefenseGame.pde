@@ -142,7 +142,13 @@ void updateAll() { //updates and displays game variables
     checkHover();
     displayMovingObjects();
   } else if (gameMode == 2) { //main menu mode
-
+    PImage slime = loadImage("images/Slimes.png");
+    PImage explosion = loadImage("images/explosion.png");
+    m.display();
+    fill(181, 221, 51);
+    rect(940, 0, 340, 720); //create aesthethic things for main menu
+    image(explosion,1100,500,650,650);
+    image(slime,1140,150,550,480);
     fill(255, 178, 102);
     rectMode(CENTER);
     rect(width/2.0, height/2.0 + 150, 300, 120);  //fill in rectangle for play button
