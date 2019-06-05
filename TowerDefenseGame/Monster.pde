@@ -184,7 +184,7 @@ class Tank extends RedSlime {
     super(p);
     size = 20;
     speed = 0.5;
-    hp = 40 + pow(s.level,0.75);
+    hp = 60 + pow(s.level,0.75);
     childrenNumber = 6;
     damage = 10;
     imageFile = loadImage("images/Tank.png");

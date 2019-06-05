@@ -59,7 +59,7 @@ abstract class Towers {
         upgrading = false;
         upgrade.notDisplay();
         m.changeMoney(this.price/2);
-        Towers.remove(this);
+        toDestroyB.add(this);
       } else if (distance(mouseX, mouseY, x, y) <= size) { //if tower has been clicked, undo the upgrading graphics
         upgrading = false;
         upgrade.notDisplay();
@@ -139,7 +139,7 @@ class BasiccTower extends Towers {
         twomaxed = true;
       }
       secondPathLevel++;
-      price += (2 + firstPathLevel) * 5;
+      price += (2 + secondPathLevel) * 5;
     }
   }
   void displayFirstUpgradeText() {
@@ -239,7 +239,7 @@ class FollowTower extends Towers {
   void upgradeSecond() {
     if (m.changeMoney(-(3 + secondPathLevel) * 5)) {
       if (secondPathLevel == 0) {
-        fireRate = fireRate/2;
+        fireRate = fireRate/1.5;
         speedChange++;
         onemaxed = true;
       } else if (secondPathLevel == 1) {
@@ -248,7 +248,7 @@ class FollowTower extends Towers {
         twomaxed = true;
       }
       secondPathLevel++;
-      price += (3 + firstPathLevel) * 5;
+      price += (3 + secondPathLevel) * 5;
     }
   }
   void displayFirstUpgradeText() {
@@ -262,22 +262,22 @@ class FollowTower extends Towers {
       textSize(16);
       text("Level 2 ($20)", x - 103.5, y - 165);
       textSize(12);
-      text("Increase penetration level to 3, \ndecrease bullet speed, and \nincrease damage rate by 10", x - 103.5, y - 145);
+      text("Increase penetration level to 3, \nincrease damage rate by 10 but \ndecrease bullet speed", x - 103.5, y - 145);
     }
   }
 
   void displaySecondUpgradeText() {
     fill(255, 255, 255);
-    if (firstPathLevel == 0) {
+    if (secondPathLevel == 0) {
       textSize(16);
       text("Level 1 ($15)", x - 78.5, y - 165);
       textSize(12);
-      text("Double firerate and increase \nbullet speed", x - 78.5, y - 145);
-    } else if (firstPathLevel == 1) {
+      text("Increase firerate by 50% and \nincrease bullet speed", x - 78.5, y - 145);
+    } else if (secondPathLevel == 1) {
       textSize(16);
       text("Level 2 ($20)", x - 78.5, y - 165);
       textSize(12);
-      text("Doubles Tower's range and increases bullet speed", x - 78.5, y - 145);
+      text("Doubles Tower's range and \nincreases bullet speed", x - 78.5, y - 145);
     }
   }
 }
@@ -328,7 +328,7 @@ class MortarTower extends Towers {
         speedChange+=0.4;
         twomaxed = true;
       }
-      price += (1 + firstPathLevel) * 15;
+      price += (1 + secondPathLevel) * 15;
       secondPathLevel++;
     }
   }
@@ -338,27 +338,27 @@ class MortarTower extends Towers {
       textSize(16);
       text("Level 1 ($15) ", x - 104.5, y - 167.5);
       textSize(12);
-      text("Increase damage by 5 points", x - 104.5, y - 150);
+      text("Increase damage by 5 points \nbut bullet speed decreases", x - 104.5, y - 150);
     } else if (firstPathLevel == 1) {
       textSize(16);
       text("Level 2 ($30)", x - 103.5, y - 165);
       textSize(12);
-      text("Increase blast radius", x - 103.5, y - 145);
+      text("Increase blast radius \nbut bullet speed decreases", x - 103.5, y - 145);
     }
   }
 
   void displaySecondUpgradeText() {
     fill(255, 255, 255);
-    if (firstPathLevel == 0) {
+    if (secondPathLevel == 0) {
       textSize(16);
       text("Level 1 ($15)", x - 78.5, y - 165);
       textSize(12);
-      text("Increase fire rate by 50%", x - 78.5, y - 145);
-    } else if (firstPathLevel == 1) {
+      text("Increase fire rate by 50% \nbut bullet speed decreases", x - 78.5, y - 145);
+    } else if (secondPathLevel == 1) {
       textSize(16);
       text("Level 2 ($30)", x - 78.5, y - 165);
       textSize(12);
-      text("Doubles initial fireRate", x - 78.5, y - 145);
+      text("Doubles initial fireRate \nbut bullet speed decreases", x - 78.5, y - 145);
     }
   }
 }

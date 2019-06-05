@@ -7,6 +7,7 @@ Towers loadedTower;
 ArrayList<Monster> Monsters;
 LinkedList<Projectiles> Projectiles;
 ArrayList<Projectiles> toDestroyA;
+ArrayList<Towers> toDestroyB;
 LinkedList<Towers> Towers;
 ArrayList<upgradeButton> upgrades;
 PImage background, range, mapZones, play, pause, trash, textbubble, textbubble2, BossK;
@@ -216,6 +217,11 @@ void gameMove() { //moves moving objects
     Projectiles.remove(i); //remove all projectiles awaiting removal
     i = null;
   }
+  for (Towers i : toDestroyB) {
+    Towers.remove(i); //remove all projectiles awaiting removal
+    i = null;
+  }
+  toDestroyB.clear();
   toDestroyA.clear();
   //clears destruction queue
 }

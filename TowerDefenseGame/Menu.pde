@@ -120,7 +120,7 @@ class upgradeButton {
     if (display) {
       //sets range around chosen tower
       fill(101, 127);
-      ellipse(me.x, me.y, loadedTower.range*2, loadedTower.range*2);
+      ellipse(me.x, me.y, me.range*2, me.range*2);
 
       if (me.onemaxed) {
         fill(0, 0, 0);
