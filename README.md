@@ -7,7 +7,7 @@ Within the abstract class of Towers, we have BasiccTower, FollowTower, and  Mort
 - Targets onto a monster and shoots a straight bullet at them. If the monster is fast enough, however, the bullet can miss
 ### FollowTower
 - Targets onto a monster and follows it until that monster dies, or until the bullet hits the monster
-- If the monster dies before the bullet hits it or it's penetration level is high enough, it will find the nearest monster and target it
+- If the monster dies before the bullet hits it or it's penetration level is high enough, it will find the nearest monster within 200m     and target it
 ### MortarTower
 - Targets a monster, calculates it's position assuming it goes straight, and aims for that spot in a parabolic manner, and explodes 
   hitting other monsters in the process
@@ -20,9 +20,9 @@ Within the abstract class of Towers, we have BasiccTower, FollowTower, and  Mort
 ## Projectiles
 Projectiles are the things that do the actual damage on monsters. They are created by Towers and store many fields such as X-Velocity, Y-Velocity, Size, etc. 
 ### Mortar Shell
-MortarTower's projectile "jumps" off the map parabolicolly and lands on it's destination and check for monsters in it's blast radius
+- MortarTower's projectile "jumps" off the map parabolicolly and lands on it's destination and check for monsters in it's blast radius
 ### Straight Bullet
-It aims at a monster. Then it calculates X and Y velocities based on that monster's location. Then it moves, check if it monster is there, and repeats
+- It aims at a monster. Then it calculates X and Y velocities based on that monster's location. Then it moves, check if it monster is     there, and repeats
 ### Follow Bullet
 - the FollowBullet changes it's direction towards its targeted monsters every 20 milliseconds
 - It retargets to the nearest monster that is within 200 units away if it has a high enough penetration level or if the monster it aimed for dies
@@ -36,12 +36,12 @@ Another two buttons the game has are:
 ### Tower-Specific Buttons
 The way other buttons work can be a bit non-intuitive but they make sense Java-wise
 - A tower owns a Set-of-Buttons object that creates three buttons: Left-Path, Right-Path, and Sell.
-- Selling it will give half of it's value back, including the money from upgrades
+- Selling it will give half of its value back, including the money from upgrades
 ### Hover Graphics
 - Bloops up a text bubble with descriptions of the button-action  
 ## Game Flow
 - We have several game modes that dictate which conditional body is called, depending on whether it's paused, resumed, or waiting to start for example
-- The game loads all the background graphics first, moves the moving objects based on coded behavior, checks for user input, and then displays all the moving objects
+- The game loads all the background graphics first, moves the moving objects based on their path, checks for user input, and then displays all the moving objects
 ## For Demoing and Testing Purposes, we've also added cheatcodes to advance the game faster 
 - Press Q to move onto next level
 - Press W to move on five levels ahead
