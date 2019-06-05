@@ -14,12 +14,12 @@ abstract class Monster {
   long lastTime; //monster's time at last frame
   float nextNodeX, nextNodeY; //node of path that monster is trying to reach
   float distanceTraveled;
+  abstract void die();
   abstract void spawn(); 
   abstract void move();
   abstract void display();
   abstract float changeHP(float changeHP);
   abstract void dealDamage(); //deal damage to map when it hits the end
-  abstract void die();
   void setBad() {
     bad = true;
   }
@@ -111,20 +111,18 @@ class Slime extends Monster {
   void dealDamage() {
     //deals damage to the map itself
     m.changeHP(damage);
-    die();
   }
   float changeHP(float change) {
     //changes hp, is used when a projectile attacks slime
     //gives the user money if its hp is below 0 and dies
     hp += change;
     if (hp <= 0) {
-      this.die();
       m.changeMoney(1);
     }
     return hp;
   }
-  void die() {
-    toDestroy.add(this);
+  void die(){
+    Monsters.remove(this);
   }
   float distanceTraveled() {
     return distanceTraveled;
@@ -146,7 +144,6 @@ class RedSlime extends Slime {
   void dealDamage() {
     //deals damage to the map
     m.changeHP(damage);
-    toDestroy.add(this);
   }
   void displayHealth() {
     rectMode(CENTER);
@@ -163,11 +160,11 @@ class RedSlime extends Slime {
   void die() {
     //dies but also spawns two new slimes at position
     m.changeMoney(2);
+    Monsters.remove(this);
     for (int i = 0; i < childrenNumber; i++) {
       float[] newPos = calculateNewPosition(-50+ i * 100);
       Monsters.add(new Slime(p, newPos[0], newPos[1], pathNode));
     }
-    toDestroy.add(this);
   }
 }
 class Mushroom extends Slime {
@@ -235,10 +232,10 @@ class BossK extends Tank{
   void die() {
     //dies but also spawns two new slimes at position
     m.changeMoney(30);
+    Monsters.remove(this);
     for (int i = 0; i < childrenNumber; i++) {
       float[] newPos = calculateNewPosition(-50+ i * 100);
       Monsters.add(new Tank(p, newPos[0], newPos[1], pathNode));
     }
-    toDestroy.add(this);
   }
 }
