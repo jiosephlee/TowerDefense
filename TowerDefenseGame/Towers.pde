@@ -82,11 +82,9 @@ abstract class Towers {
 */
 class BasiccTower extends Towers {
 
-  int bulletSpread;
   BasiccTower(float xA, float yA) {
     super(xA, yA, 40, 100, 1, 5);
     price = 15;
-    bulletSpread = 1;
     Color = color(103, 207, 45);
   }
 
@@ -99,9 +97,7 @@ class BasiccTower extends Towers {
     if (!resting) {
       for (Monster i : Monsters) {
         if (distance(i.x, i.y, x, y) <= range) { //if monster if is in range of the tower, then shoot a projectile at it and mark the time it shot for firerate checking
-          for (int j = bulletSpread; j > 0; j--) {
             Projectiles.add(new StraightBullet(x, y, i, damage, size, penetrationLvl, speedChange, Color));
-          }
           resting = true; //tell the tower it's resting 
           shotTime = millis();
           return;
@@ -136,9 +132,10 @@ class BasiccTower extends Towers {
       } else if (secondPathLevel ==1) {
         speedChange++;
         damage+=5;
+        range+=20;
         onemaxed = true;
       } else if (secondPathLevel == 2) {
-        bulletSpread = 3;
+        range+=60;
         twomaxed = true;
       }
       secondPathLevel++;
@@ -176,12 +173,12 @@ class BasiccTower extends Towers {
       textSize(16);
       text("Level 2 ($10)", x - 80, y - 165);
       textSize(12);
-      text("Increase bullet speed and \ndamage rate by 5", x - 80, y - 145);
+      text("Increase bullet speed and \ndamage rate by 5 and \nslightly increases range", x - 80, y - 145);
     } else if (secondPathLevel == 2) {
       textSize(16);
       text("Level 3 ($15)", x - 80, y - 165);
       textSize(12);
-      text("Shoots a spread of 3 bullets", x - 80, y - 145);
+      text("Greatly increases range", x - 80, y - 145);
     }
   }
 }
@@ -288,11 +285,9 @@ class FollowTower extends Towers {
 class MortarTower extends Towers {
   float blastRadius;
   MortarTower(float xA, float yA) {
-<<<<<<< HEAD
+
     super(xA, yA, 40, 800, 2.0, 3);
-=======
-    super(xA, yA, 40, 800, 2.0, 5);
->>>>>>> ffaa9aa282ef84704764acc432f940c073356aa8
+
     blastRadius = 75;
     price = 40;
     Color = color(213, 324, 23);
