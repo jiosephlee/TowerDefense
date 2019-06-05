@@ -111,6 +111,7 @@ class Slime extends Monster {
   void dealDamage() {
     //deals damage to the map itself
     m.changeHP(damage);
+    die();
   }
   float changeHP(float change) {
     //changes hp, is used when a projectile attacks slime
@@ -118,11 +119,12 @@ class Slime extends Monster {
     hp += change;
     if (hp <= 0) {
       m.changeMoney(1);
+      die();
     }
     return hp;
   }
   void die(){
-    Monsters.remove(this);
+    toDestroy.add(this);
   }
   float distanceTraveled() {
     return distanceTraveled;
