@@ -17,7 +17,7 @@ Within the abstract class of Towers, we have BasiccTower, FollowTower, and  Mort
 - However, the way Penetration works is intentional. If the bullet kills a monster instantly, depending on its level, the bullet will    continue down its path. But, if it doesn't kill the monster instantly, the bullet will just die and not penetrate
 
 ## Monsters
-### Projectiles
+## Projectiles
 Projectiles are the things that do the actual damage on monsters. They are created by Towers and store many fields such as X-Velocity, Y-Velocity, Size, etc. 
 #### Mortar Shell
 - MortarTower's projectile "jumps" off the map parabolicolly and lands on it's destination and check for monsters in it's blast radius
@@ -38,7 +38,9 @@ The way other buttons work can be a bit non-intuitive but they make sense Java-w
 - A tower owns a Set-of-Buttons object that creates three buttons: Left-Path, Right-Path, and Sell.
 - Selling it will give half of its value back, including the money from upgrades
 #### Hover Graphics
-- Bloops up a text bubble with descriptions of the button-action  
+- Bloops up a text bubble with descriptions of the button-action 
+
+
 ### Game Flow
 - We have several game modes that dictate which conditional body is called, depending on whether it's paused, resumed, or waiting to start for example
 - The game loads all the background graphics first, moves the moving objects based on their path, checks for user input, and then displays all the moving objects
