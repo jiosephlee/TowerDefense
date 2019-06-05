@@ -17,6 +17,16 @@ Within the abstract class of Towers, we have BasiccTower, FollowTower, and  Mort
 - However, the way Penetration works is intentional. If the bullet kills a monster instantly, depending on its level, the bullet will    continue down its path. But, if it doesn't kill the monster instantly, the bullet will just die and not penetrate
 
 ## Monsters
+#### Slime
+- A weak monster that only has 5 HP. Slimey and go at a normal speed.
+#### Mushroom
+- A monster that is even weaker than the Slime with only 3 HP. Destroyed by mortar shells in one hit. Go very very fast.
+#### Red Slime (Fat Slime)
+- A bigger slime that spawns 2 smaller slimes when it dies. Goes slightly faster than an average slime and takes multiple hits to kill. 
+#### Tank
+- A slow armored vehicle that takes many hits to destroy. 6 Slimes escape the tank when it is finally destroyed. Goes at a slow speed
+#### BossK
+- A very high level monster that bares the face of our lord at an savior. He is very very strong, and takes tons of hits to destroy. He spawns tanks at death. Every level above 25 is guranteeed to see one BossK, with an additional 1% chance of one spawning in the place of another monster. 
 ## Projectiles
 Projectiles are the things that do the actual damage on monsters. They are created by Towers and store many fields such as X-Velocity, Y-Velocity, Size, etc. 
 #### Mortar Shell
